@@ -1,0 +1,33 @@
+snippet repo "[[plugins]]" b
+[[plugins]]
+repo = '${1:${VISUAL}}'
+$0
+endsnippet
+
+global !p
+def complete(s, opts):
+	matches = [o[len(s):] for o in opts if o.startswith(s)]
+	if len(matches) == 0:
+		return ''
+	if len(matches) == 1:
+		return matches[0]
+	return '(%s)' % '|'.join(matches)
+endglobal
+
+snippet hook "hook_(...)" b
+hook_$1`!p snip.rv=complete(t[1], ['add', 'source', 'post_source', 'post_update'])` = '''
+$0
+'''
+endsnippet
+
+snippet hadd "hook_add" b
+hook_add = '''
+$0
+'''
+endsnippet
+
+snippet hsource "hook_source" b
+hook_source = '''
+$0
+'''
+endsnippet

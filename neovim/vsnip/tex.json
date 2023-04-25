@@ -1,0 +1,353 @@
+{
+  "-->": {
+    "prefix": "-->",
+    "description": "",
+    "body": ["\\longrightarrow"]
+  },
+  "->": {
+    "prefix": "->",
+    "description": "",
+    "body": ["\\to"]
+  },
+  ";all": {
+    "prefix": ";all",
+    "body": "{}^\\\\forall",
+    "description": "superscripted forall"
+  },
+  ";doubleC": {
+    "prefix": ";doubleC",
+    "description": "",
+    "body": ["\\\\mathbb{C}"]
+  },
+  ";doubleH": {
+    "prefix": ";doubleH",
+    "description": "",
+    "body": ["\\\\mathbb{H}"]
+  },
+  ";doubleR": {
+    "prefix": ";doubleR",
+    "description": "",
+    "body": ["\\\\mathbb{R}"]
+  },
+  ";equiv": {
+    "prefix": ";equiv",
+    "description": "",
+    "body": ["\\\\Longleftrightarrow"]
+  },
+  ";exists": {
+    "prefix": ";exists",
+    "body": "{}^\\\\exists",
+    "description": "superscripted exists"
+  },
+  "<=": {
+    "prefix": "<=",
+    "description": "",
+    "body": ["\\Longleftarrow"]
+  },
+  "<=>": {
+    "prefix": "<=>",
+    "description": "",
+    "body": ["\\Longleftrightarrow"]
+  },
+  "=>": {
+    "prefix": "=>",
+    "description": "",
+    "body": ["\\Longrightarrow"]
+  },
+  "axis": {
+    "prefix": "axis",
+    "body": [
+      "\\\\begin{axis}[",
+      "  trig format plots=rad,",
+      "  samples=100,",
+      "  x=1cm,y=1cm,",
+      "  %axis lines=middle,",
+      "  xmin=-4, xmax=4,",
+      "  ymin=-4, ymax=4,",
+      "  %ticks=none,",
+      "  xtick={-4,-3,...,4},ytick={-4,-3,...,4},",
+      "  %xticklabels={,,},yticklabels={,,},",
+      "]",
+      "  % sample:",
+      "  %\\\\addplot [line width=2pt] {x};",
+      "  %\\\\addplot [line width=2pt, decoration={",
+      "  %  pre length=1mm,",
+      "  %  post length=1mm,",
+      "  %  markings,",
+      "  %  mark=at position 0.5 with {\\\\arrow [scale=1.5]{stealth}}",
+      "  %}, postaction=decorate] {x};",
+      "  %\\\\addplot [line width=2pt, decoration={",
+      "  %  markings,",
+      "  %  mark=between positions 0.2 and 0.99 step 2em with {\\\\arrow [scale=1.5]{stealth}}",
+      "  %}, postaction=decorate] {x};",
+      "  %\\\\addplot [domain=-4:4, variable=t, line width=2pt] ({0},{t});",
+      "  %\\\\node [anchor=south west] at (axis cs: 1,0) {$\\\\psi$};",
+      "\\\\end{axis}"
+    ],
+    "description": "X/Y axis"
+  },
+  "beamer": {
+    "prefix": "beamer",
+    "body": [
+      "\\documentclass[luatex, unicode, pdfusetitle]{beamer}",
+      "\\usepackage{luatexja}",
+      "\\usepackage{hyperref}",
+      "\\usepackage{bookmark}",
+      "\\usepackage[yu-win10,deluxe]{luatexja-preset}",
+      "\\usepackage{color}",
+      "\\usepackage{amsmath, amssymb, amsthm, mathrsfs}",
+      "\\usepackage{mathtools}",
+      "\\usepackage{cancel}",
+      "\\usepackage{ulem}",
+      "\\usepackage{framed}",
+      "\\usepackage{cases}",
+      "\\usepackage{setspace}",
+      "\\usepackage{ifthen}",
+      "\\usepackage[shortlabels,inline]{enumitem}",
+      "\\usepackage{hhline}",
+      "\\usepackage{myzmath}",
+      "\\usepackage{myxphysics}",
+      "\\usepackage{myunit}",
+      "%\\usepackage{helvet}",
+      "\\renewcommand{\\textbf}[1]{{\\bfseries #1}}",
+      "\\theoremstyle{definition}",
+      "",
+      "\\renewcommand{\\kanjifamilydefault}{\\gtdefault} % 既定をゴシック体に",
+      "\\usetheme{default}",
+      "\\usecolor{beaver}",
+      "",
+      "\\title{$1}",
+      "\\author{${2:理学部 中井大介 \\\\ 0530--33--7718}}",
+      "\\date{\\number\\year 年\\number\\month 月\\number\\day 日}",
+      "",
+      "\\begin{document}",
+      "",
+      "\\maketitle",
+      "",
+      "\\begin{frame}{目次}",
+      "\t\\tableofcontents",
+      "\\end{frame}",
+      "",
+      "\\section{${0:ここにセクション名}}",
+      "",
+      "\\begin{frame}{ここにタイトル}",
+      "\tここが内容",
+      "\\end{frame}",
+      ""
+    ],
+    "description": "beamer"
+  },
+  "cha": {
+    "prefix": "cha",
+    "body": "\\\\chapter{${1:chaptername}}\\\\label{prt:${2:label}}",
+    "description": "chapter"
+  },
+  "counterwithsection": {
+    "prefix": "counterwithsection",
+    "body": [
+      "\\\\makeatletter",
+      "\\\\renewcommand{\\\\thefigure}{\\\\thesection.\\\\arabic{figure}}",
+      "\\\\@addtoreset{figure}{section}",
+      "\\\\renewcommand{\\\\thetable}{\\\\thesection.\\\\arabic{table}}",
+      "\\\\@addtoreset{table}{section}",
+      "\\\\renewcommand{\\\\theequation}{\\\\thesection.\\\\arabic{equation}}",
+      "\\\\@addtoreset{equation}{section}",
+      "\\\\makeatother"
+    ],
+    "description": "Add section number to counters"
+  },
+  "deftitle": {
+    "prefix": "deftitle",
+    "description": "Define title entries",
+    "body": [
+      "\\\\title{$1}",
+      "\\\\author{${2:理学部 中井大介 \\\\\\\\ 0530--33--7718}}",
+      "\\\\date{${3:\\\\number\\\\year 年\\\\number\\\\month 月\\\\number\\\\day 日}}",
+      ""
+    ]
+  },
+  "doc": {
+    "prefix": "doc",
+    "body": [
+      "\\\\documentclass[luatex, unicode, pdfusetitle]{ltjsarticle}",
+      "\\\\usepackage{luatexja}",
+      "\\\\usepackage{hyperref}",
+      "\\\\usepackage{bookmark}",
+      "\\\\usepackage[yu-win10,deluxe]{luatexja-preset}",
+      "\\\\usepackage{color}",
+      "\\\\usepackage{amsmath, amssymb, amsthm, mathrsfs}",
+      "\\\\usepackage{mathtools}",
+      "\\\\usepackage{cancel}",
+      "\\\\usepackage{ulem}",
+      "\\\\usepackage{framed}",
+      "\\\\usepackage{cases}",
+      "\\\\usepackage{setspace}",
+      "\\\\usepackage{ifthen}",
+      "\\\\usepackage[shortlabels,inline]{enumitem}",
+      "\\\\usepackage{hhline}",
+      "\\\\usepackage{myzmath}",
+      "\\\\usepackage{myxphysics}",
+      "\\\\usepackage{myunit}",
+      "\\\\usepackage[top=20truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}",
+      "%\\\\usepackage{helvet}",
+      "\\\\usepackage{titlesec}",
+      "\\\\titleformat*{\\\\section}{\\\\fontsize{16}{25}\\\\bfseries}",
+      "\\\\titleformat*{\\\\subsection}{\\\\fontsize{14}{25}\\\\bfseries}",
+      "\\\\titleformat*{\\\\subsubsection}{\\\\fontsize{12}{25}\\\\bfseries}",
+      "\\\\titleformat*{\\\\paragraph}{\\\\normalsize\\\\bfseries}",
+      "\\\\titleformat*{\\\\subparagraph}{\\\\normalsize\\\\bfseries}",
+      "\\\\renewcommand{\\\\textbf}[1]{{\\\\bfseries #1}}",
+      "\\\\theoremstyle{definition}",
+      "\\\\newtheorem{theorem}{定理}",
+      "\\\\newtheorem{definition}[theorem]{定義}",
+      "\\\\newtheorem{lemma}[theorem]{補題}",
+      "\\\\newtheorem{corollary}[theorem]{系}",
+      "\\\\newtheorem*{theorem*}{定理}",
+      "\\\\newtheorem*{definition*}{定義}",
+      "\\\\newtheorem*{lemma*}{補題}",
+      "\\\\newtheorem*{corollary*}{系}",
+      "\\\\begin{document}",
+      "${0}",
+      "\\\\end{document}"
+    ],
+    "description": "doc"
+  },
+  "env": {
+    "prefix": "env",
+    "body": ["\\\\begin{${1:align*}}", "    $0", "\\\\end{$1}"],
+    "description": "Insert environment"
+  },
+  "envd": {
+    "prefix": "envd",
+    "body": ["\\\\begin{${1:tabular}}{${2:cc}}", "    $0", "\\\\end{$1}"],
+    "description": "Insert environment"
+  },
+  "envop": {
+    "prefix": "envop",
+    "body": ["\\\\begin{${1:enumerate}}[${2:(1)}]", "    $0", "\\\\end{$1}"],
+    "description": "Insert environment"
+  },
+  "fboxsection": {
+    "prefix": "fboxsection",
+    "body": "\\\\titleformat{\\\\section}{\\\\fontsize{16}{25}\\\\bfseries\\\\sffamily}{\\\\fbox{\\\\thesection}}{1em}{}",
+    "description": "the config for boxed style section number"
+  },
+  "li": {
+    "prefix": "li",
+    "body": "\\\\item $0",
+    "description": "List item"
+  },
+  "mid": {
+    "prefix": "mid",
+    "body": "\\\\mathrel{}\\\\middle|\\\\mathrel{}",
+    "description": "middle bar in set"
+  },
+  "minipage": {
+    "prefix": "minipage",
+    "body": [
+      "\\\\begin{minipage}{${1:.3\\\\hsize}}",
+      "",
+      "\\\\end{minipage}",
+      "\\\\hfill",
+      "\\\\begin{minipage}{${2:.6\\\\hsize}}",
+      "",
+      "\\\\end{minipage} \\\\\\\\",
+      "$0"
+    ]
+  },
+  "package_tikz": {
+    "prefix": "package_tikz",
+    "description": "Import packages needed for tikz",
+    "body": [
+      "\\\\usepackage{pgf,tikz,pgfplots,tikz-cd}",
+      "\\\\usepackage{gnuplot-lua-tikz}",
+      "\\\\usetikzlibrary{decorations.markings}",
+      "\\\\pgfplotsset{compat=1.16}"
+    ]
+  },
+  "par": {
+    "prefix": "par",
+    "body": "\\\\paragraph{${1:paragraphname}}\\\\label{prt:${2:label}}",
+    "description": "paragraph"
+  },
+  "part": {
+    "prefix": "part",
+    "body": "\\\\part{${1:partname}}\\\\label{prt:${2:label}}",
+    "description": "part"
+  },
+  "ptexdoc": {
+    "prefix": "ptexdoc",
+    "description": "Init document boilerplate",
+    "body": [
+      "\\\\documentclass[dvipdfmx, a4j]{ujarticle}",
+      "\\\\西暦",
+      "\\\\usepackage{plext}",
+      "\\\\usepackage{color}",
+      "\\\\usepackage{graphicx}",
+      "\\\\usepackage{amsmath, amssymb, amsthm}",
+      "\\\\usepackage{cancel}",
+      "\\\\usepackage{ulem}",
+      "\\\\usepackage{framed}",
+      "\\\\usepackage{cases}",
+      "\\\\usepackage{setspace}",
+      "\\\\usepackage{ifthen}",
+      "\\\\usepackage[shortlabels,inline]{enumitem}",
+      "\\\\usepackage{hhline}",
+      "\\\\usepackage{myzmath}",
+      "\\\\usepackage{myxphysics}",
+      "\\\\usepackage{myunit}",
+      "\\\\usepackage[top=15truemm,bottom=15truemm,left=15truemm,right=15truemm]{geometry}",
+      "% \\\\usepackage{helvet}",
+      "\\\\usepackage{titlesec}",
+      "\\\\titleformat*{\\\\section}{\\\\fontsize{16}{25}\\\\bfseries\\\\sffamily}",
+      "\\\\titleformat*{\\\\subsection}{\\\\fontsize{14}{25}\\\\bfseries\\\\sffamily}",
+      "\\\\titleformat*{\\\\subsubsection}{\\\\fontsize{12}{25}\\\\bfseries\\\\sffamily}",
+      "\\\\titleformat*{\\\\paragraph}{\\\\normalsize\\\\bfseries\\\\sffamily}",
+      "\\\\titleformat*{\\\\subparagraph}{\\\\normalsize\\\\bfseries\\\\sffamily}",
+      "\\\\renewcommand{\\\\textbf}[1]{{\\\\bfseries\\\\sffamily #1}}",
+      "\\\\theoremstyle{definition}",
+      "\\\\newtheorem{theorem}{定理}",
+      "\\\\newtheorem{definition}[theorem]{定義}",
+      "\\\\newtheorem{lemma}[theorem]{補題}",
+      "\\\\newtheorem{corollary}[theorem]{系}",
+      "\\\\newtheorem*{theorem*}{定理}",
+      "\\\\newtheorem*{definition*}{定義}",
+      "\\\\newtheorem*{lemma*}{補題}",
+      "\\\\newtheorem*{corollary*}{系}",
+      "\\\\begin{document}",
+      "$0",
+      "\\\\end{document}",
+      ""
+    ]
+  },
+  "sec": {
+    "prefix": "sec",
+    "body": "\\\\section{${1:sectionname}}\\\\label{prt:${2:label}}",
+    "description": "section"
+  },
+  "spar": {
+    "prefix": "spar",
+    "body": "\\\\subparagraph{${1:subparagraphname}}\\\\label{prt:${2:label}}",
+    "description": "subparagraph"
+  },
+  "ssec": {
+    "prefix": "ssec",
+    "body": "\\\\subsection{${1:subsectionname}}\\\\label{prt:${2:label}}",
+    "description": "subsection"
+  },
+  "sssec": {
+    "prefix": "sssec",
+    "body": "\\\\subsubsection{${1:subsubsectionname}}\\\\label{prt:${2:label}}",
+    "description": "subsubsection"
+  },
+  "|-->": {
+    "prefix": "|-->",
+    "description": "",
+    "body": ["\\longmapsto"]
+  },
+  "|->": {
+    "prefix": "|->",
+    "description": "",
+    "body": ["\\mapsto"]
+  }
+}

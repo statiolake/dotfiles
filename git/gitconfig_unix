@@ -1,0 +1,55 @@
+[user]
+	email = statiolake@gmail.com
+	name = statiolake
+[core]
+	editor = nvim
+	hooksPath = ~/.config/git/hooks
+[alias]
+	s = status
+	d = diff
+	co = checkout
+	br = branch
+	c = commit
+	ca = commit --amend
+	a = add
+	m = merge
+	l = log --oneline
+	lg = log --oneline --graph
+	lga = log --oneline --graph --all
+	gr = log --graph --oneline
+	ss = stash save
+	sp = stash pop
+	sl = stash list
+	f = fetch
+[diff]
+	tool = nvimdiff
+[merge]
+	tool = nvimsimplediff
+	#conflictstyle = diff3
+[difftool "vscodediff"]
+	cmd = code --wait --diff "$LOCAL" "$REMOTE"
+[mergetool "vscodediff"]
+	cmd = code --wait "$MERGED"
+[difftool "nvimdiff"]
+	cmd = "nvim -- -R -d -c \"wincmd l\" -d \"$LOCAL\" \"$REMOTE\""
+	#cmd = "/usr/local/bin/nvim-qt -- -R -d -c \"wincmd l\" -d \"$LOCAL\" \"$REMOTE\""
+[mergetool "nvimdiff"]
+	#cmd = "nvim -- -d -c \"4wincmd w | wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"  \"$MERGED\""
+	cmd = nvim "$MERGED"
+	#cmd = /usr/local/bin/nvim-qt "$MERGED"
+[mergetool "vimsimplediff"]
+	#cmd = "vim -- -d -c \"4wincmd w | wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"  \"$MERGED\""
+	cmd = vim "$MERGED"
+[mergetool "gvimsimplediff"]
+	#cmd = "vim -- -d -c \"4wincmd w | wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"  \"$MERGED\""
+	cmd = gvim "$MERGED"
+[push]
+	default = simple
+[pull]
+	ff = only
+[hub]
+	protocol = ssh
+[credential "https://github.com"]
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/usr/bin/gh auth git-credential

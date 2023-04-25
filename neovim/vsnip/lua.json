@@ -1,0 +1,7 @@
+{
+  "mod": {
+    "prefix": "mod",
+    "body": ["local M = {}", "", "$0", "", "return M"],
+    "description": "mod"
+  }
+}

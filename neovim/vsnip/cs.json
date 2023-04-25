@@ -1,0 +1,52 @@
+{
+  "///": {
+    "prefix": "///",
+    "description": "documentation comment",
+    "body": ["/// <summary>", "/// $0", "/// </summary>"]
+  },
+  "bprop": {
+    "prefix": "bprop",
+    "body": [
+      "public ${1:type} ${2:name}",
+      "{",
+      "\tget => $2_;",
+      "\tset => $2_ = value;",
+      "}",
+      "private $1 $2_;",
+      "$0"
+    ],
+    "description": "public property with backing field"
+  },
+  "propnotify": {
+    "prefix": "propnotify",
+    "body": [
+      "public ${1:type} ${2:name}",
+      "{",
+      "\tget => $2_;",
+      "\tse",
+      "\t{",
+      "\t\tif (${3:$2_ == value}) return;",
+      "\t\t$2_ = value;",
+      "\t\tRaisePropertyChanged();",
+      "\t}",
+      "}",
+      "private $1 $2_;"
+    ]
+  },
+  "prop": {
+    "prefix": "prop",
+    "description": "public property",
+    "body": "public ${1:type} ${2:name} { get; set; }$0"
+  },
+  "inotifypropertychanged": {
+    "prefix": "inotifypropertychanged",
+    "body": [
+      "#region INotifyPropertyChanged",
+      "public event PropertyChangedEventHandler PropertyChanged;",
+      "private void RaisePropertyChanged([CallerMemberName] string name = \"\") =>",
+      "\tPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));",
+      "#endregion"
+    ],
+    "description": "inotifypropertychanged"
+  }
+}

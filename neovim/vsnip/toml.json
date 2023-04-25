@@ -1,0 +1,6 @@
+{
+  "repo": {
+    "prefix": ["repo"],
+    "body": ["[[plugins]]", "repo = '${1:$TM_SELECTED_TEXT}'"]
+  }
+}

@@ -1,0 +1,4 @@
+#compdef edit-emacsd-file
+
+_files -W $HOME/.emacs.d/conf
+

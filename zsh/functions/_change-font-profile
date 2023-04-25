@@ -1,0 +1,23 @@
+#compdef change-font-profile
+
+BASEDIR="$HOME/dev/github/fc-lang-selector-gen/aliases"
+
+ADJUST=0
+if [[ ${#words[@]} -ge 2 ]] && [[ "${words[2]}" == "--sys" ]]; then
+    ADJUST=1
+fi
+
+SANS=$((2 + $ADJUST))
+SERIF=$((3 + $ADJUST))
+MONO=$((4 + $ADJUST))
+
+if [[ CURRENT -eq $SANS ]]; then
+    # sans font
+    _files -W "$BASEDIR/sans"
+elif [[ CURRENT -eq $SERIF ]]; then
+    # serif font
+    _files -W "$BASEDIR/serif"
+elif [[ CURRENT -eq $MONO ]]; then
+    # monospace font
+    _files -W "$BASEDIR/monospace"
+fi

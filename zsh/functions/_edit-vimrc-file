@@ -1,0 +1,4 @@
+#compdef edit-vimrc-file
+
+_values 'Valid config files' $(ls $HOME/.vim/conf | sed -nE 's/vimrc\.(.*)/\1/gp')
+

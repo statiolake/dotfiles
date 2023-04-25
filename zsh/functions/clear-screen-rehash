@@ -1,0 +1,10 @@
+# 画面クリア時に自動リハッシュ
+#=================================================================
+clear-screen-rehash() {
+  zle clear-screen
+  rehash
+  zle reset-prompt
+}
+zle -N clear-screen-rehash
+bindkey '^L' clear-screen-rehash
+

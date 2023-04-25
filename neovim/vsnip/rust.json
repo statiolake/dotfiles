@@ -1,0 +1,30 @@
+{
+  "allowrange": {
+    "prefix": "allowrange",
+    "description": "allow clippy::needless_range_loop",
+    "body": ["#[allow(clippy::needless_range_loop)]", ""]
+  },
+  "derives": {
+    "prefix": "derives",
+    "description": "usual derives",
+    "body": [
+      "#[derive(Debug${1:, Clone}${2:, Copy}${3:, PartialEq, Eq, Hash}${4:, PartialOrd, Ord})]"
+    ]
+  },
+  "impldisplay": {
+    "prefix": "impldisplay",
+    "body": [
+      "impl fmt::Display for $1 {",
+      "    fn fmt(&self, b: &mut fmt::Formatter) -> fmt::Result {",
+      "        write!(b, $0)",
+      "    }",
+      "}"
+    ],
+    "description": "Implement Display"
+  },
+  "mutref": {
+    "prefix": "mutref",
+    "body": "&mut ${1:$TM_SELECTED_TEXT}",
+    "description": "&mut reference"
+  }
+}

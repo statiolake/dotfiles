@@ -1,0 +1,5 @@
+SUDO=
+if [[ "$1" == "--sys" ]]; then
+  SUDO=sudo
+fi
+$SUDO $HOME/dev/github/fc-lang-selector-gen/target/release/fc_lang_selector_gen "$@"

@@ -1,0 +1,223 @@
+{
+  "Lua.completion.callSnippet": "Replace",
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.telemetry.enable": false,
+  "coc.preferences.enableLinkedEditing": true,
+  "coc.preferences.enableMarkdown": true,
+  "coc.preferences.enableMessageDialog": true,
+  "coc.preferences.formatOnSave": false,
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.promptInput": true,
+  "coc.source.emoji.filetypes": ["", "markdown", "plaintext"],
+  "codeLens.enable": false,
+  "codeLens.position": "top",
+  "codeLens.separator": "",
+  "colors.enable": true,
+  "diagnostic-languageserver.filetypes": {
+    "vim": "vint"
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "python": ["isort", "black"]
+  },
+  "diagnostic-languageserver.formatters": {
+    "black": {
+      "args": ["-m", "black", "--quiet", "-", "--line-length=78"],
+      "command": "python"
+    },
+    "isort": {
+      "args": [
+        "-m",
+        "isort",
+        "--quiet",
+        "-",
+        "--profile=black",
+        "--line-length=78"
+      ],
+      "command": "python"
+    }
+  },
+  "diagnostic.enable": true,
+  "diagnostic.enableMessage": "always",
+  "diagnostic.floatConfig": {
+    "border": false
+  },
+  "diagnostic.highlightLimit": 200,
+  "diagnostic.messageTarget": "float",
+  "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.virtualText": false,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "diagnostic.virtualTextLines": 1,
+  "diagnostic.virtualTextPrefix": "■ ",
+  "dialog.rounded": false,
+  "emmet.includeLanguages": {
+    "html.razor": "html"
+  },
+  "extension-auto-installer.autoCheckGlobalExtensions": "autoInstall",
+  "extension-auto-installer.autoRemoveUnusedExtensions": "autoRemove",
+  "extension-auto-installer.globalExtensions": [
+    "@statiolake/coc-extension-auto-installer",
+    "coc-pairs",
+    "coc-explorer",
+    "coc-marketplace",
+    "coc-lists",
+    "coc-git",
+    "coc-restclient",
+    "coc-lightbulb",
+    "coc-clock",
+    "coc-nav",
+    "coc-snippets",
+    "coc-highlight",
+    "coc-calc",
+    "coc-emoji",
+    "coc-webview",
+    "coc-gitignore"
+  ],
+  "extension-auto-installer.languageExtensions": {
+    "c": ["coc-clangd"],
+    "cpp": ["coc-clangd"],
+    "css": ["coc-css", "coc-emmet", "coc-prettier"],
+    "go": ["coc-go"],
+    "html": ["coc-emmet", "coc-prettier"],
+    "java": ["coc-java"],
+    "javascript": ["coc-tsserver", "coc-prettier", "coc-deno"],
+    "javascriptreact": ["coc-tsserver", "coc-prettier", "coc-deno"],
+    "json": ["coc-json", "coc-prettier", "coc-format-json"],
+    "jsonc": ["coc-json", "coc-prettier", "coc-format-json"],
+    "latex": ["coc-texlab"],
+    "lua": ["coc-sumneko-lua", "@statiolake/coc-stylua"],
+    "markdown": ["coc-markdown-preview-enhanced"],
+    "python": ["coc-pyright", "coc-diagnostic"],
+    "rust": ["coc-rust-analyzer"],
+    "typescript": ["coc-tsserver", "coc-prettier", "coc-deno", "coc-tsdetect"],
+    "typescriptreact": ["coc-tsserver", "coc-prettier", "coc-deno"],
+    "vim": ["coc-vimlsp", "coc-diagnostic"],
+    "xaml": ["coc-xml"],
+    "xml": ["coc-xml"],
+    "yaml": ["coc-yaml", "coc-swagger"]
+  },
+  "git.addGBlameToVirtualText": true,
+  "git.addedSign.hlGroup": "GitSignsAdd",
+  "git.addedSign.text": "+",
+  "git.changeRemovedSign.hlGroup": "GitSignsChange",
+  "git.changeRemovedSign.text": "~",
+  "git.changedSign.hlGroup": "GitSignsChange",
+  "git.changedSign.text": "~",
+  "git.removedSign.hlGroup": "GitSignsDelete",
+  "git.removedSign.text": "_",
+  "git.topRemovedSign.hlGroup": "GitSignsDelete",
+  "git.topRemovedSign.text": "‾",
+  "go.goplsOptions": {
+    "analyses": {
+      "ST1000": false,
+      "ST1003": true,
+      "ST1016": false,
+      "ST1020": false,
+      "ST1021": false,
+      "ST1022": true,
+      "ST1023": true
+    },
+    "staticcheck": true,
+    "usePlaceholders": true
+  },
+  "hover.floatConfig": {
+    "border": false
+  },
+  "inlayHint.display": true,
+  "inlayHint.enable": true,
+  "inlayHint.enableParameter": true,
+  "inlayHint.parameterSeparator": "- ",
+  "inlayHint.subSeparator": " ",
+  "inlayHint.typeSeparator": ": ",
+  "json.format.enable": false,
+  "languageserver": {
+    "csharp-ls": {
+      "command": "csharp-ls",
+      "filetypes": ["cs"],
+      "rootPatterns": ["*.csproj", ".vim/", ".git/", ".hg/"]
+    }
+  },
+  "lightbulb.enableSign": true,
+  "lightbulb.enableVirtualText": false,
+  "list.insertMappings": {
+    "<C-n>": "normal:j",
+    "<C-p>": "normal:k"
+  },
+  "list.normalMappings": {
+    "<C-j>": "command:CocNext",
+    "<C-k>": "command:CocPrev"
+  },
+  "list.source.grep.args": ["--smart-case"],
+  "notification.border": true,
+  "omnisharp.trace.server": "verbose",
+  "prettier.formatterPriority": 100,
+  "prettier.onlyUseLocalVersion": false,
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.typeCheckingMode": "strict",
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.flake8Args": ["--ignore=E203,W503"],
+  "python.linting.flake8Enabled": false,
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pydocstyleEnabled": false,
+  "python.linting.pylintArgs": [
+    "--extension-pkg-whitelist=pygame,wx",
+    "--disable=no-member,missing-module-docstring,missing-class-docstring,missing-function-docstring"
+  ],
+  "python.linting.pylintEnabled": true,
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "rust-analyzer.checkOnSave.overrideCommand": [
+    "cargo",
+    "clippy",
+    "--workspace",
+    "--message-format=json",
+    "--all-targets"
+  ],
+  "rust-analyzer.imports.granularity.enforce": true,
+  "rust-analyzer.imports.granularity.group": "crate",
+  "rust-analyzer.inlayHints.renderColons": false,
+  "rust-analyzer.procMacro.enable": true,
+  "semanticTokens.enable": true,
+  "signature.enable": true,
+  "signature.floatConfig": {
+    "border": false
+  },
+  "signature.target": "float",
+  "snippets.ultisnips.directories": ["ultisnips"],
+  "snippets.ultisnips.enable": true,
+  "snippets.ultisnips.pythonPrompt": false,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.asciiCharactersOnly": true,
+  "suggest.autoTrigger": "always",
+  "suggest.defaultSortMethod": "none",
+  "suggest.enablePreselect": false,
+  "suggest.floatConfig": {
+    "border": false
+  },
+  "suggest.insertMode": "insert",
+  "suggest.labelMaxLength": 80,
+  "suggest.minTriggerInputLength": 1,
+  "suggest.noselect": true,
+  "suggest.preferCompleteThanJumpPlaceholder": true,
+  "suggest.removeDuplicateItems": false,
+  "suggest.snippetIndicator": " >",
+  "suggest.snippetsSupport": true,
+  "suggest.timeout": 15000,
+  "suggest.triggerAfterInsertEnter": true,
+  "sumneko-lua.enableNvimLuaDev": true,
+  "symbol-line.icons": false,
+  "symbol-line.maxItems": 3,
+  "texlab.build.onSave": true,
+  "texlab.trace.server": "verbose",
+  "tsserver.log": "verbose",
+  "tsserver.trace.server": "verbose",
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.parameterNames.enabled": "literals",
+  "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "xml.format.preserveAttributeLineBreaks": true
+}
+

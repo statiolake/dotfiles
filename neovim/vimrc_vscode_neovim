@@ -1,0 +1,237 @@
+" デフォルトエンコーディング --- 何より最初にとのこと
+set encoding=utf-8
+
+scriptencoding utf-8
+
+syntax off
+
+"実行環境 {{{
+  " 実行環境判定関数 {{{
+    function! IsWSL() abort
+      if !IsUnix()
+        return 0
+      endif
+      call system('uname -a | grep -i microsoft')
+      if v:shell_error == 0 " WSL
+        return 1
+      endif
+      return 0
+    endfunction
+
+    function! IsKaoriya() abort
+      return has('kaoriya')
+    endfunction
+
+    function! IsWin32() abort
+      return has('win32')
+    endfunction
+
+    function! IsUnix() abort
+      return has('unix')
+    endfunction
+
+    function! IsNvim() abort
+      return has('nvim')
+    endfunction
+
+    function! IsGVim() abort
+      return !IsNvim() && has('gui')
+    endfunction
+  "}}}
+
+" エディタ基本設定 {{{
+  " 基本設定 {{{
+    " アンドゥファイルを作成しない
+    set noundofile
+
+    " 大文字小文字を区別して検索
+    set noignorecase
+
+    " バックアップファイルを作成しない
+    set nobackup
+
+    " スワップファイルを作成しない
+    set noswapfile
+
+    " タブをスペースへ変換
+    set expandtab
+
+    " インデント機能 賢い順に [cindent > smartindent > autoindent] ※共存不可
+    set cindent
+
+    " バックスペースの機能
+    set backspace=indent,start
+
+    " インクリメンタルサーチを有効にする
+    set incsearch
+
+    " いわゆるなんか「共通して同じ文字まで補完」のような設定
+    set wildmenu
+
+    " 自動的に現在開いているファイルの位置をカレントディレクトリにする
+    " set autochdir
+
+    " いろいろのときに自動的にファイルを保存する
+    " set autowrite
+
+    " ホームディレクトリも runtimepath に追加する
+    set runtimepath+=~/.vim,~/.vim/after
+
+    " <> も % で移動できるようにする
+    set matchpairs+=<:>
+
+    " 新しいウィンドウは基本右に開く
+    set splitright
+
+    " 日本語も区切る
+    set formatoptions+=mM
+
+    " <Leader> をスペースキーに
+    let mapleader="\<Space>"
+
+    " <LocalLeader> をスペースキーに
+    let maplocalleader="\<Space>"
+
+    " netrw を無効化
+    let g:loaded_netrwPlugin = 1
+  "}}}
+
+  " 文字コード {{{
+    set fileencoding=utf-8
+    set fileencodings=utf-8,cp932,ucs-bom,utf-16le,utf-16be,euc-jp
+  "}}}
+
+  " 自動 IME {{{
+    " 残念ながら GVim 以外はまだ対応していないため必要。
+    if !IsWin32() || !IsGVim()
+      " IMEのオン・オフに使うコマンド
+      if IsWin32() || IsWSL()
+        let s:ime_on_command = 'setime.exe on'
+        let s:ime_off_command = 'setime.exe off'
+      else " Unix
+        let s:ime_on_command = 'ime-remote-linux on'
+        let s:ime_off_command = 'ime-remote-linux off'
+      endif
+
+      " インサートモードを抜けたときの自動 IME ON/OFF を登録する関数
+      function! s:register_ime_onoff_aucmd(showmsg) abort
+        augroup vimrc__ime_onoff
+          autocmd!
+          autocmd VimEnter * call s:ime_off(v:true)
+          autocmd InsertChange * call s:ime_off(v:false)
+          autocmd InsertLeave * call s:ime_off(v:false)
+          autocmd CmdWinLeave * call s:ime_off(v:false)
+        augroup END
+        if a:showmsg
+          echo 'Registered IME ON/OFF autocmd.'
+        endif
+      endfunction
+
+      " インサートモードを抜けたときの自動 IME ON/OFF を登録 *解除* する関数
+      function! s:unregister_ime_onoff_aucmd(showmsg) abort
+        autocmd! vimrc__ime_onoff
+        if a:showmsg
+          echo 'Unregistered IME ON/OFF autocmd.'
+        endif
+      endfunction
+
+      " IME ON/OFF を登録したりしなかったりするキーバインド。普通登録解除する
+      " ことはないが、一部のプラグインが激しく挿入モードとノーマルモードを行き
+      " 来することがあって、そのときにいちいち外部プログラムの呼び出しが挟まる
+      " と非常に遅くなる。例えば Align など。もう Align は使っていないけれども
+      " そういう需要を見越して一応無効化できるようにしてある。
+      map <Leader>i [ime]
+      map [ime]r :<C-u>call <SID>register_ime_onoff_aucmd(v:true)<CR>
+      map [ime]u :<C-u>call <SID>unregister_ime_onoff_aucmd(v:true)<CR>
+
+      " 起動時に登録する
+      call s:register_ime_onoff_aucmd(v:false)
+
+      " IME を ON にする関数; b_sleep は「ウェイトを入れるかどうか」
+      function! s:ime_on(b_sleep) abort
+        if a:b_sleep | execute 'sleep 100m' | endif
+        if !empty(s:ime_on_command)
+          call system(s:ime_on_command)
+        endif
+      endfunction
+
+      " IME を OFF にする関数; b_sleep は「ウェイトを入れるかどうか」
+      function! s:ime_off(b_sleep) abort
+        if a:b_sleep | execute 'sleep 100m' | endif
+        if !empty(s:ime_off_command)
+          call system(s:ime_off_command)
+        endif
+      endfunction
+    endif
+  "}}}
+"}}}
+
+" キーバインド {{{
+  " dos-standard-mappings の C-X を無効化 {{{
+    " vunmap <C-X>
+  "}}}
+
+  " <Esc> で iminsert を 0 にする {{{
+    if exists('&iminsert')
+      inoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
+      nnoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
+      onoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
+      vnoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
+    endif
+  "}}}
+
+  " VSCode の様々なキーバインド {{{
+    nnoremap g. :call VSCodeNotify('keyboard-quickfix.openQuickFix')<CR>
+    nnoremap gh :call VSCodeNotify('editor.action.showHover')<CR>
+    nnoremap gR :call VSCodeNotify('editor.action.rename')<CR>
+    nnoremap go :call VSCodeNotify('editor.action.revealDefinition')<CR>
+    nnoremap gO :call VSCodeNotify('editor.action.revealDefinitionAside')<CR>
+    nnoremap gr :call VSCodeNotify('references-view.findReferences')<CR>
+    nnoremap <C-n> :call VSCodeNotify('editor.action.marker.nextInFiles')<CR>
+    nnoremap <C-p> :call VSCodeNotify('editor.action.marker.prevInFiles')<CR>
+
+    " コメント
+    xmap gc  <Plug>VSCodeCommentary
+    nmap gc  <Plug>VSCodeCommentary
+    omap gc  <Plug>VSCodeCommentary
+    nmap gcc <Plug>VSCodeCommentaryLine
+
+    " rewrap
+    vnoremap gq :call VSCodeNotify('rewrap.rewrapComment')<CR>
+    nnoremap gqq :call VSCodeNotify('rewrap.rewrapComment')<CR>
+  "}}}
+
+"}}}
+
+" プラグイン {{{
+  call plug#begin()
+
+  " 一般プラグイン {{{
+    " Plug 'andymass/vim-matchup'
+    "   if !exists('g:matchup_matchpref')
+    "     let g:matchup_matchpref = {}
+    "     let g:matchup_matchpref.html = {}
+    "     let g:matchup_matchpref.xml = {}
+    "   endif
+    "   let g:matchup_matchpref.html.tagnameonly = 1
+    "   let g:matchup_matchpref.xml.tagnameonly = 1
+
+    "   let g:matchup_matchparen_enabled = 1
+
+    Plug 'tpope/vim-surround'
+
+    Plug 'wsdjeg/vim-fetch'
+      map <silent> gf gF
+
+    Plug 'tpope/vim-repeat'
+
+    Plug 'haya14busa/vim-asterisk'
+      map *  <Plug>(asterisk-z*)
+      map #  <Plug>(asterisk-z#)
+      map g* <Plug>(asterisk-gz*)
+      map g# <Plug>(asterisk-gz#)
+      let g:asterisk#keeppos = 1
+  "}}}
+
+  call plug#end()
+"}}}

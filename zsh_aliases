@@ -1,0 +1,251 @@
+##########################################################################################
+# Alias
+##########################################################################################
+alias grep='grep --color=auto'
+alias initreveal='git clone git@github.com:hakimel/reveal.js'
+which hub > /dev/null 2>&1 && alias g='hub' || alias g='git'
+alias diff='diff -u --color=auto'
+which exa > /dev/null 2>&1 && alias ls='exa' || alias ls='ls --color=auto'
+alias l='ls'
+alias s='ls'
+alias ll='ls -l'
+alias la='ls -la'
+alias pa='procon-assistant'
+alias par='procon-assistant run'
+alias pai='procon-assistant init'
+alias less='less -R' # colored less
+alias p='ps ax'
+alias pl='ps -l'
+alias psx='ps x'
+alias psxg='ps x | rg -i'
+alias px='psxg'
+alias cpugov="sudo cpupower frequency-set --governor"
+alias eman='LANG=C man'
+#alias af='adb forward tcp:7777 tcp:7777'
+#alias kill-emacs='systemctl --user stop emacs.service'
+#alias restart-emacs='systemctl --user restart emacs.service'
+#alias m='mutt -f "=friends"'
+alias f='vifm'
+#alias shotmuch='systemctl --user start notmuch'
+alias gcc='gcc -std=c11 -Wall'
+alias g++='g++ -std=c++17 -Wall -Wno-c++98-compat -Wno-old-style-cast'
+alias open='gio open'
+#alias clang++='clang++ -std=c++14 -Wall -Wno-c++98-compat'
+#alias clanglut++='clang++ -lGL -lGLU -lglut'
+#alias clangllet++='clang++ -lGL -lGLU -lglut $(pkg-config --cflags bullet) $(pkg-config --libs bullet)'
+# alias v='nvim-qt > /dev/null 2>&1 --'
+# alias vf='nvim-qt > /dev/null 2>&1 --nofork --'
+alias v="nvim"
+alias vf="nvim"
+alias vs="sudo nvim"
+alias c="code"
+alias cf="code --wait"
+alias e=v
+alias ef=vf
+
+alias with-nvidia="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
+
+function find_unused_port() {
+    python <<EOF_
+import socket
+s = socket.socket()
+s.bind(("", 0))
+print(s.getsockname()[1])
+s.close()
+EOF_
+}
+
+# WSL
+if uname -a | grep WSL > /dev/null; then
+    alias cmd=cmd.exe
+    alias clip=clip.exe
+    alias winget=winget.exe
+    alias wsl=wsl.exe
+
+    function mountnas() {
+        sudo mkdir -p /mnt/nas
+        sudo mount -t drvfs '\\192.168.24.10\Home' /mnt/nas
+    }
+
+    function fixtime() {(
+        set -e # 失敗時終了
+
+        [[ "$1" == "-n" ]] && interactive=0 || interactive=1
+
+        userprofile="$(wslpath -u $(/mnt/c/Windows/System32/cmd.exe /c echo %USERPROFILE% 2>/dev/null) | tr -d '\r')"
+        temp_file="$userprofile/.wsltimestamp"
+        if [[ $interactive -eq 1 ]]; then
+            echo "Current Linux time: $(date --rfc-3339=ns)"
+        fi
+        touch "$temp_file"
+        windate=$(date --rfc-3339=ns -r "$temp_file")
+        if [[ $interactive -eq 1 ]]; then
+            # sudo はそのままだと stdin を消費してしまうので (IO ログのためっ
+            # ぽい) `: |` を前置して stdin を閉じる
+            # 閉じるだけなら sudo ... <&- でもいいみたい
+            : | sudo date --rfc-3339=ns -s "$windate" &> /dev/null
+        else
+            # sudo はそのままだと stdin を消費してしまうので stdin を閉じる
+            : | sudo -n date --rfc-3339=ns -s "$windate" &> /dev/null \
+                || echo "failed to fix time"
+        fi
+        if [[ $interactive -eq 1 ]]; then
+            # sudo はそのままだと stdin を消費してしまうので stdin を閉じる
+            # ここはなぜか <&- では駄目だったけど $() の仕様が違うのか？
+            echo "Fixed to time: $(date --rfc-3339=ns)"
+        fi
+    )}
+
+    # <https://qiita.com/iwaiktos/items/33ab69a42c3a1cc35dfb>
+    function fixinterop() {
+        for i in $(pstree -np -s $$ | grep -o -E '[0-9]+'); do
+            if [[ -e "/run/WSL/${i}_interop" ]]; then
+                export WSL_INTEROP=/run/WSL/${i}_interop
+            fi
+        done
+    }
+
+    function scoop() {
+        if [[ "$1" == "search" ]]; then
+            scoop-search.exe "${@:2}"
+        else
+            "$(wslpath -u $(cmd /c echo %USERPROFILE%))/scoop/shims/scoop" "$@"
+        fi
+    }
+
+    function dropcache() {(
+        set -e # 失敗時終了
+        echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
+        sudo swapoff -a
+        sudo swapon -a
+    )}
+
+    unalias open
+    function open() { open.exe $(wslpath -w "$1") }
+
+    function launch_neovim_gui() {(
+        set -e
+
+        # 未使用のポートを得る
+        port=$(find_unused_port)
+        nohup nvim-qt.exe --server "localhost:$port" >/dev/null 2>/dev/null &
+        #nohup neovide.exe --remote-tcp "localhost:$port" >/dev/null 2>/dev/null &
+        pid_nvim_qt=$!
+        nvim --headless --listen "0.0.0.0:$port" "$@" >/dev/null 2>/dev/null &
+        pid_nvim=$!
+        wait $pid_nvim_qt
+        # 少しの間 Neovim が終了するまで待機する
+        sleep 0.5
+
+        if kill -0 $pid_nvim 2>/dev/null; then
+            # GUI だけ閉じた場合 nvim 自体も閉じる
+            # 一応丁寧に閉じる
+            nvim --server "localhost:$port" \
+                --remote-send '<C-\><C-N>:cq<CR>' &
+            pid_terminator=$!
+
+            # nvim が応答しなかったとき用にタイムアウトも設定しておく
+            (
+                timeout=2
+                sleep $timeout
+                echo "Neovim does not finished within $timeout secs, terminating..."
+                kill -kill $pid_terminator $pid_nvim
+            ) &
+            pid_timeout=$!
+
+            # neovim を終了させるコマンドの実行を待機する
+            wait $pid_terminator
+
+            # タイムアウトより先に Neovim が終了している場合はタイムアウトを停
+            # 止する
+            kill -0 $pid_timeout 2>/dev/null && kill $pid_timeout
+        fi
+    )}
+
+    # unalias v vf
+    # function vf() { launch_neovim_gui "$@" }
+    # function v() { launch_neovim_gui "$@" & }
+fi
+
+if [[ "$XDG_CURRENT_DESKTOP" == "MATE" ]] \
+|| [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]] \
+|| [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]] \
+|| [[ "$XDG_CURRENT_DESKTOP" == "Pantheon" ]] \
+|| [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
+    alias lom='gnome-session-quit --logout'
+    alias loo='gnome-session-quit --logout --no-prompt'
+    alias shut='gnome-session-quit --power-off'
+    alias rebt='gnome-session-quit --reboot'
+fi
+
+if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
+    alias lom='xfce4-session-logout --logout'
+    alias shut='xfce4-session-logout --halt'
+    alias rebt='xfce4-session-logout --reboot'
+fi
+
+if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
+    # last three arguments:
+    # first: confirmation
+    #  - 0: don't wait for confirmation
+    #  - 1: wait for 30 secs
+    # second: action
+    #  - -1: prompt for action
+    #  - 0:  logout
+    #  - 1:  restart
+    #  - 2:  shutdown
+    # third: when (effect unknown)
+    alias lom='qdbus org.kde.ksmserver /KSMServer logout 1 0 0'
+    alias loo='qdbus org.kde.ksmserver /KSMServer logout 0 0 0'
+    alias shut='qdbus org.kde.ksmserver /KSMServer logout 1 2 0'
+    alias rebt='qdbus org.kde.ksmserver /KSMServer logout 1 1 0'
+fi
+
+if [[ "$XDG_CURRENT_DESKTOP" == "" ]] \
+|| [[ "$XDG_CURRENT_DESKTOP" == "Hyprland" ]]; then
+    alias shut='systemctl shutdown'
+    alias rebt='systemctl reboot'
+fi
+
+alias cdtak='cd ~/activities/tex/exam/takeuchi_entrance'
+alias cdwork='cd $(workspace_path -d)'
+alias cdvconf='cd ~/.vim/conf/'
+
+alias pacman='pacman --color=auto'
+alias pacs='sudo pacman --color=auto -S'
+alias pacss='pacman --color=auto -Ss'
+alias pacrs='sudo pacman --color=auto -Rs'
+alias pacqs='pacman --color=auto -Qs'
+alias pacqlq='pacman --color=auto -Qlq'
+alias pacsyu='sudo pacman --color=auto -Syu'
+alias pacsyy='sudo pacman --color=auto -Syy'
+alias pacqo='pacman --color=auto -Qo'
+alias pacu='sudo pacman --color=auto -U'
+
+alias pak='pakku --color always'
+alias paks='pak -S'
+alias pakss='pak -Ss'
+alias pakrs='pak -Rs'
+alias pakqs='pak -Qs'
+alias pakqlq='pak -Qlq'
+alias paksyu='pak -Syu'
+alias paksyua='pak -Syua'
+alias paksyy='pak -Syy'
+alias pakqo='pak -Qo'
+alias paku='pak -U'
+
+alias tmux='tmux -2'
+
+# configuration files
+alias vivimrc="v -c 'cd ~/dev/github/dotfiles/vim' ~/dev/github/dotfiles/vim/vimrc"
+alias viinitlua="v -c 'cd ~/dev/github/dotfiles/neovim' ~/dev/github/dotfiles/neovim/init.lua"
+alias viemacsd='edit-emacsd-file'
+alias vimyzmath='e ~/texmf/tex/latex/myzmath/myzmath.sty'
+alias vixmonad='e ~/.xmonad/xmonad.hs'
+alias vixmobartop='e ~/.xmonad/xmobar/xmobarrc_top'
+alias vixmobarbottom='e ~/.xmonad/xmobar/xmobarrc_bottom'
+alias vipicom='e ~/.picom.conf'
+
+# dotfiles
+alias pulldotfiles='pushd ~/dev/github/dotfiles; git pull; popd'
+alias commitdotfiles='pushd ~/dev/github/dotfiles; git add . && git commit -v && git push; popd'

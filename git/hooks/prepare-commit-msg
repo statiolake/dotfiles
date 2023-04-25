@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+import subprocess
+import sys
+
+orig_msg_path = sys.argv[1]
+with open(orig_msg_path, "rt", encoding="utf-8") as f:
+    orig_msg_lines = f.readlines()
+
+try:
+    commit_lines = (
+        subprocess.check_output(["git", "log", "-5", "--pretty=%s"])
+        .decode("utf-8")
+        .splitlines()
+    )
+    git_log_lines = [
+        "# Last commits:\n",
+        *[f"#   {line}\n" for line in commit_lines],
+        "#\n",
+    ]
+except:
+    git_log_lines = []
+
+result = []
+inserted = False
+
+changes_to_be_commited = ["# コミット予定の変更点:", "# Changes to be committed:"]
+
+for line in orig_msg_lines:
+    if line.strip() in changes_to_be_commited:
+        if result[-1].strip() != "#":
+            result.append("#\n")
+        result.extend(git_log_lines)
+        inserted = True
+    result.append(line)
+
+if not inserted:
+    # ここで適当に append してしまうと rebase 時にメッセージが壊れる。
+    # rebase で `pick` なコミットを (自動) 適用するときにもこのフックが実行さ
+    # れる上にどうも rebase 時はコメントの解釈をしない？のかフォーマットが壊
+    # れるのだかわからないが、とにかくコミットメッセージに含まれるようになっ
+    # てしまう事故が多発した。
+    # result += git_log_lines
+    pass
+
+with open(orig_msg_path, "wt", encoding="utf-8") as f:
+    f.writelines(result)

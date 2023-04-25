@@ -1,0 +1,13 @@
+xmonad-x86_64-linux
+xmonad
+xmonad.o
+xmonad.errors
+xmonad.hi
+*.elc
+auto-save-list
+.vim/dein/repos/github.com/Shougo/dein.vim
+*.pyc
+cpu_stat
+net_dev
+net_prev_time
+server

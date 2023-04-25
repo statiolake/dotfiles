@@ -1,0 +1,91 @@
+set {
+  LANG = 'ja_JP.UTF-8',
+}
+
+alias {
+  ls = 'ls -o',
+  l = 'ls',
+  s = 'ls',
+  ll = 'ls -l',
+  g = 'git',
+
+  pa = 'procon-assistant.exe',
+  par = 'procon-assistant.exe r',
+
+  vinyaconf = 'v ~/dev/github/dotfiles/nyagos',
+
+  cdwork = function()
+    local workspace = nyagos.eval 'workspace_path -d'
+    nyagos.eval('pushd ' .. workspace)
+  end,
+}
+
+suffix.lua = { 'nyagos.exe', '-f' }
+
+-- edit message when command was not found
+nyagos.on_command_not_found = function(args)
+  nyagos.writerr('nyagos: ' .. args[0] .. ': not found\n')
+  return true
+end
+
+nyagos.option.usesource = false
+
+-- set code page to UTF-8.
+-- nyagos.eval("chcp 65001")
+
+use 'git'
+
+-- プロンプト {{{
+local function colored(code, str)
+  return '$e[' .. code .. 'm' .. str .. '$e[0m'
+end
+
+set {
+  -- 動的に変わらない部分 (cmd.exe で通用する部分) は PROMPT にする
+  PROMPT = (function()
+    local time = '$t$h$h$h'
+    local whoami = string.format(
+      '%s@%s',
+      nyagos.getenv 'USERNAME',
+      nyagos.getenv 'COMPUTERNAME'
+    )
+    local path = '$p'
+
+    return colored('37;1', time)
+      .. '$s'
+      .. colored('32;1', whoami)
+      .. colored('37;1', ':')
+      .. colored('34;1', path)
+      .. '$g$s'
+  end)(),
+}
+
+local orig_prompter = nyagos.prompt
+nyagos.prompt = function(this)
+  local success = nyagos.env.ERRORLEVEL == '0' and "('-')/" or '(-_-);'
+
+  -- プロンプトの最後の $g$s を削除する
+  this = this:sub(1, #this - 4)
+  local prompt = this
+    .. '$_'
+    .. colored(nyagos.elevated() and '31' or '37', success .. '$s$g')
+    .. '$s'
+
+  -- Windows Terminal にカレントディレクトリを教えてあげる
+  -- <https://learn.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory>
+  --
+  -- 基本的には cmd.exe のものをベースに考えればよいはず...なのだが悲しいこ
+  -- とに NYAGOS の $P はホーム以下を ~ にしてしまうので、nyagos.getwd() で
+  -- 生の値を取りにいく。
+  return orig_prompter('$e]9;9;' .. nyagos.getwd() .. '$e\\' .. prompt)
+end
+
+nyagos.preexechook = function(args)
+  -- nyagos が色付けで intensity をセットするので、コマンド実行前に解除
+  -- ... としてしまうとなんとコマンドの出力としてキャプチャされてしまうのであ
+  -- きらめ
+  --io.write '\27[0m'
+end
+-- }}}
+
+-- vim: ft=lua:

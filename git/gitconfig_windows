@@ -1,0 +1,62 @@
+[user]
+    email = statiolake@gmail.com
+    name = statiolake
+[core]
+    pager = LESSCHARSET=utf-8 less
+    editor = vf
+    autoCRLF = true
+    attributesfile = ~/.gitattributes
+    excludesfile = ~/.gitignore_global
+    symlinks = true
+    hooksPath = ~/.config/git/hooks
+[alias]
+    s = status
+    co = checkout
+    br = branch
+    c = commit
+    ca = commit --amend
+    a = add
+    m = merge
+    mt = mergetool
+    d = diff
+    dt = difftool
+    l = log --oneline
+    lg = log --oneline --graph
+    lga = log --oneline --graph --all
+    gr = log --graph --oneline
+    ss = stash save
+    sp = stash pop
+    sl = stash list
+    f = fetch
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+[diff]
+    tool = nvimdiff
+[merge]
+    tool = nvimsimplediff
+    #conflictstyle = diff3
+[diff "to_utf8"]
+    textconv = nkf32 -w -Lu
+[difftool "vscodediff"]
+    cmd = cf --diff "$LOCAL" "$REMOTE"
+[mergetool "vscodediff"]
+    cmd = cf "$MERGED"
+[mergetool "gvimsimplediff"]
+    cmd = gvim -f "$MERGED"
+[difftool "nvimdiff"]
+    #cmd = "cmd.exe /c start /WAIT nvim.exe -R -d -c \"wincmd l\" -d \"$LOCAL\" \"$REMOTE\""
+    cmd = vf --cmd 'let g:simple_mode = 1' -R -d -c "wincmd l" -d "$LOCAL" "$REMOTE"
+[mergetool "nvimdiff"]
+    cmd = vf --cmd 'let g:simple_mode = 1' -c '2wincmd w | diffthis | 3wincmd w | diffthis | 1wincmd w | wincmd J' -O "$MERGED" "$LOCAL" "$REMOTE"
+[mergetool "nvimsimplediff"]
+    #cmd = cmd.exe /c start /WAIT nvim.exe
+    cmd = vf --cmd 'let g:simple_mode = 1' "$MERGED"
+[winUpdater]
+    recentlySeenVersion = 2.23.0.windows.1
+[push]
+    ff = only
+[hub]
+    protocol = ssh

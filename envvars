@@ -1,0 +1,3 @@
+export BAT_THEME=base16-256
+PATH="$HOME/bin:$HOME/sh:$HOME/.local/share/gem/ruby/3.0.0/bin:$HOME/.cargo/bin:$HOME/go/bin:$HOME/.nimble/bin:$HOME/.deno/bin:$PATH:$HOME/.local/bin"
+# vim: set ft=zsh:

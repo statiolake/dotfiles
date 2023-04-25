@@ -1,0 +1,2 @@
+shortcuts.ahk text eol=crlf
+*.sh text eol=lf
