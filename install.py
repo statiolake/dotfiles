@@ -133,7 +133,7 @@ def is_link(path):
         return False
 
 
-def ensure_link_not_exist(path):
+def ensure_link_not_exist(path, *, silent):
     path = Path(path)
     if not path.exists():
         return
@@ -144,6 +144,16 @@ def ensure_link_not_exist(path):
         if path.exists():
             raise RuntimeError(f"failed to remove {path}")
         return
+
+    # This is non-link file. Confirm it to user before removing.
+    if not silent:
+        yn = input("non-link file or entry already exists at {path}. would you like to remove?")
+        if yn == "y" or yn == "Y":
+            os.remove(path)
+            if path.exists():
+                raise RuntimeError(f"failed to remove {path}")
+            return
+
     raise RuntimeError(f"non-link file or entry already exists at {path}")
 
 
@@ -152,17 +162,17 @@ def echo(msg, arrow):
     print(f"\033[1;34m{arrow} \033[1;39m{msg}\033[0;39m", file=stderr)
 
 
-def linkf(src, dst):
+def linkf(src, dst, *, silent):
     """Create symlink for file."""
-    ensure_link_not_exist(dst)
+    ensure_link_not_exist(dst, silent=silent)
     os.symlink(src, dst, target_is_directory=False)
 
 
-def linkd(src, dst, should_symlink=False):
+def linkd(src, dst, *, silent, should_symlink=False):
     """
     Create symlink for directory unless on Windows and not should_symlink.
     """
-    ensure_link_not_exist(dst)
+    ensure_link_not_exist(dst, silent=silent)
     if ENV != Platform.WINDOWS or should_symlink:
         os.symlink(src, dst, target_is_directory=True)
         return
@@ -233,19 +243,19 @@ def save_as(data, path):
 # ============================================================================
 # Steps
 # ============================================================================
-def setup_git(d):
+def setup_git(d, silent):
     if ENV == Platform.WINDOWS:
-        linkf(d.s.git / "gitconfig_windows", d.t.home / ".gitconfig")
+        linkf(d.s.git / "gitconfig_windows", d.t.home / ".gitconfig", silent=silent)
     else:
-        linkf(d.s.git / "gitconfig_unix", d.t.home / ".gitconfig")
+        linkf(d.s.git / "gitconfig_unix", d.t.home / ".gitconfig", silent=silent)
 
     if ENV == Platform.WINDOWS:
-        linkf(d.s.git / "gitattributes_windows", d.t.home / ".gitattributes")
+        linkf(d.s.git / "gitattributes_windows", d.t.home / ".gitattributes", silent=silent)
 
-    linkf(d.s.git / "gitignore_global", d.t.home / ".gitignore_global")
+    linkf(d.s.git / "gitignore_global", d.t.home / ".gitignore_global", silent=silent)
 
     os.makedirs(d.t.config / "git", exist_ok=True)
-    linkd(d.s.git / "hooks", d.t.config / "git" / "hooks")
+    linkd(d.s.git / "hooks", d.t.config / "git" / "hooks", silent=silent)
 
 
 def setup_neovim_appimage(d):
@@ -318,18 +328,18 @@ def install_deno(d, *, force):
     os.chmod(target_path_exe, 0o755)
 
 
-def setup_neovim(d, *, force):
+def setup_neovim(d, *, force, silent):
     echo("Making symlinks...", SUBARROW)
     os.makedirs(d.t.nvimfiles, exist_ok=True)
     os.makedirs(d.t.nvimdata, exist_ok=True)
     os.makedirs(d.t.nvimdata / "coc", exist_ok=True)
-    linkf(d.s.neovim / "vimrc_vscode_neovim", d.t.home / ".vimrc_vscode_neovim")
-    linkf(d.s.neovim / "coc-settings.json", d.t.nvimfiles / "coc-settings.json")
-    linkd(d.s.neovim / "rtp", d.t.nvimfiles / "rtp")
-    linkd(d.s.neovim / "ultisnips", d.t.nvimfiles / "ultisnips")
-    linkd(d.s.neovim / "ultisnips", d.t.nvimdata / "coc" / "ultisnips")
-    linkd(d.s.neovim / "vsnip", d.t.nvimfiles / ".vsnip")
-    linkf(d.s.neovim / "init.lua", d.t.nvimfiles / "init.lua")
+    linkf(d.s.neovim / "vimrc_vscode_neovim", d.t.home / ".vimrc_vscode_neovim", silent=silent)
+    linkf(d.s.neovim / "coc-settings.json", d.t.nvimfiles / "coc-settings.json", silent=silent)
+    linkd(d.s.neovim / "rtp", d.t.nvimfiles / "rtp", silent=silent)
+    linkd(d.s.neovim / "ultisnips", d.t.nvimfiles / "ultisnips", silent=silent)
+    linkd(d.s.neovim / "ultisnips", d.t.nvimdata / "coc" / "ultisnips", silent=silent)
+    linkd(d.s.neovim / "vsnip", d.t.nvimfiles / ".vsnip", silent=silent)
+    linkf(d.s.neovim / "init.lua", d.t.nvimfiles / "init.lua", silent=silent)
 
     # SKK-JISYO.L for skkeleton or eskk
     echo("Downloading SKK-JISYO.L...", SUBARROW)
@@ -390,68 +400,68 @@ def setup_neovim(d, *, force):
             )
 
 
-def setup_emacs(d):
+def setup_emacs(d, *, silent):
     emacsd = d.t.home / ".emacs.d"
     os.makedirs(emacsd, exist_ok=True)
-    linkf(d.s.base / "init.el", emacsd / "init.el")
+    linkf(d.s.base / "init.el", emacsd / "init.el", silent=silent)
 
 
-def setup_powershell(d):
+def setup_powershell(d, *, silent):
     for path in d.t.pwshprofiles:
-        linkd(d.s.base / "WindowsPowerShell", path)
+        linkd(d.s.base / "WindowsPowerShell", path, silent=silent)
 
 
-def setup_alacritty(d):
+def setup_alacritty(d, *, silent):
     alacritty = d.t.config / "alacritty"
     os.makedirs(alacritty, exist_ok=True)
-    linkf(d.s.base / "alacritty.yml", alacritty / "alacritty.yml")
+    linkf(d.s.base / "alacritty.yml", alacritty / "alacritty.yml", silent=silent)
 
 
-def setup_kitty(d):
-    linkd(d.s.base / "kitty", d.t.config / "kitty")
+def setup_kitty(d, *, silent):
+    linkd(d.s.base / "kitty", d.t.config / "kitty", silent=silent)
 
 
-def setup_zsh(d):
-    linkd(d.s.base / "zsh", d.t.home / ".zsh")
-    linkf(d.s.base / "zshrc", d.t.home / ".zshrc")
-    linkf(d.s.base / "zsh_aliases", d.t.home / ".zsh_aliases")
-    linkf(d.s.base / "envvars", d.t.home / ".envvars")
+def setup_zsh(d, *, silent):
+    linkd(d.s.base / "zsh", d.t.home / ".zsh", silent=silent)
+    linkf(d.s.base / "zshrc", d.t.home / ".zshrc", silent=silent)
+    linkf(d.s.base / "zsh_aliases", d.t.home / ".zsh_aliases", silent=silent)
+    linkf(d.s.base / "envvars", d.t.home / ".envvars", silent=silent)
 
 
-def setup_linuxgui(d):
+def setup_linuxgui(d, *, silent):
     # tmux
     echo("Linking tmux configuration...", SUBARROW)
-    linkf(d.s.base / "tmux.conf", d.t.home / ".tmux.conf")
+    linkf(d.s.base / "tmux.conf", d.t.home / ".tmux.conf", silent=silent)
 
     # Xorg
     echo("Linking X Server configurations...", SUBARROW)
-    linkf(d.s.base / "Xresources", d.t.home / ".Xresources")
-    linkf(d.s.base / "xbindkeysrc", d.t.home / ".xbindkeysrc")
-    linkd(d.s.base / "xbindkeys", d.t.home / ".xbindkeys")
+    linkf(d.s.base / "Xresources", d.t.home / ".Xresources", silent=silent)
+    linkf(d.s.base / "xbindkeysrc", d.t.home / ".xbindkeysrc", silent=silent)
+    linkd(d.s.base / "xbindkeys", d.t.home / ".xbindkeys", silent=silent)
 
     # dunst
     echo("Linking dunst configuration...", SUBARROW)
     os.makedirs(d.t.config / "dunst", exist_ok=True)
-    linkf(d.s.base / "dunstrc", d.t.config / "dunst" / "dunstrc")
+    linkf(d.s.base / "dunstrc", d.t.config / "dunst" / "dunstrc", silent=silent)
 
     # StaloneTray
     echo("Linking StaloneTray configuration...", SUBARROW)
-    linkf(d.s.base / "stalonetrayrc", d.t.home / ".stalonetrayrc")
+    linkf(d.s.base / "stalonetrayrc", d.t.home / ".stalonetrayrc", silent=silent)
 
     # Picom
     echo("Linking Picom configuration...", SUBARROW)
-    linkf(d.s.base / "picom.conf", d.t.home / ".picom.conf")
+    linkf(d.s.base / "picom.conf", d.t.home / ".picom.conf", silent=silent)
 
     # XMonad
     echo("Linking XMonad configuration...", SUBARROW)
-    linkd(d.s.base / "xmonad", d.t.home / ".xmonad")
+    linkd(d.s.base / "xmonad", d.t.home / ".xmonad", silent=silent)
 
     # Sway
     echo("Linking Sway configuration...", SUBARROW)
-    linkd(d.s.base / "sway", d.t.config / "sway")
+    linkd(d.s.base / "sway", d.t.config / "sway", silent=silent)
 
 
-def setup_scripts(d):
+def setup_scripts(d, *, silent):
     os.makedirs(d.t.bin, exist_ok=True)
 
     echo("Linking dockerman.py to ~/bin/dockerman", SUBARROW)
@@ -459,21 +469,21 @@ def setup_scripts(d):
         with open(d.t.bin / "dockerman.bat", "w") as f:
             f.write(f"@python {d.s.base / 'dockerman.py'} %*")
     else:
-        linkf(d.s.base / "dockerman.py", d.t.bin / "dockerman")
+        linkf(d.s.base / "dockerman.py", d.t.bin / "dockerman", silent=silent)
 
     echo("Linking bin/clipboard_client.py to ~/bin/ccli", SUBARROW)
     if ENV == Platform.WINDOWS:
         with open(d.t.bin / "ccli.bat", "w") as f:
             f.write(f"@python {d.s.base / 'bin' / 'clipboard_client.py'} %*")
     else:
-        linkf(d.s.base / "bin" / "clipboard_client.py", d.t.bin / "ccli")
+        linkf(d.s.base / "bin" / "clipboard_client.py", d.t.bin / "ccli", silent=silent)
 
 
-def main(*, force):
+def main(*, force, silent):
     dirs = Directories()
 
     echo("Configuring Git...", ARROW)
-    setup_git(dirs)
+    setup_git(dirs, silent=silent)
 
     echo("Installing Neovim...", ARROW)
     setup_neovim_appimage(dirs)
@@ -485,44 +495,44 @@ def main(*, force):
     install_deno(dirs, force=force)
 
     echo("Configuring Neovim...", ARROW)
-    setup_neovim(dirs, force=force)
+    setup_neovim(dirs, force=force, silent=silent)
 
     echo("Configuring Emacs...", ARROW)
-    setup_emacs(dirs)
+    setup_emacs(dirs, silent=silent)
 
     if ENV == Platform.WINDOWS:
         echo("Configuring PowerShell...", ARROW)
-        setup_powershell(dirs)
+        setup_powershell(dirs, silent=silent)
 
     if ENV == Platform.WINDOWS:
         echo("Configuring NYAGOS...", ARROW)
-        linkf(dirs.s.base / "nyagos", dirs.t.home / ".nyagos")
+        linkf(dirs.s.base / "nyagos", dirs.t.home / ".nyagos", silent=silent)
 
     echo("Configuring WezTerm...", ARROW)
-    linkf(dirs.s.base / "wezterm.lua", dirs.t.home / ".wezterm.lua")
+    linkf(dirs.s.base / "wezterm.lua", dirs.t.home / ".wezterm.lua", silent=silent)
 
     if ENV != Platform.WINDOWS:
         echo("Configuring Alacritty...", ARROW)
-        setup_alacritty(dirs)
+        setup_alacritty(dirs, silent=silent)
 
     if ENV != Platform.WINDOWS:
         echo("Configuring kitty...", ARROW)
-        setup_kitty(dirs)
+        setup_kitty(dirs, silent=silent)
 
     if ENV != Platform.WINDOWS:
         echo("Configuring Zsh...", ARROW)
-        setup_zsh(dirs)
+        setup_zsh(dirs, silent=silent)
 
     # Standalone Window Managers
     if ENV != Platform.WINDOWS:
         echo("Configuring Linux GUI...", ARROW)
-        setup_linuxgui(dirs)
+        setup_linuxgui(dirs, silent=silent)
 
     echo("Configuring scripts...", ARROW)
-    setup_scripts(dirs)
+    setup_scripts(dirs, silent=silent)
 
     echo("Everything done.", ARROW)
 
 
 if __name__ == "__main__":
-    main(force="--force" in argv)
+    main(force="--force" in argv, silent="--silent" in argv)
