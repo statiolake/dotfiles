@@ -52,6 +52,25 @@
   "emmet.includeLanguages": {
     "html.razor": "html"
   },
+  "explorer.git.icon.rootStatus.ahead": "^",
+  "explorer.git.icon.rootStatus.behind": "v",
+  "explorer.git.icon.rootStatus.deleted": "D",
+  "explorer.git.icon.rootStatus.renamed": "R",
+  "explorer.icon.hidden": ".",
+  "explorer.icon.selected": "*",
+  "explorer.keyMappings.global": {
+    "<C-v>": ["wait", "open:vsplit"],
+    "<C-x>": ["wait", "open:split"],
+    "<cr>": [
+      "wait",
+      "expandable?",
+      ["expanded?", "collapse", "expand"],
+      "open"
+    ],
+    "cd": ["wait", "cd"],
+    "zM": ["wait", "collapse:recursive"],
+    "zR": ["wait", "expand:recursive"]
+  },
   "extension-auto-installer.autoCheckGlobalExtensions": "autoInstall",
   "extension-auto-installer.autoRemoveUnusedExtensions": "autoRemove",
   "extension-auto-installer.globalExtensions": [
@@ -220,4 +239,3 @@
   "typescript.suggest.completeFunctionCalls": true,
   "xml.format.preserveAttributeLineBreaks": true
 }
-
