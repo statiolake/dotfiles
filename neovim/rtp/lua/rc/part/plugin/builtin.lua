@@ -983,6 +983,7 @@ if completion == 'ddc' then
           register_next_snippet_expansion()
           return keyseq_confirm()
         end
+        return ''
       end
 
       local function keyseq_cr()
@@ -999,9 +1000,9 @@ if completion == 'ddc' then
           -- キャンセルして改行を通常通り挿入する
           -- Note: これは pum.vim を使っていると意図通りに動かない
           return keyseq_close() .. cr_with_autopairs()
-        else
-          return cr_with_autopairs()
         end
+
+        return cr_with_autopairs()
       end
 
       k.ino('<C-Space>', vim.fn['ddc#map#manual_complete'], { expr = true })
