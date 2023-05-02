@@ -60,3 +60,9 @@
     ff = only
 [hub]
     protocol = ssh
+
+# include device-specific configurations here
+[includeIf "gitdir:~/dev/github/device/"]
+    path = ~/.gitconfig.device
+[includeIf "gitdir:~/dev/local/device/"]
+    path = ~/.gitconfig.device
