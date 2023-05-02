@@ -1018,18 +1018,22 @@ if completion == 'ddc' then
 
       -- TODO: ハードコードではなく <A-j> のもともとの機能を取得してラップする
       -- べき
-      k.ino('<A-j>', function()
-        if pum_visible() then
-          return keyseq_insert_next()
-        end
-        return k.t '<C-g>u<Down>'
-      end, { expr = true })
-      k.ino('<A-k>', function()
+      local function prev_or_up()
         if pum_visible() then
           return keyseq_insert_prev()
         end
         return k.t '<C-g>u<Up>'
-      end, { expr = true })
+      end
+      local function next_or_down()
+        if pum_visible() then
+          return keyseq_insert_next()
+        end
+        return k.t '<C-g>u<Down>'
+      end
+      k.ino('<Down>', next_or_down, { expr = true })
+      k.ino('<Up>', prev_or_up, { expr = true })
+      k.ino('<A-j>', next_or_down, { expr = true })
+      k.ino('<A-k>', prev_or_up, { expr = true })
 
       if use_snip == 'always' then
         register_complete_done(false)
