@@ -7,6 +7,18 @@ local M = {}
 
 local getters = {}
 
+setmetatable(M, {
+  __index = function(_, key)
+    local getter = getters[key]
+    if getter then
+      local ans = getter()
+      M[key] = ans
+      return ans
+    end
+    return nil
+  end,
+})
+
 function getters.is_win32()
   return has 'win32'
 end
@@ -16,7 +28,7 @@ function getters.is_unix()
 end
 
 function getters.is_wsl()
-  return vim.fn.stridx(vim.fn.system 'uname -a', 'WSL2') >= 0
+  return M.is_unix and vim.fn.stridx(vim.fn.system 'uname -a', 'WSL2') >= 0
 end
 
 function getters.shell()
@@ -80,17 +92,5 @@ end
 function M.path_under_github(path)
   return expand('~/dev/github/' .. path)
 end
-
-setmetatable(M, {
-  __index = function(_, key)
-    local getter = getters[key]
-    if getter then
-      local ans = getter()
-      M[key] = ans
-      return ans
-    end
-    return nil
-  end,
-})
 
 return M
