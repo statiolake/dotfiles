@@ -269,7 +269,7 @@ use {
     k.nno('<A-f>', ':<C-u>CocSearch ', { silent = false })
 
     -- coc-explorer
-    k.n('<C-b>', k.cmd 'CocCommand explorer')
+    --k.n('<C-b>', k.cmd 'CocCommand explorer')
 
     -- -- coc-git
     k.n('[c', '<Plug>(coc-git-prevchunk)')

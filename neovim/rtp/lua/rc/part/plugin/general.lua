@@ -152,7 +152,6 @@ use {
 
 use {
   'kyazdani42/nvim-tree.lua',
-  enabled = cg 'editor.ide.framework' ~= 'coc',
   depends = pack {
     when(cg 'ui.useIcons', 'nvim-web-devicons'),
   },
