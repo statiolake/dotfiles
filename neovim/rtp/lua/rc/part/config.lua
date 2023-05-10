@@ -9,7 +9,7 @@ set_global_config {
   ['editor.ide.builtin.useFloatPum'] = true,
   ['editor.ide.builtin.useSnip'] = 'triggerOnly', -- [always, triggerOnly, never]
   ['editor.ide.builtin.selector'] = 'telescope', -- [telescope, fzf]
-  ['editor.ime'] = 'skkeleton',
+  ['editor.ime'] = 'native',
   ['ui.useIcons'] = use_icons,
   ['ui.colorset'] = 'alduin',
   ['ui.transparent'] = false,
