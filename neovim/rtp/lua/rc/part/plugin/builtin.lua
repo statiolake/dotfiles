@@ -301,7 +301,7 @@ use {
       -- が終わってから読み込むことにする (プロジェクトローカルなオプションを
       -- 反映してから読み込みたいため)
       ac.augroup('rc__lsp_after_config', function(au)
-        au('User', 'ConfigFinished', function()
+        au('User', 'ConfigLocalFinished', function()
           configure_servers()
         end)
       end)
@@ -504,7 +504,7 @@ use {
       -- が終わってから読み込むことにする (プロジェクトローカルなオプションを
       -- 反映してから読み込みたいため)
       ac.augroup('rc__null_ls_after_config', function(au)
-        au('User', 'ConfigFinished', function()
+        au('User', 'ConfigLocalFinished', function()
           configure_sources()
         end)
       end)
