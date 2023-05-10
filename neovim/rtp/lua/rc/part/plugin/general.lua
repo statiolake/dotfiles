@@ -159,6 +159,93 @@ use {
   -- があるのでしない。
   --cmd = 'NvimTreeToggle',
   after_load = function()
+    local function on_attach(bufnr)
+      local api = require 'nvim-tree.api'
+
+      local function opts(desc)
+        return {
+          desc = 'nvim-tree: ' .. desc,
+          buffer = bufnr,
+          noremap = true,
+          silent = true,
+          nowait = true,
+        }
+      end
+
+      k.n('<C-]>', api.tree.change_root_to_node, opts 'CD')
+      --k.n('<C-e>', api.node.open.replace_tree_buffer, opts 'Open: In Place')
+      k.n('<C-k>', api.node.show_info_popup, opts 'Info')
+      k.n('<C-r>', api.fs.rename_sub, opts 'Rename: Omit Filename')
+      k.n('<C-t>', api.node.open.tab, opts 'Open: New Tab')
+      k.n('<C-v>', api.node.open.vertical, opts 'Open: Vertical Split')
+      k.n('<C-x>', api.node.open.horizontal, opts 'Open: Horizontal Split')
+      k.n('<BS>', api.node.navigate.parent_close, opts 'Close Directory')
+      k.n('<CR>', api.node.open.edit, opts 'Open')
+      k.n('<Tab>', api.node.open.preview, opts 'Open Preview')
+      k.n('>', api.node.navigate.sibling.next, opts 'Next Sibling')
+      k.n('<', api.node.navigate.sibling.prev, opts 'Previous Sibling')
+      k.n('.', api.node.run.cmd, opts 'Run Command')
+      k.n('-', api.tree.change_root_to_parent, opts 'Up')
+      k.n('a', api.fs.create, opts 'Create')
+      k.n('bmv', api.marks.bulk.move, opts 'Move Bookmarked')
+      k.n('B', api.tree.toggle_no_buffer_filter, opts 'Toggle No Buffer')
+      k.n('c', api.fs.copy.node, opts 'Copy')
+      k.n('C', api.tree.toggle_git_clean_filter, opts 'Toggle Git Clean')
+      k.n('[c', api.node.navigate.git.prev, opts 'Prev Git')
+      k.n(']c', api.node.navigate.git.next, opts 'Next Git')
+      k.n('d', api.fs.remove, opts 'Delete')
+      k.n('D', api.fs.trash, opts 'Trash')
+      k.n('E', api.tree.expand_all, opts 'Expand All')
+      k.n('e', api.fs.rename_basename, opts 'Rename: Basename')
+      k.n(']e', api.node.navigate.diagnostics.next, opts 'Next Diagnostic')
+      k.n('[e', api.node.navigate.diagnostics.prev, opts 'Prev Diagnostic')
+      k.n('F', api.live_filter.clear, opts 'Clean Filter')
+      k.n('f', api.live_filter.start, opts 'Filter')
+      k.n('g?', api.tree.toggle_help, opts 'Help')
+      k.n('gy', api.fs.copy.absolute_path, opts 'Copy Absolute Path')
+      k.n('H', api.tree.toggle_hidden_filter, opts 'Toggle Dotfiles')
+      k.n('I', api.tree.toggle_gitignore_filter, opts 'Toggle Git Ignore')
+      k.n('J', api.node.navigate.sibling.last, opts 'Last Sibling')
+      k.n('K', api.node.navigate.sibling.first, opts 'First Sibling')
+      k.n('m', api.marks.toggle, opts 'Toggle Bookmark')
+      k.n('o', api.node.open.edit, opts 'Open')
+      k.n('O', api.node.open.no_window_picker, opts 'Open: No Window Picker')
+      k.n('p', api.fs.paste, opts 'Paste')
+      k.n('P', api.node.navigate.parent, opts 'Parent Directory')
+      k.n('q', api.tree.close, opts 'Close')
+      k.n('r', api.fs.rename, opts 'Rename')
+      k.n('R', api.tree.reload, opts 'Refresh')
+      k.n('s', api.node.run.system, opts 'Run System')
+      k.n('S', api.tree.search_node, opts 'Search')
+      k.n('U', api.tree.toggle_custom_filter, opts 'Toggle Hidden')
+      k.n('W', api.tree.collapse_all, opts 'Collapse')
+      k.n('x', api.fs.cut, opts 'Cut')
+      k.n('y', api.fs.copy.filename, opts 'Copy Name')
+      k.n('Y', api.fs.copy.relative_path, opts 'Copy Relative Path')
+      k.n('<2-LeftMouse>', api.node.open.edit, opts 'Open')
+      k.n('<2-RightMouse>', api.tree.change_root_to_node, opts 'CD')
+
+      k.n('<CR>', api.node.open.edit, opts 'Open')
+      k.n('<C-Return>', api.tree.change_root_to_node, opts 'CD')
+      k.n('<C-v>', api.node.open.vertical, opts 'Open: Vertical Split')
+      k.n('<C-x>', api.node.open.horizontal, opts 'Open: Horizontal Split')
+      k.n('<C-t>', api.node.open.tab, opts 'Open: New Tab')
+      k.n('R', api.tree.reload, opts 'Refresh')
+      k.n('a', api.fs.create, opts 'Create')
+      k.n('m', api.fs.rename_sub, opts 'Rename: Omit Filename')
+      k.n('x', api.fs.cut, opts 'Cut')
+      k.n('y', api.fs.copy.node, opts 'Copy')
+      k.n('p', api.fs.paste, opts 'Paste')
+      k.n('Y', api.fs.copy.relative_path, opts 'Copy Relative Path')
+      k.n('gy', api.fs.copy.absolute_path, opts 'Copy Absolute Path')
+      k.n('<A-Return>', api.node.run.system, opts 'Run System')
+      k.n('g?', api.tree.toggle_help, opts 'Help')
+      k.n('I', api.tree.toggle_gitignore_filter, opts 'Toggle Git Ignore')
+      k.n('H', api.tree.toggle_hidden_filter, opts 'Toggle Dotfiles')
+      k.n('-', api.tree.change_root_to_parent, opts 'Up')
+      k.n('<BS>', api.node.navigate.parent, opts 'Parent Directory')
+    end
+
     ac.on_vimenter(function()
       local use_icons = cg 'ui.useIcons'
       cmd.add('NvimTreeChangeToCwd', function()
@@ -166,6 +253,7 @@ use {
       end)
       k.n('<C-b>', k.cmd 'NvimTreeToggle')
       require('nvim-tree').setup {
+        on_attach = on_attach,
         disable_netrw = true,
         hijack_netrw = true,
         reload_on_bufenter = true,
@@ -188,32 +276,6 @@ use {
         actions = {
           change_dir = { global = false },
           open_file = { quit_on_open = false },
-        },
-        view = {
-          mappings = {
-            list = {
-              { key = '<CR>', action = 'edit' },
-              { key = '<C-Return>', action = 'cd' },
-              { key = '<C-v>', action = 'vsplit' },
-              { key = '<C-x>', action = 'split' },
-              { key = '<C-t>', action = 'tabnew' },
-              { key = '<C-e>', action = '' },
-              { key = 'R', action = 'refresh' },
-              { key = 'a', action = 'create' },
-              { key = 'm', action = 'full_rename' },
-              { key = 'x', action = 'cut' },
-              { key = 'y', action = 'copy' },
-              { key = 'p', action = 'paste' },
-              { key = 'Y', action = 'copy_path' },
-              { key = 'gy', action = 'copy_absolute_path' },
-              { key = '<A-Return>', action = 'system_open' },
-              { key = 'g?', action = 'toggle_help' },
-              { key = 'I', action = 'toggle_ignored' },
-              { key = 'H', action = 'toggle_dotfiles' },
-              { key = '-', action = 'dir_up' },
-              { key = '<BS>', action = 'parent_node' },
-            },
-          },
         },
         renderer = {
           indent_markers = {

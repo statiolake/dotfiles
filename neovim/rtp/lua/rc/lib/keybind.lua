@@ -35,11 +35,12 @@ function M.add(mode, lhs, rhs, opts)
   -- buffer
   local adder = vim.api.nvim_set_keymap
   if opts.buffer then
-    opts.buffer = nil
+    local bufnr = type(opts.buffer) == 'number' and opts.buffer or 0
     adder = function(m, l, r, o)
-      vim.api.nvim_buf_set_keymap(0, m, l, r, o)
+      vim.api.nvim_buf_set_keymap(bufnr, m, l, r, o)
     end
   end
+  opts.buffer = nil
 
   -- replace_termcodes
   if opts.replace_termcodes then
