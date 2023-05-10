@@ -150,6 +150,7 @@ use {
     local function register_complete_done(once)
       ac.augroup('rc__expand_lsp_snip', function(au)
         au('CompleteDone', '*', function()
+          vim.api.nvim_feedkeys(keyseq_break_undo(), 'int', false)
           local completed_item = vim.v.completed_item
           vim.fn['ddc_ultisnips_expand#on_complete_done'](completed_item)
         end, { once = once })

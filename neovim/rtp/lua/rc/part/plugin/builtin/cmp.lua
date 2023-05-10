@@ -36,7 +36,7 @@ use {
     local function on_tab(fallback)
       if cmp.visible() then
         -- 展開前に undo ポイントを作っておく
-        vim.api.nvim_feedkeys(k.t '<C-g>u', 'int', true)
+        vim.api.nvim_feedkeys(k.t '<C-g>u', 'int', false)
         cmp.confirm {
           behavior = cmp.ConfirmBehavior.Insert,
           select = true,
@@ -71,7 +71,7 @@ use {
         -- autopairs がある場合はトリガーする
         local ok, autopairs = pcall(require, 'nvim-autopairs')
         if ok then
-          vim.api.nvim_feedkeys(autopairs.autopairs_cr(), 'n', true)
+          vim.api.nvim_feedkeys(autopairs.autopairs_cr(), 'n', false)
         else
           fallback()
         end

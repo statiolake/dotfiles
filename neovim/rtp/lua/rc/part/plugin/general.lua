@@ -801,7 +801,7 @@ use {
   before_load = function()
     local function feed(keys)
       return function()
-        vim.api.nvim_feedkeys(k.t(keys), '', true)
+        vim.api.nvim_feedkeys(k.t(keys), '', false)
       end
     end
 

@@ -8,16 +8,16 @@ end
 
 function M.jump_next()
   -- if vim.fn.mode() == 's' then
-  --   vim.api.nvim_feedkeys(t '<Esc>', 'i', true)
+  --   vim.api.nvim_feedkeys(t '<Esc>', 'i', false)
   -- end
-  vim.api.nvim_feedkeys(t '<Plug>(vsnip-jump-next)', 'i', true)
+  vim.api.nvim_feedkeys(t '<Plug>(vsnip-jump-next)', 'i', false)
 end
 
 function M.jump_prev()
   -- if vim.fn.mode() == 's' then
   --   vim.api.nvim_feedkeys(t '<Esc>', 'i', true)
   -- end
-  vim.api.nvim_feedkeys(t '<Plug>(vsnip-jump-prev)', 'i', true)
+  vim.api.nvim_feedkeys(t '<Plug>(vsnip-jump-prev)', 'i', false)
 end
 
 function M.keyseq_jump_next()
