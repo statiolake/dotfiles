@@ -641,7 +641,8 @@ use {
 
     -- filetypes like xml, html, xhtml, ...
     -- These are the file types where this plugin is enabled.
-    vim.g.closetag_filetypes = 'html,xhtml,phtml,xml'
+    vim.g.closetag_filetypes =
+      'html,xhtml,phtml,xml,javascriptreact,typescriptreact'
 
     -- filetypes like xml, xhtml, ...
     -- This will make the list of non-closing tags self-closing in the
