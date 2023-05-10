@@ -879,8 +879,8 @@ if completion == 'ddc' then
         return k.t '<C-g>u'
       end
 
-      local function keyseq_confirm()
-        if not pum_selected() then
+      local function keyseq_confirm(force)
+        if not force and not pum_selected() then
           return ''
         end
 
@@ -978,21 +978,21 @@ if completion == 'ddc' then
         end
       end
 
-      local function keyseq_confirm_expand_snippet()
-        if pum_selected() then
+      local function keyseq_confirm_expand_snippet(force)
+        if force or pum_selected() then
           register_next_snippet_expansion()
-          return keyseq_confirm()
+          return keyseq_confirm(true)
         end
         return ''
       end
 
-      local function keyseq_cr()
-        local function cr_with_autopairs()
-          -- nvim-autopairs がある場合はそれをトリガーする
-          local ok, autopairs = pcall(require, 'nvim-autopairs')
-          return ok and autopairs.autopairs_cr() or k.t '<CR>'
-        end
+      local function cr_with_autopairs()
+        -- nvim-autopairs がある場合はそれをトリガーする
+        local ok, autopairs = pcall(require, 'nvim-autopairs')
+        return ok and autopairs.autopairs_cr() or k.t '<CR>'
+      end
 
+      local function keyseq_cr()
         if pum_selected() then
           -- <CR> ではスニペットを展開はしない
           return keyseq_confirm()
@@ -1005,8 +1005,23 @@ if completion == 'ddc' then
         return cr_with_autopairs()
       end
 
+      local function keyseq_c_cr()
+        if pum_selected() then
+          -- <C-CR> ではスニペットを展開する
+          return keyseq_confirm_expand_snippet()
+        elseif pum_visible() then
+          -- 最初の候補を選択してスニペットを展開する
+          -- Note: これは pum.vim を使っていると意図通りに動かない
+          return keyseq_insert_next() .. keyseq_confirm_expand_snippet(true)
+        end
+
+        -- それ以外の場合は <CR> と同
+        return cr_with_autopairs()
+      end
+
       k.ino('<C-Space>', vim.fn['ddc#map#manual_complete'], { expr = true })
       k.ino('<CR>', keyseq_cr, { expr = true })
+      k.ino('<C-CR>', keyseq_c_cr, { expr = true })
       k.ino('<Tab>', keyseq_tab, { expr = true })
       k.ino('<S-Tab>', keyseq_s_tab, { expr = true })
       k.ino('<C-k>', snip.expand)
