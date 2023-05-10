@@ -204,9 +204,12 @@ use {
         illuminate.on_attach(client, bufnr)
       end
 
-      ok, navic = pcall(require, 'nvim-navic')
-      if ok then
-        navic.attach(client, bufnr)
+      -- navic は documentSymbolProvider が有効なときにのみ利用する
+      if client.server_capabilities.documentSymbolProvider then
+        ok, navic = pcall(require, 'nvim-navic')
+        if ok then
+          navic.attach(client, bufnr)
+        end
       end
 
       -- semantic tokens を無効化する
