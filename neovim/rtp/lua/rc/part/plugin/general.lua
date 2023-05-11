@@ -655,21 +655,21 @@ if env.is_unix then
   }
 end
 
-if
-  cg 'editor.ide.framework' ~= 'builtin'
-  or cg 'editor.ide.builtin.completion' ~= 'nvim-cmp'
-then
-  use {
-    'stevearc/dressing.nvim',
-    after_load = function()
-      require('dressing').setup {
-        select = {
-          backend = { 'fzf', 'telescope' },
-        },
-      }
-    end,
-  }
-end
+-- if
+--   cg 'editor.ide.framework' ~= 'builtin'
+--   or cg 'editor.ide.builtin.completion' ~= 'nvim-cmp'
+-- then
+--   use {
+--     'stevearc/dressing.nvim',
+--     after_load = function()
+--       require('dressing').setup {
+--         select = {
+--           backend = { 'fzf', 'telescope' },
+--         },
+--       }
+--     end,
+--   }
+-- end
 -- }}}
 
 -- Edit {{{
