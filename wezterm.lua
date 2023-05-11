@@ -253,7 +253,7 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
     -- fallback
     cfg.unix_domains = { { name = 'unix' } }
     cfg.default_gui_startup_args = { 'connect', 'unix' }
-    update_cfg_for_nyagos(cfg)
+    update_cfg_for_rsh(cfg)
   end
 end
 
