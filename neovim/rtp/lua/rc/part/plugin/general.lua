@@ -1307,6 +1307,23 @@ use {
       end
     end
 
+    local function setup_html(config)
+      if vim.fn.executable 'open' ~= 0 then
+        config.html = {
+          command = 'open',
+          exec = { '%c %s' },
+          runner = 'shell',
+          ['hook/shebang/enable'] = 0,
+        }
+      end
+
+      if env.is_win32 then
+        config.python = {
+          ['hook/output_encode/encoding'] = 'sjis',
+        }
+      end
+    end
+
     local function setup_typescript(config)
       local function quote(value)
         if env.is_win32 then
@@ -1376,6 +1393,7 @@ use {
       setup_c(config)
       setup_rust(config)
       setup_python(config)
+      setup_html(config)
       setup_typescript(config)
       setup_racket(config)
 
