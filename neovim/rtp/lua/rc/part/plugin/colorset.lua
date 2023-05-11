@@ -280,6 +280,8 @@ add {
         hi.link('@text.environment', 'Function')
         hi.link('@text.environment.name', 'Special')
         hi.link('@text.math', 'String')
+        hi.link('@text.diff.delete.diff', 'DiffDelete')
+        hi.link('@text.diff.add.diff', 'DiffAdd')
       end,
     },
   },
