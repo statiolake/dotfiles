@@ -643,7 +643,7 @@ use {
 }
 
 if completion == 'nvim-cmp' then
-  require 'rc.part.plugin.rc.part.plugin.builtin.cmp'
+  require 'rc.part.plugin.builtin.cmp'
 elseif completion == 'ddc' then
   require 'rc.part.plugin.builtin.ddc'
 end
