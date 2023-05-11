@@ -1,9 +1,9 @@
-local use_icons = false
+local use_icons = true
 
 set_global_config {
   ['editor.simpleMode'] = vim.g.simple_mode,
   ['editor.formatOnSave'] = true,
-  ['editor.ide.framework'] = 'coc', -- [builtin, coc]
+  ['editor.ide.framework'] = 'builtin', -- [builtin, coc]
   ['editor.ide.coc.selector'] = 'coc', -- [telescope, coc, fzf]
   ['editor.ide.builtin.completion'] = 'nvim-cmp', -- [ddc, nvim-cmp]
   ['editor.ide.builtin.useFloatPum'] = true,
@@ -14,7 +14,7 @@ set_global_config {
   ['ui.colorset'] = 'alduin',
   ['ui.transparent'] = false,
   ['ui.font.size'] = 12,
-  ['ui.font.en.win32'] = 'Consolas',
+  ['ui.font.en.win32'] = 'Consolas NF',
   ['ui.font.jp.win32'] = 'Meiryo',
   ['ui.font.en.linux'] = 'Hack NF',
   ['ui.font.jp.linux'] = 'M+ 1m',

@@ -206,7 +206,7 @@ local function setup_gui_after()
     end
   end
 
-  vim.opt.linespace = 3
+  vim.opt.linespace = 0
 
   if gui == 'neovim-qt' then
     vim.cmd [[
@@ -295,19 +295,19 @@ local function setup_cursor()
   --}
 
   -- デフォルトカーソル形状
-  vim.opt.guicursor = convert {
-    ['n-v-c'] = 'block-Cursor/lCursor',
-    ['ve'] = 'ver35-Cursor',
-    ['o'] = 'hor50-Cursor',
-    ['i-ci'] = 'ver30-Cursor/lCursor',
-    ['r-cr'] = 'hor20-Cursor/lCursor',
-    ['sm'] = 'block-Cursor-blinkwait175-blinkoff150-blinkon175',
-  }
+  -- vim.opt.guicursor = convert {
+  --   ['n-v-c'] = 'block-Cursor/lCursor',
+  --   ['ve'] = 'ver35-Cursor',
+  --   ['o'] = 'hor50-Cursor',
+  --   ['i-ci'] = 'ver30-Cursor/lCursor',
+  --   ['r-cr'] = 'hor20-Cursor/lCursor',
+  --   ['sm'] = 'block-Cursor-blinkwait175-blinkoff150-blinkon175',
+  -- }
 
   -- カーソル形状変化なし
-  -- vim.opt.guicursor = convert {
-  --   a = 'block-Cursor/lCursor',
-  -- }
+  vim.opt.guicursor = convert {
+    a = 'block-Cursor/lCursor',
+  }
 
   -- 点滅なし
   --vim.opt.guicursor:append({a = 'blinkon0'})
