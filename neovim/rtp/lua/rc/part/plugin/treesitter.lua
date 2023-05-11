@@ -25,9 +25,7 @@ use {
       highlight = { enable = true },
       indent = { enable = true },
       context_commentstring = { enable = true },
-      autotag = {
-        enable = true,
-      },
+      autotag = { enable = get_global_config 'editor.ide.framework' ~= 'coc' },
     }
 
     -- fold

@@ -1,14 +1,15 @@
-local use_icons = true
+local use_icons = false
 
 set_global_config {
   ['editor.simpleMode'] = vim.g.simple_mode,
   ['editor.formatOnSave'] = true,
-  ['editor.ide.framework'] = 'builtin', -- [builtin, coc]
+  ['editor.ide.framework'] = 'coc', -- [builtin, coc]
   ['editor.ide.coc.selector'] = 'coc', -- [telescope, coc, fzf]
   ['editor.ide.builtin.completion'] = 'nvim-cmp', -- [ddc, nvim-cmp]
   ['editor.ide.builtin.useFloatPum'] = true,
   ['editor.ide.builtin.useSnip'] = 'triggerOnly', -- [always, triggerOnly, never]
   ['editor.ide.builtin.selector'] = 'telescope', -- [telescope, fzf]
+  ['editor.useTreesitter'] = true,
   ['editor.ime'] = 'native',
   ['ui.useIcons'] = use_icons,
   ['ui.colorset'] = 'alduin',

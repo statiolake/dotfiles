@@ -38,9 +38,12 @@ end)
 prof.zone('register plugins: filetype', function()
   require 'rc.part.plugin.filetype'
 end)
---prof.zone('register plugins: treesitter', function()
---  require 'rc.part.plugin.treesitter'
---end)
+
+if cg 'editor.useTreesitter' then
+  prof.zone('register plugins: treesitter', function()
+    require 'rc.part.plugin.treesitter'
+  end)
+end
 
 local manager = require 'rc.lib.plugin_manager'
 
