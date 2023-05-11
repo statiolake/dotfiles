@@ -1,4 +1,4 @@
-Terminal := "Windows Terminal"
+Terminal := "WezTerm"
 
 If (Terminal = "Windows Terminal")
 {
@@ -53,7 +53,8 @@ Return
 
 ;; マウスのキーをターミナル内でのみ F19, F20 にする (Neovim 用)
 ; %TerminalDescriptor% を使いたかったが許されないらしい
-#IfWinActive ahk_exe WindowsTerminal.exe
+;#IfWinActive ahk_exe WindowsTerminal.exe
+#IfWinActive ahk_exe wezterm-gui.exe
     XButton1::
         Click
         Send, {F11}

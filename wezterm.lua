@@ -62,7 +62,7 @@ if is_unix then
   fonts = { 'PlemolJP Console NF' }
   font_size = 12.0
 else
-  fonts = { 'Consolas NF', 'MeiryoKe_Gothic' }
+  fonts = { 'Consolas', 'MeiryoKe_Gothic' }
   font_size = 12.0
 end
 
@@ -84,7 +84,7 @@ local cfg = {
   },
   exit_behavior = 'Close',
   font_size = font_size,
-  line_height = 1.0,
+  line_height = 1.2,
   animation_fps = 1,
   cursor_thickness = '1.5pt',
   underline_thickness = '1.5pt',
