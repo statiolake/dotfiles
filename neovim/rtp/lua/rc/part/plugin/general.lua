@@ -1313,6 +1313,7 @@ use {
           command = 'open',
           exec = { '%c %s' },
           runner = 'shell',
+          tempfile = '%{tempname()}.html',
           ['hook/shebang/enable'] = 0,
         }
       end
