@@ -15,7 +15,7 @@ set_global_config {
   ['ui.colorset'] = 'alduin',
   ['ui.transparent'] = false,
   ['ui.font.size'] = 12,
-  ['ui.font.en.win32'] = 'Consolas NF',
+  ['ui.font.en.win32'] = 'Consolas',
   ['ui.font.jp.win32'] = 'Meiryo',
   ['ui.font.en.linux'] = 'Hack NF',
   ['ui.font.jp.linux'] = 'M+ 1m',
