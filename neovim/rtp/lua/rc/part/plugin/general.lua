@@ -676,12 +676,12 @@ end
 
 use {
   'windwp/nvim-autopairs',
-  enabled = cg 'editor.ide.framework' ~= 'coc',
   simple = true,
   after_load = function()
     require('nvim-autopairs').setup {
       fast_wrap = { map = '<M-w>' },
       disable_filetype = { 'TelescopePrompt', 'vim' },
+      disable_macro = true,
       map_cr = false,
     }
   end,

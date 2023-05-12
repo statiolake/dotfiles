@@ -75,7 +75,6 @@
   "extension-auto-installer.autoRemoveUnusedExtensions": "autoRemove",
   "extension-auto-installer.globalExtensions": [
     "@statiolake/coc-extension-auto-installer",
-    "coc-pairs",
     "coc-marketplace",
     "coc-lists",
     "coc-git",
