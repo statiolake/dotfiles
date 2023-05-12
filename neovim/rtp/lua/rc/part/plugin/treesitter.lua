@@ -21,7 +21,15 @@ use {
     }
 
     require('nvim-treesitter.configs').setup {
-      ensure_installed = { 'lua', 'vim', 'rust', 'html', 'xml' },
+      ensure_installed = {
+        'diff',
+        'gitcommit',
+        'lua',
+        'vim',
+        'rust',
+        'html',
+        'xml',
+      },
       highlight = { enable = true },
       indent = { enable = true },
       context_commentstring = { enable = true },
