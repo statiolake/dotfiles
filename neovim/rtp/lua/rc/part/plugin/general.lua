@@ -987,6 +987,12 @@ use {
           numhl = 'GitSignsChangeNr',
           linehl = 'GitSignsChangeLn',
         },
+        untracked = {
+          hl = 'GitSignsAdd',
+          text = use_icons and '┃' or '+',
+          numhl = 'GitSignsAddNr',
+          linehl = 'GitSignsAddLn',
+        },
       },
       current_line_blame = true,
       on_attach = function(bufnr)
