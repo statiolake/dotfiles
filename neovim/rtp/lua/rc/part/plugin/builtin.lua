@@ -139,30 +139,6 @@ use {
     if not manager.tap 'fidget.nvim' then
       local lsp_status = require 'lsp-status'
 
-      -- ステータスライン用に capability を更新する
-      lsp_status.config {
-        -- Diagnostics は Lualine で表示されるのでいらない
-        diagnostics = false,
-        indicator_errors = 'E',
-        indicator_warnings = 'W',
-        indicator_info = 'I',
-        indicator_hint = 'H',
-        indicator_ok = 'OK',
-        --spinner_frames = { '|', '/', '-', '\\' },
-        spinner_frames = { '.', 'o', 'O', '@', '*', ' ' },
-        -- spinner_frames = {
-        --   '⣾',
-        --   '⣽',
-        --   '⣻',
-        --   '⢿',
-        --   '⡿',
-        --   '⣟',
-        --   '⣯',
-        --   '⣷',
-        -- },
-        status_symbol = '',
-      }
-
       -- window/workDoneProgress などを追加する
       lsp_status.register_progress()
       table.in_place_deep_extend(
@@ -598,7 +574,32 @@ use_as_deps 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
 use_as_deps 'mfussenegger/nvim-jdtls'
 
-use 'nvim-lua/lsp-status.nvim'
+use {
+  'nvim-lua/lsp-status.nvim',
+  after_load = function()
+    require('lsp-status').config {
+      -- Diagnostics は Lualine で表示されるのでいらない
+      diagnostics = false,
+      indicator_errors = cg 'ui.signs.diagnostics.error',
+      indicator_warnings = cg 'ui.signs.diagnostics.warning',
+      indicator_info = cg 'ui.signs.diagnostics.info',
+      indicator_hint = cg 'ui.signs.diagnostics.hint',
+      indicator_ok = 'OK',
+      spinner_frames = {
+        '.',
+        'o',
+        'O',
+        '@',
+        '*',
+        '.',
+        'o',
+        'O',
+        '@',
+        '*',
+      },
+    }
+  end,
+}
 
 use 'RRethy/vim-illuminate'
 
@@ -760,12 +761,28 @@ use {
 -- }
 
 -- なぜかステータスラインの描画を壊すので無効化する
--- use {
---   'j-hui/fidget.nvim',
---   after_load = function()
---     require('fidget').setup {}
---   end,
--- }
+use {
+  'j-hui/fidget.nvim',
+  after_load = function()
+    require('fidget').setup {
+      text = {
+        spinner = {
+          '.',
+          'o',
+          'O',
+          '@',
+          '*',
+          '.',
+          'o',
+          'O',
+          '@',
+          '*',
+        },
+        done = 'OK',
+      },
+    }
+  end,
+}
 
 use {
   'folke/trouble.nvim',
