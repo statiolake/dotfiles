@@ -258,6 +258,8 @@ use {
         end,
 
         clangd = function()
+          local capabilities = deepcopy(default_config.capabilities)
+          capabilities.offsetEncoding = 'utf-8'
           lspconfig.clangd.setup {
             handlers = (function()
               local ok, lsp_status = pcall(require, 'lsp-status')
@@ -267,6 +269,7 @@ use {
               return lsp_status.extensions.clangd.setup()
             end)(),
             single_file_support = true,
+            capabilities = capabilities,
             settings = settings.clangd or {},
           }
         end,

@@ -1123,7 +1123,7 @@ use {
 
     local function setup_cpp(config)
       config['cpp'] = {
-        command = 'clang++',
+        command = 'g++',
         tempfile = '%{tempname()}.cpp',
       }
 
@@ -1132,16 +1132,6 @@ use {
         '-Wextra',
         '-std=c++20',
       }
-      if env.is_win32 then
-        -- Windows の clang は MSVC のヘッダを使うが、そこで使われている諸々
-        -- を許可する
-        cmdopt = {
-          unpack(cmdopt),
-          '-Xclang',
-          '-flto-visibility-public-std',
-          '-fno-delayed-template-parsing',
-        }
-      end
 
       config.cpp['cmdopt'] = table.concat(cmdopt, ' ')
 
