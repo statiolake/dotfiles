@@ -182,6 +182,10 @@ local function register_default_treesitter_highlights()
     hi! link @type.builtin Type
     hi! link @variable Variable
     hi! link @variable.builtin Special
+
+    " HTML
+    hi! link @tag.html htmlTagName
+    hi! link @tag.attribute.html htmlArg
   ]]
 end
 
