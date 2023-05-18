@@ -200,8 +200,8 @@ use {
         return keyseq_insert_next() .. keyseq_confirm_expand_snippet(true)
       end
 
-      -- それ以外の場合は <CR> と同
-      return cr_with_autopairs()
+      -- それ以外の場合は <Esc>o と同じ (keybind.lua で設定したものの復元)
+      return k.t '<Esc>o'
     end
 
     k.ino('<C-Space>', vim.fn['ddc#map#manual_complete'], { expr = true })
