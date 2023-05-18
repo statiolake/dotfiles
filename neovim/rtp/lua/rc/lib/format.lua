@@ -38,7 +38,7 @@ local function should_run()
 end
 
 local function run_builtin_formatter(is_auto)
-  local timeout_ms = is_auto and 1000 or 5000
+  local timeout_ms = is_auto and 2000 or 10000
 
   -- null-ls にこのファイルタイプ向けのソースが登録されているのなら null-ls
   -- に絞る
@@ -77,7 +77,8 @@ end
 local function run_formatter(is_auto)
   -- FIXME: もう少し一般化するべき？
   if
-    vim.opt.filetype:get() ~= 'markdown' and b(vim.fn.exists ':FixWhitespace')
+    vim.opt.filetype:get() ~= 'markdown'
+    and b(vim.fn.exists ':FixWhitespace')
   then
     vim.cmd 'FixWhitespace'
   end

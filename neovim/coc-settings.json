@@ -95,6 +95,7 @@
     "css": ["coc-css", "coc-emmet", "coc-prettier"],
     "go": ["coc-go"],
     "html": ["coc-html", "coc-emmet", "coc-prettier"],
+    "htmldjango": ["coc-html", "coc-htmldjango", "coc-emmet", "coc-prettier"],
     "java": ["coc-java"],
     "javascript": ["coc-tsserver", "coc-prettier", "coc-deno"],
     "javascriptreact": ["coc-tsserver", "coc-prettier", "coc-deno"],

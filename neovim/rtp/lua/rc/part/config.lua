@@ -5,8 +5,8 @@ set_global_config {
   ['editor.formatOnSave'] = true,
   ['editor.ide.framework'] = 'builtin', -- [builtin, coc]
   ['editor.ide.coc.selector'] = 'coc', -- [telescope, coc, fzf]
-  ['editor.ide.builtin.completion'] = 'nvim-cmp', -- [ddc, nvim-cmp]
-  ['editor.ide.builtin.useFloatPum'] = true,
+  ['editor.ide.builtin.completion'] = 'ddc', -- [ddc, nvim-cmp]
+  ['editor.ide.builtin.useFloatPum'] = false,
   ['editor.ide.builtin.useSnip'] = 'triggerOnly', -- [always, triggerOnly, never]
   ['editor.ide.builtin.selector'] = 'telescope', -- [telescope, fzf]
   ['editor.useTreesitter'] = true,
@@ -174,6 +174,27 @@ set_global_config {
     -- deno でないなら prettier を有効化する
     return require('rc.lib.typescript_detector').opened_node_project()
   end,
+  ['nullLs.sources.djlint_formatting.base'] = 'formatting.djlint',
+  ['nullLs.sources.djlint_formatting.extraArgs'] = function(params)
+    local vimfn = require 'rc.lib.vimfn'
+    local djlintrc = vimfn.expand(string.format('%s/.djlintrc', params.root))
+    if vim.fn.filereadable(djlintrc) == 0 then
+      return {
+        '--blank-line-after-tag',
+        'load,extends,include,endblock',
+        '--blank-line-before-tag',
+        'load,extends,include,block',
+        '--indent',
+        vim.opt_local.shiftwidth:get(),
+        '--max-line-length',
+        vim.opt_local.textwidth:get(),
+        '--preserve-blank-lines',
+      }
+    else
+      return {}
+    end
+  end,
+  ['nullLs.sources.djlint_diagnostics.base'] = 'diagnostics.djlint',
   ['nullLs.sources.rustfmt.base'] = 'formatting.rustfmt',
   ['nullLs.sources.goimports.base'] = 'formatting.goimports',
   ['nullLs.sources.isort.base'] = 'formatting.isort',

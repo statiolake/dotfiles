@@ -31,9 +31,32 @@ use {
         'xml',
       },
       highlight = { enable = true },
-      indent = { enable = true },
+      indent = { enable = false },
       context_commentstring = { enable = true },
-      autotag = { enable = get_global_config 'editor.ide.framework' ~= 'coc' },
+      autotag = {
+        --enable = get_global_config 'editor.ide.framework' ~= 'coc',
+        enable = false,
+        filetypes = {
+          'html',
+          --'htmldjango', -- なぜかサポートされてなさそう
+          'javascript',
+          'typescript',
+          'javascriptreact',
+          'typescriptreact',
+          'svelte',
+          'vue',
+          'tsx',
+          'jsx',
+          'rescript',
+          'xml',
+          'php',
+          'markdown',
+          'astro',
+          'glimmer',
+          'handlebars',
+          'hbs',
+        },
+      },
     }
 
     -- fold

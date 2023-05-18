@@ -694,8 +694,7 @@ use {
 
 use {
   'alvan/vim-closetag',
-  enabled = cg 'editor.ide.framework' ~= 'coc'
-    and not (cg 'editor.useTreesitter'),
+  enabled = cg 'editor.ide.framework' ~= 'coc',
   before_load = function()
     -- filenames like *.xml, *.html, *.xhtml, ...
     -- These are the file extensions where this plugin is enabled.
@@ -710,7 +709,7 @@ use {
     -- filetypes like xml, html, xhtml, ...
     -- These are the file types where this plugin is enabled.
     vim.g.closetag_filetypes =
-      'html,xhtml,phtml,xml,javascriptreact,typescriptreact'
+      'html,htmldjango,xhtml,phtml,xml,javascriptreact,typescriptreact'
 
     -- filetypes like xml, xhtml, ...
     -- This will make the list of non-closing tags self-closing in the

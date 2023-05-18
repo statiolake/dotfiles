@@ -273,6 +273,12 @@ use {
             settings = settings.clangd or {},
           }
         end,
+
+        html = function()
+          lspconfig.html.setup {
+            filetypes = { 'html', 'htmldjango' },
+          }
+        end,
       }
     end
 
