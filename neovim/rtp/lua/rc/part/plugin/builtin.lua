@@ -279,6 +279,17 @@ use {
             filetypes = { 'html', 'htmldjango' },
           }
         end,
+
+        emmet_ls = function()
+          lspconfig.emmet_ls.setup {
+            filetypes = {
+              'html',
+              'htmldjango',
+              'javascriptreact',
+              'typescriptreact',
+            },
+          }
+        end,
       }
     end
 
