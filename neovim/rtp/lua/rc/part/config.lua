@@ -80,7 +80,7 @@ set_global_config {
     end
   end,
   ['lsp.pyright.python.analysis.diagnosticMode'] = 'workspace',
-  ['lsp.pyright.python.analysis.typeCheckingMode'] = 'strict',
+  ['lsp.pyright.python.analysis.typeCheckingMode'] = 'basic',
   ['lsp.rust_analyzer.rust-analyzer.assist.importEnforceGranularity'] = true,
   ['lsp.rust_analyzer.rust-analyzer.assist.importGranularity'] = 'crate',
   ['lsp.rust_analyzer.rust-analyzer.callInfo.full'] = true,
