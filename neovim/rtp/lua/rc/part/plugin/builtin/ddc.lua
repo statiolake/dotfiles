@@ -252,16 +252,13 @@ use {
       return curr
     end
 
-    local function basic_source_added(additional_source)
-      -- スニペットは展開したいので important sources
-      -- ファイル名も特別な場合にしか発火しないし優先
-      local important_sources = {
-        'ultisnips',
-        'file',
-      }
+    local function basic_sources_and(additional_source)
+      local important_sources = {}
 
       -- それ以外の汎用ソースは基本的に LSP 以下なので非優先
       local fallback_sources = {
+        'file',
+        'ultisnips',
         'buffer',
       }
 
@@ -278,7 +275,7 @@ use {
     end
 
     ddc_patch_global { -- {{{
-      sources = basic_source_added { 'nvim-lsp' },
+      sources = basic_sources_and { 'nvim-lsp' },
       sourceParams = {
         ale = { cleanResultsWhitespace = true },
         file = { mode = 'win32' },
@@ -308,16 +305,17 @@ use {
         ['nvim-lsp'] = {
           mark = 'L',
           forceCompletionPattern = [[\.]],
+          isVolatile = true,
         },
         omni = { mark = 'O' },
       },
 
       -- 最後に source 関係なく並べ替える
-      postFilters = { 'sorter_subseq' },
+      --postFilters = { 'sorter_subseq' },
     } -- }}}
 
     ddc_patch_filetype({ 'toml' }, { -- {{{
-      sources = basic_source_added { 'necovim' },
+      sources = basic_sources_and { 'necovim' },
       sourceOptions = {
         ['necovim'] = { forceCompletionPattern = [[(\S\.|:)]] },
       },
@@ -350,7 +348,7 @@ use {
 
     if manager.tap 'vimtex' then -- {{{
       ddc_patch_filetype({ 'tex' }, {
-        sources = basic_source_added { 'omni' },
+        sources = basic_sources_and { 'omni' },
         sourceOptions = {
           omni = {
             forceCompletionPattern = vim.g['vimtex#re#deoplete'],

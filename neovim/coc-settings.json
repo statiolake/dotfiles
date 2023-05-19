@@ -140,6 +140,8 @@
   "hover.floatConfig": {
     "border": false
   },
+  "htmldjango.djlint.indent": 2,
+  "htmldjango.formatting.provider": "djlint",
   "inlayHint.display": true,
   "inlayHint.enable": true,
   "inlayHint.enableParameter": true,
