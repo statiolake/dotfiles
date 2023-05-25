@@ -25,6 +25,7 @@ use {
   'neovim/nvim-lspconfig',
   depends = pack {
     when(selector == 'telescope', 'telescope.nvim'),
+    when(selector == 'ddu', 'ddu.vim'),
     when(selector == 'fzf', 'fzf-lsp.nvim'),
     'lsp-status.nvim',
     'neodev.nvim',
@@ -71,7 +72,7 @@ use {
       k.nno('gr', telescope.lsp_references)
       k.nno('gD', telescope.lsp_implementations)
       k.nno('1gD', telescope.lsp_type_definitions)
-    else
+    elseif selector == 'fzf' then
       local fzf_lsp = require 'fzf_lsp'
       k.nno('g0', fzf_lsp.document_symbol_call)
       k.nno('gw', fzf_lsp.workspace_symbol_call)

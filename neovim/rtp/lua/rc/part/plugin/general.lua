@@ -413,6 +413,123 @@ use_as_deps {
   'nvim-telescope/telescope-ui-select.nvim',
 }
 
+use_as_deps {
+  'Shougo/ddu.vim',
+  depends = {
+    'denops.vim',
+    'ddu-ui-ff',
+    'ddu-filter-matcher_substring',
+    'ddu-source-file_rec',
+  },
+  before_load = function()
+    k.nno('<C-e>', function()
+      vim.fn['ddu#start'] {
+        name = 'file_rec',
+      }
+    end)
+  end,
+  after_load = function()
+    local ddu_patch_global = vim.fn['ddu#custom#patch_global']
+    local ddu_patch_local = vim.fn['ddu#custom#patch_local']
+
+    ddu_patch_global {
+      ui = 'ff',
+      uiParams = {
+        ff = {
+          startFilter = true,
+        },
+      },
+      kindOptions = {
+        file = {
+          defaultAction = 'open',
+        },
+      },
+      sourceOptions = {
+        _ = {
+          matchers = { 'matcher_substring' },
+        },
+      },
+    }
+
+    ddu_patch_local('file_rec', {
+      sources = {
+        { name = 'file_rec', params = vim.empty_dict() },
+      },
+    })
+  end,
+}
+
+use_as_deps {
+  'Shougo/ddu-ui-ff',
+  before_load = function()
+    local function do_action(action, opts)
+      return function()
+        opts = opts or vim.empty_dict()
+        vim.fn['ddu#ui#do_action'](action, opts)
+      end
+    end
+
+    local function setup_keybinds()
+      k.buf.nno('i', do_action 'openFilterWindow')
+    end
+
+    local function setup_filter_keybinds()
+      k.buf.nno('j', do_action 'cursorNext')
+      k.buf.nno('k', do_action 'cursorPrevious')
+      k.buf.nno('<C-l>', do_action 'refreshItems')
+      k.buf.nno('<CR>', do_action 'itemAction')
+      k.buf.nno('<Tab>', do_action 'chooseAction')
+      k.buf.nno(
+        '<C-v>',
+        do_action(
+          'itemAction',
+          { name = 'open', params = { command = 'vsplit' } }
+        )
+      )
+      k.buf.nno(
+        '<C-x>',
+        do_action(
+          'itemAction',
+          { name = 'open', params = { command = 'split' } }
+        )
+      )
+    end
+
+    ac.augroup('rc__ddu_setup_keybindings', function(au)
+      au('FileType', 'ddu-ff', setup_keybinds)
+      au('FileType', 'ddu-ff-filter', setup_filter_keybinds)
+      k.buf.nno(
+        '<C-v>',
+        do_action(
+          'itemAction',
+          { name = 'open', params = { command = 'vsplit' } }
+        )
+      )
+      k.buf.nno(
+        '<C-x>',
+        do_action(
+          'itemAction',
+          { name = 'open', params = { command = 'split' } }
+        )
+      )
+    end)
+  end,
+}
+
+use_as_deps 'Shougo/ddu-filter-matcher_substring'
+
+use_as_deps {
+  'Shougo/ddu-source-file',
+  depends = { 'ddu-kind-file' },
+}
+
+use_as_deps {
+  'Shougo/ddu-source-file_rec',
+  depends = { 'ddu-kind-file' },
+}
+
+use_as_deps 'Shougo/ddu-kind-file'
+
 use {
   'alvarosevilla95/luatab.nvim',
   depends = pack {

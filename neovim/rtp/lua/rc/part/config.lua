@@ -8,7 +8,7 @@ set_global_config {
   ['editor.ide.builtin.completion'] = 'ddc', -- [ddc, nvim-cmp]
   ['editor.ide.builtin.useFloatPum'] = false,
   ['editor.ide.builtin.useSnip'] = 'triggerOnly', -- [always, triggerOnly, never]
-  ['editor.ide.builtin.selector'] = 'telescope', -- [telescope, fzf]
+  ['editor.ide.builtin.selector'] = 'telescope', -- [telescope, fzf, ddu]
   ['editor.useTreesitter'] = true,
   ['editor.ime'] = 'native',
   ['ui.useIcons'] = use_icons,
