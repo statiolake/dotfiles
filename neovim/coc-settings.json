@@ -50,7 +50,8 @@
   "diagnostic.virtualTextPrefix": "■ ",
   "dialog.rounded": false,
   "emmet.includeLanguages": {
-    "html.razor": "html"
+    "html.razor": "html",
+    "htmldjango": "html"
   },
   "explorer.git.icon.rootStatus.ahead": "^",
   "explorer.git.icon.rootStatus.behind": "v",

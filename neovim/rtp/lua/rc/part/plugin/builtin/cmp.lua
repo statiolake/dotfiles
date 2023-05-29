@@ -5,6 +5,7 @@ local vimfn = require 'rc.lib.vimfn'
 local cg = get_global_config
 
 local use_float_pum = cg 'editor.ide.builtin.useFloatPum'
+local snippet_engine = cg 'editor.ide.builtin.snippet'
 
 use {
   'hrsh7th/nvim-cmp',
@@ -14,14 +15,14 @@ use {
     'cmp-path',
     'cmp-cmdline',
     'lspkind.nvim',
-    -- 'vim-vsnip',
-    -- 'cmp-vsnip',
-    'ultisnips',
-    'cmp-nvim-ultisnips',
+    when(snippet_engine == 'vsnip', 'vim-vsnip'),
+    when(snippet_engine == 'vsnip', 'cmp-vsnip'),
+    when(snippet_engine == 'ultisnips', 'ultisnips'),
+    when(snippet_engine == 'ultisnips', 'cmp-nvim-ultisnips'),
   },
   opt_depends = { 'nvim-autopairs' },
   after_load = function()
-    local snip = require 'rc.lib.ultisnips_wrapper'
+    local snip = require(string.format('rc.lib.%s_wrapper', snippet_engine))
     local cmp = require 'cmp'
 
     local function check_back_space()
@@ -125,7 +126,7 @@ use {
         },
       },
       sources = {
-        { name = 'ultisnips' },
+        { name = snippet_engine },
         { name = 'nvim_lsp' },
         { name = 'buffer' },
       },
@@ -156,9 +157,9 @@ use {
           side_padding = 0,
         },
       },
-      -- performance = {
-      --   debounce = 200,
-      -- },
+      performance = {
+        debounce = 200,
+      },
     }
 
     k.s('<Tab>', snip.keyseq_s_jump_next, { expr = true })

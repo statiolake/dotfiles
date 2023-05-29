@@ -10,6 +10,7 @@ cfg.set_schema {
   ['editor.ide.builtin.useFloatPum'] = KA.new(),
   ['editor.ide.builtin.useSnip'] = KA.new(),
   ['editor.ide.builtin.selector'] = KA.new(),
+  ['editor.ide.builtin.snippet'] = KA.new(),
   ['editor.useTreesitter'] = KA.new(),
   ['editor.ime'] = KA.new(),
   ['ui.preferredSplit'] = KA.new():with_locally_overridable(true),
