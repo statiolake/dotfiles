@@ -14,7 +14,7 @@ set_global_config {
   ['editor.ime'] = 'native',
   ['ui.useIcons'] = use_icons,
   ['ui.colorset'] = 'alduin',
-  ['ui.transparent'] = false,
+  ['ui.transparent'] = true,
   ['ui.font.size'] = 12,
   ['ui.font.en.win32'] = 'Consolas',
   ['ui.font.jp.win32'] = 'Meiryo',
