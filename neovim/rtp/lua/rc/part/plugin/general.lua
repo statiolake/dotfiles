@@ -420,13 +420,17 @@ use_as_deps {
     'ddu-ui-ff',
     'ddu-filter-matcher_substring',
     'ddu-source-file_rec',
+    'ddu-source-rg',
   },
   before_load = function()
-    k.nno('<C-e>', function()
-      vim.fn['ddu#start'] {
-        name = 'file_rec',
-      }
-    end)
+    local function ddu_start(name)
+      return function()
+        vim.fn['ddu#start'] { name = name }
+      end
+    end
+
+    k.nno('<C-e>', ddu_start 'file_rec')
+    k.nno('<C-f>', ddu_start 'ripgrep')
   end,
   after_load = function()
     local ddu_patch_global = vim.fn['ddu#custom#patch_global']
@@ -437,6 +441,9 @@ use_as_deps {
       uiParams = {
         ff = {
           startFilter = true,
+          ignoreEmpty = false,
+          autoResize = false,
+          winHeight = 10,
         },
       },
       kindOptions = {
@@ -448,12 +455,28 @@ use_as_deps {
         _ = {
           matchers = { 'matcher_substring' },
         },
+        rg = {
+          matchers = {},
+          volatile = true,
+          path = '.',
+        },
+      },
+      sourceParams = {
+        rg = {
+          args = { '--json' },
+        },
       },
     }
 
     ddu_patch_local('file_rec', {
       sources = {
-        { name = 'file_rec', params = vim.empty_dict() },
+        { name = 'file_rec' },
+      },
+    })
+
+    ddu_patch_local('ripgrep', {
+      sources = {
+        { name = 'rg' },
       },
     })
   end,
@@ -469,6 +492,21 @@ use_as_deps {
       end
     end
 
+    local function sync_action(action, opts)
+      return function()
+        opts = opts or vim.empty_dict()
+        vim.fn['ddu#ui#sync_action'](action, opts)
+      end
+    end
+
+    local function item_action(action, params, runner)
+      runner = runner or do_action
+      return runner('itemAction', {
+        name = action,
+        params = params or vim.empty_dict(),
+      })
+    end
+
     local function setup_keybinds()
       k.buf.nno('i', do_action 'openFilterWindow')
     end
@@ -477,11 +515,26 @@ use_as_deps {
       k.buf.nno('j', do_action 'cursorNext')
       k.buf.nno('k', do_action 'cursorPrevious')
       k.buf.nno('<C-l>', do_action 'refreshItems')
-      k.buf.nno('<CR>', do_action 'itemAction')
-      k.buf.ino('<CR>', do_action 'itemAction')
       k.buf.nno('<Tab>', do_action 'chooseAction')
-      k.buf.nno('<C-q>', do_action 'quickfix')
-      k.buf.nno('<Esc>', do_action 'quit')
+      k.buf.nno('<CR>', sync_action 'itemAction')
+      k.buf.ino('<CR>', '')
+      k.buf.nno('<C-q>', function()
+        vim.fn['ddu#ui#sync_action']('clearSelectAllItems', vim.empty_dict())
+        vim.fn['ddu#ui#sync_action']('toggleAllItems', vim.empty_dict())
+        vim.fn['ddu#ui#sync_action']('item_action', {
+          name = 'quickfix',
+          params = vim.empty_dict(),
+        })
+      end)
+      k.buf.nno(
+        '<C-x>',
+        item_action('open', { command = 'split' }, sync_action)
+      )
+      k.buf.nno(
+        '<C-v>',
+        item_action('open', { command = 'vsplit' }, sync_action)
+      )
+      k.buf.nno('<Esc>', sync_action 'quit')
     end
 
     ac.augroup('rc__ddu_setup_keybindings', function(au)
@@ -516,6 +569,8 @@ use_as_deps {
   'Shougo/ddu-source-file_rec',
   depends = { 'ddu-kind-file' },
 }
+
+use_as_deps 'shun/ddu-source-rg'
 
 use_as_deps 'Shougo/ddu-kind-file'
 
@@ -788,7 +843,11 @@ use {
 
     autopairs.setup {
       fast_wrap = { map = '<M-w>' },
-      disable_filetype = { 'TelescopePrompt', 'vim' },
+      disable_filetype = {
+        'TelescopePrompt',
+        'ddu-ff-filter',
+        'vim',
+      },
       disable_macro = true,
       map_cr = false,
     }

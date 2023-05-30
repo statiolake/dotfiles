@@ -4,7 +4,7 @@ local env = require 'rc.env'
 local vimfn = require 'rc.lib.vimfn'
 
 local system_path = coalesce {
-  when(env.is_win32, 'deno'),
+  when(env.is_win32, vimfn.expand [[$USERPROFILE\scoop\shims\deno.exe]]),
   when(env.is_unix, '/usr/bin/deno'),
 }
 
