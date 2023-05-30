@@ -478,21 +478,10 @@ use_as_deps {
       k.buf.nno('k', do_action 'cursorPrevious')
       k.buf.nno('<C-l>', do_action 'refreshItems')
       k.buf.nno('<CR>', do_action 'itemAction')
+      k.buf.ino('<CR>', do_action 'itemAction')
       k.buf.nno('<Tab>', do_action 'chooseAction')
-      k.buf.nno(
-        '<C-v>',
-        do_action(
-          'itemAction',
-          { name = 'open', params = { command = 'vsplit' } }
-        )
-      )
-      k.buf.nno(
-        '<C-x>',
-        do_action(
-          'itemAction',
-          { name = 'open', params = { command = 'split' } }
-        )
-      )
+      k.buf.nno('<C-q>', do_action 'quickfix')
+      k.buf.nno('<Esc>', do_action 'quit')
     end
 
     ac.augroup('rc__ddu_setup_keybindings', function(au)

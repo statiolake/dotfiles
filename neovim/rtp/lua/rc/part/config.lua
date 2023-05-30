@@ -8,7 +8,7 @@ set_global_config {
   ['editor.ide.builtin.completion'] = 'ddc', -- [ddc, nvim-cmp]
   ['editor.ide.builtin.useFloatPum'] = false,
   ['editor.ide.builtin.useSnip'] = 'triggerOnly', -- [always, triggerOnly, never], only with ddc
-  ['editor.ide.builtin.selector'] = 'telescope', -- [telescope, fzf, ddu]
+  ['editor.ide.builtin.selector'] = 'ddu', -- [telescope, fzf, ddu]
   ['editor.ide.builtin.snippet'] = 'ultisnips', -- [vsnip, ultisnips], only with cmp
   ['editor.useTreesitter'] = true,
   ['editor.ime'] = 'native',
