@@ -894,12 +894,12 @@ use {
 
 use {
   'tpope/vim-endwise',
-  enabled = cg 'editor.ide.framework' ~= 'coc',
+  --enabled = cg 'editor.ide.framework' ~= 'coc',
 }
 
 use {
   'alvan/vim-closetag',
-  enabled = cg 'editor.ide.framework' ~= 'coc',
+  --enabled = cg 'editor.ide.framework' ~= 'coc',
   before_load = function()
     -- filenames like *.xml, *.html, *.xhtml, ...
     -- These are the file extensions where this plugin is enabled.

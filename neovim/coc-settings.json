@@ -2,7 +2,7 @@
   "Lua.completion.callSnippet": "Replace",
   "Lua.runtime.version": "LuaJIT",
   "Lua.telemetry.enable": false,
-  "coc.preferences.enableLinkedEditing": true,
+  "coc.preferences.enableLinkedEditing": false,
   "coc.preferences.enableMarkdown": true,
   "coc.preferences.enableMessageDialog": true,
   "coc.preferences.formatOnSave": false,
@@ -14,14 +14,20 @@
   "codeLens.separator": "",
   "colors.enable": true,
   "diagnostic-languageserver.filetypes": {
+    "htmldjango": "djlint",
     "vim": "vint"
   },
   "diagnostic-languageserver.formatFiletypes": {
+    "htmldjango": ["djlint"],
     "python": ["isort", "black"]
   },
   "diagnostic-languageserver.formatters": {
     "black": {
       "args": ["-m", "black", "--quiet", "-", "--line-length=78"],
+      "command": "python"
+    },
+    "djlint": {
+      "args": ["-m", "djlint", "--reformat", "-"],
       "command": "python"
     },
     "isort": {
@@ -33,6 +39,12 @@
         "--profile=black",
         "--line-length=78"
       ],
+      "command": "python"
+    }
+  },
+  "diagnostic-languageserver.linters": {
+    "djlint": {
+      "args": ["-m", "djlint", "--quiet", "-"],
       "command": "python"
     }
   },
@@ -96,7 +108,7 @@
     "css": ["coc-css", "coc-emmet", "coc-prettier"],
     "go": ["coc-go"],
     "html": ["coc-html", "coc-emmet", "coc-prettier"],
-    "htmldjango": ["coc-html", "coc-htmldjango", "coc-emmet", "coc-prettier"],
+    "htmldjango": ["coc-html", "coc-emmet", "coc-diagnostic"],
     "java": ["coc-java"],
     "javascript": ["coc-tsserver", "coc-prettier", "coc-deno"],
     "javascriptreact": ["coc-tsserver", "coc-prettier", "coc-deno"],
@@ -141,6 +153,7 @@
   "hover.floatConfig": {
     "border": false
   },
+  "html.autoClosingTags": false,
   "htmldjango.djlint.indent": 2,
   "htmldjango.formatting.provider": "djlint",
   "inlayHint.display": true,
