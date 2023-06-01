@@ -972,15 +972,24 @@ use {
   end,
 }
 
+-- use {
+--   'phaazon/hop.nvim',
+--   simple = true,
+--   after_load = function()
+--     local hop = require 'hop'
+--     hop.setup {}
+--     k.nvo('<Leader>w', hop.hint_words)
+--     k.nvo('<Leader>j', hop.hint_lines)
+--     k.nvo('<Leader>k', hop.hint_lines)
+--   end,
+-- }
+
 use {
-  'phaazon/hop.nvim',
+  'rlane/pounce.nvim',
   simple = true,
   after_load = function()
-    local hop = require 'hop'
-    hop.setup {}
-    k.nvo('<Leader>w', hop.hint_words)
-    k.nvo('<Leader>j', hop.hint_lines)
-    k.nvo('<Leader>k', hop.hint_lines)
+    local pounce = require 'pounce'
+    k.nvo('<Leader>w', pounce.pounce)
   end,
 }
 
