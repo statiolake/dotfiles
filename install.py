@@ -89,9 +89,12 @@ class Directories:
             # TODO: Get Document folder using appropriate API
             userprofile = Directories.envvar("USERPROFILE")
             documents = userprofile / "Documents"
+            onedrive_documents = userprofile / "OneDrive" / "ドキュメント"
             return [
                 documents / "WindowsPowerShell",
                 documents / "PowerShell",
+                onedrive_documents / "WindowsPowerShell",
+                onedrive_documents / "PowerShell",
             ]
 
     def __init__(self):
@@ -147,7 +150,7 @@ def ensure_link_not_exist(path, *, silent):
 
     # This is non-link file. Confirm it to user before removing.
     if not silent:
-        yn = input("non-link file or entry already exists at {path}. would you like to remove?")
+        yn = input(f"non-link file or entry already exists at {path}. would you like to remove?")
         if yn == "y" or yn == "Y":
             os.remove(path)
             if path.exists():
