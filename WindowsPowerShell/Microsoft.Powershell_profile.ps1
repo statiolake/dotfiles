@@ -3,16 +3,16 @@ Set-PSReadlineOption -EditMode Emacs
 
 # fix Ctrl+l
 Set-PSReadlineKeyHandler -Chord "Ctrl+l" -ScriptBlock {
-    Clear-Host
-    [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt($null, 0)
+  Clear-Host
+  [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt($null, 0)
 }
 
-# Use gvim.exe if the editor is not specified
-if ( -not (Test-Path env:EDITOR)) {
-    $env:EDITOR = "gvim.exe"
+# default editor
+if ( -not $env:EDITOR ) {
+  $env:EDITOR = "v.exe"
 }
 
-$confdir = "$env:HOME\Documents\WindowsPowerShell"
+$confdir = (Get-Item $profile).DirectoryName
 
 # example: ~\Documents\WindowsPowerShell\basic.ps1
 . "$confdir\basic.ps1"
