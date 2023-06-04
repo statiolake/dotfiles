@@ -63,7 +63,9 @@ class Directories:
 
     class Target:
         def __init__(self):
-            self.home = Directories.envvar("HOME") or Directories.envvar("USERPROFILE")
+            self.home = Directories.envvar("HOME") or Directories.envvar(
+                "USERPROFILE"
+            )
             self.bin = self.home / "bin"
             # TODO: XDG_CONFIG_HOME
             self.config = self.home / ".config"
@@ -87,15 +89,21 @@ class Directories:
 
         def _get_pwshprofiles(self):
             # TODO: Get Document folder using appropriate API
+            prof_paths = []
+
             userprofile = Directories.envvar("USERPROFILE")
+
             documents = userprofile / "Documents"
+            if documents.exists():
+                prof_paths.append(documents / "WindowsPowerShell")
+                prof_paths.append(documents / "PowerShell")
+
             onedrive_documents = userprofile / "OneDrive" / "ドキュメント"
-            return [
-                documents / "WindowsPowerShell",
-                documents / "PowerShell",
-                onedrive_documents / "WindowsPowerShell",
-                onedrive_documents / "PowerShell",
-            ]
+            if onedrive_documents.exists():
+                prof_paths.append(onedrive_documents / "WindowsPowerShell")
+                prof_paths.append(onedrive_documents / "PowerShell")
+
+            return prof_paths
 
     def __init__(self):
         echo("Determining folders...", ARROW)
@@ -150,7 +158,9 @@ def ensure_link_not_exist(path, *, silent):
 
     # This is non-link file. Confirm it to user before removing.
     if not silent:
-        yn = input(f"non-link file or entry already exists at {path}. would you like to remove?")
+        yn = input(
+            f"non-link file or entry already exists at {path}. would you like to remove?"
+        )
         if yn == "y" or yn == "Y":
             os.remove(path)
             if path.exists():
@@ -248,14 +258,28 @@ def save_as(data, path):
 # ============================================================================
 def setup_git(d, silent):
     if ENV == Platform.WINDOWS:
-        linkf(d.s.git / "gitconfig_windows", d.t.home / ".gitconfig", silent=silent)
+        linkf(
+            d.s.git / "gitconfig_windows",
+            d.t.home / ".gitconfig",
+            silent=silent,
+        )
     else:
-        linkf(d.s.git / "gitconfig_unix", d.t.home / ".gitconfig", silent=silent)
+        linkf(
+            d.s.git / "gitconfig_unix", d.t.home / ".gitconfig", silent=silent
+        )
 
     if ENV == Platform.WINDOWS:
-        linkf(d.s.git / "gitattributes_windows", d.t.home / ".gitattributes", silent=silent)
+        linkf(
+            d.s.git / "gitattributes_windows",
+            d.t.home / ".gitattributes",
+            silent=silent,
+        )
 
-    linkf(d.s.git / "gitignore_global", d.t.home / ".gitignore_global", silent=silent)
+    linkf(
+        d.s.git / "gitignore_global",
+        d.t.home / ".gitignore_global",
+        silent=silent,
+    )
 
     os.makedirs(d.t.config / "git", exist_ok=True)
     linkd(d.s.git / "hooks", d.t.config / "git" / "hooks", silent=silent)
@@ -286,9 +310,7 @@ def install_node(d, *, force):
         url_base = f"https://nodejs.org/dist/v{NODE_VERSION}"
         stem, ext = f"node-v{NODE_VERSION}-linux-x64", ".tar.gz"
     elif ENV == Platform.LINUX_MUSL:
-        url_base = (
-            f"https://unofficial-builds.nodejs.org/download/release/v{NODE_VERSION}/"
-        )
+        url_base = f"https://unofficial-builds.nodejs.org/download/release/v{NODE_VERSION}/"
         stem, ext = f"node-v{NODE_VERSION}-linux-x64-musl", ".tar.gz"
     else:
         raise RuntimeError(f"Unknown platform {ENV}")
@@ -336,11 +358,25 @@ def setup_neovim(d, *, force, silent):
     os.makedirs(d.t.nvimfiles, exist_ok=True)
     os.makedirs(d.t.nvimdata, exist_ok=True)
     os.makedirs(d.t.nvimdata / "coc", exist_ok=True)
-    linkf(d.s.neovim / "vimrc_vscode_neovim", d.t.home / ".vimrc_vscode_neovim", silent=silent)
-    linkf(d.s.neovim / "coc-settings.json", d.t.nvimfiles / "coc-settings.json", silent=silent)
+    linkf(
+        d.s.neovim / "vimrc_vscode_neovim",
+        d.t.home / ".vimrc_vscode_neovim",
+        silent=silent,
+    )
+    linkf(
+        d.s.neovim / "coc-settings.json",
+        d.t.nvimfiles / "coc-settings.json",
+        silent=silent,
+    )
     linkd(d.s.neovim / "rtp", d.t.nvimfiles / "rtp", silent=silent)
-    linkd(d.s.neovim / "ultisnips", d.t.nvimfiles / "ultisnips", silent=silent)
-    linkd(d.s.neovim / "ultisnips", d.t.nvimdata / "coc" / "ultisnips", silent=silent)
+    linkd(
+        d.s.neovim / "ultisnips", d.t.nvimfiles / "ultisnips", silent=silent
+    )
+    linkd(
+        d.s.neovim / "ultisnips",
+        d.t.nvimdata / "coc" / "ultisnips",
+        silent=silent,
+    )
     linkd(d.s.neovim / "vsnip", d.t.nvimfiles / ".vsnip", silent=silent)
     linkf(d.s.neovim / "init.lua", d.t.nvimfiles / "init.lua", silent=silent)
 
@@ -417,7 +453,9 @@ def setup_powershell(d, *, silent):
 def setup_alacritty(d, *, silent):
     alacritty = d.t.config / "alacritty"
     os.makedirs(alacritty, exist_ok=True)
-    linkf(d.s.base / "alacritty.yml", alacritty / "alacritty.yml", silent=silent)
+    linkf(
+        d.s.base / "alacritty.yml", alacritty / "alacritty.yml", silent=silent
+    )
 
 
 def setup_kitty(d, *, silent):
@@ -445,11 +483,15 @@ def setup_linuxgui(d, *, silent):
     # dunst
     echo("Linking dunst configuration...", SUBARROW)
     os.makedirs(d.t.config / "dunst", exist_ok=True)
-    linkf(d.s.base / "dunstrc", d.t.config / "dunst" / "dunstrc", silent=silent)
+    linkf(
+        d.s.base / "dunstrc", d.t.config / "dunst" / "dunstrc", silent=silent
+    )
 
     # StaloneTray
     echo("Linking StaloneTray configuration...", SUBARROW)
-    linkf(d.s.base / "stalonetrayrc", d.t.home / ".stalonetrayrc", silent=silent)
+    linkf(
+        d.s.base / "stalonetrayrc", d.t.home / ".stalonetrayrc", silent=silent
+    )
 
     # Picom
     echo("Linking Picom configuration...", SUBARROW)
@@ -479,7 +521,11 @@ def setup_scripts(d, *, silent):
         with open(d.t.bin / "ccli.bat", "w") as f:
             f.write(f"@python {d.s.base / 'bin' / 'clipboard_client.py'} %*")
     else:
-        linkf(d.s.base / "bin" / "clipboard_client.py", d.t.bin / "ccli", silent=silent)
+        linkf(
+            d.s.base / "bin" / "clipboard_client.py",
+            d.t.bin / "ccli",
+            silent=silent,
+        )
 
 
 def main(*, force, silent):
@@ -512,7 +558,11 @@ def main(*, force, silent):
         linkf(dirs.s.base / "nyagos", dirs.t.home / ".nyagos", silent=silent)
 
     echo("Configuring WezTerm...", ARROW)
-    linkf(dirs.s.base / "wezterm.lua", dirs.t.home / ".wezterm.lua", silent=silent)
+    linkf(
+        dirs.s.base / "wezterm.lua",
+        dirs.t.home / ".wezterm.lua",
+        silent=silent,
+    )
 
     if ENV != Platform.WINDOWS:
         echo("Configuring Alacritty...", ARROW)
