@@ -66,3 +66,5 @@
     path = ~/.gitconfig.device
 [includeIf "gitdir:~/dev/local/device/"]
     path = ~/.gitconfig.device
+[credential "https://git-codecommit.ap-northeast-1.amazonaws.com"]
+	provider = generic
