@@ -3,7 +3,7 @@
     name = statiolake
 [core]
     pager = LESSCHARSET=utf-8 less
-    editor = vf
+    editor = cf
     autoCRLF = true
     attributesfile = ~/.gitattributes
     excludesfile = ~/.gitignore_global
@@ -34,9 +34,9 @@
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
 [diff]
-    tool = nvimdiff
+    tool = vscodediff
 [merge]
-    tool = nvimsimplediff
+    tool = vscodediff
     #conflictstyle = diff3
 [diff "to_utf8"]
     textconv = nkf32 -w -Lu
