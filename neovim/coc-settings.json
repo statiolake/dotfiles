@@ -120,6 +120,7 @@
     "ps1": ["coc-powershell"],
     "python": ["coc-pyright", "coc-diagnostic"],
     "rust": ["coc-rust-analyzer"],
+    "svelte": ["coc-svelte"],
     "typescript": ["coc-tsserver", "coc-prettier", "coc-deno", "coc-tsdetect"],
     "typescriptreact": ["coc-tsserver", "coc-prettier", "coc-deno"],
     "vim": ["coc-vimlsp", "coc-diagnostic"],
@@ -256,5 +257,6 @@
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.suggest.completeFunctionCalls": true,
-  "xml.format.preserveAttributeLineBreaks": true
+  "xml.format.preserveAttributeLineBreaks": true,
+  "svelte.enable-ts-plugin": true
 }

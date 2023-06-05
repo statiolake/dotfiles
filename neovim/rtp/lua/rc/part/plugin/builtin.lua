@@ -514,24 +514,6 @@ use {
 }
 
 use {
-  'williamboman/mason.nvim',
-  after_load = function()
-    local use_icons = cg 'ui.useIcons'
-
-    require('mason').setup {
-      ui = {
-        border = cg 'ui.border',
-        icons = {
-          package_installed = use_icons and '' or '*',
-          package_uninstalled = use_icons and '' or '-',
-          package_pending = use_icons and '' or '+',
-        },
-      },
-    }
-  end,
-}
-
-use {
   'williamboman/mason-lspconfig.nvim',
   depends = { 'mason.nvim' },
   after_load = function()

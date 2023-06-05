@@ -1891,4 +1891,22 @@ use {
   end,
 }
 
+use_as_deps {
+  'williamboman/mason.nvim',
+  after_load = function()
+    local use_icons = cg 'ui.useIcons'
+
+    require('mason').setup {
+      ui = {
+        border = cg 'ui.border',
+        icons = {
+          package_installed = use_icons and '' or '*',
+          package_uninstalled = use_icons and '' or '-',
+          package_pending = use_icons and '' or '+',
+        },
+      },
+    }
+  end,
+}
+
 -- }}}
