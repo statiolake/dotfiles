@@ -186,6 +186,7 @@
   "notification.border": true,
   "omnisharp.trace.server": "verbose",
   "powershell.integratedConsole.showOnStartup": false,
+  "powershell.powerShellExePath": "pwsh.exe",
   "prettier.disableLanguages": ["htmldjango"],
   "prettier.formatterPriority": 100,
   "prettier.onlyUseLocalVersion": false,
@@ -243,6 +244,7 @@
   "suggest.timeout": 15000,
   "suggest.triggerAfterInsertEnter": true,
   "sumneko-lua.enableNvimLuaDev": true,
+  "svelte.enable-ts-plugin": true,
   "symbol-line.icons": false,
   "symbol-line.maxItems": 3,
   "texlab.build.onSave": true,
@@ -257,6 +259,5 @@
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.suggest.completeFunctionCalls": true,
-  "xml.format.preserveAttributeLineBreaks": true,
-  "svelte.enable-ts-plugin": true
+  "xml.format.preserveAttributeLineBreaks": true
 }
