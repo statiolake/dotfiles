@@ -1,4 +1,8 @@
-﻿function Set-LocationToWorkspace () {
+﻿using namespace System.Collections.Generic;
+using namespace System.Text;
+using namespace System.Linq;
+
+function Set-LocationToWorkspace () {
     make_workspace
     $path = workspace_path -d
     Set-Location $path
@@ -21,22 +25,85 @@ function Get-CommandPath ($Query, [switch] $NoCommandType) {
 
 function Expand-BashLikeBrace ($BraceText) {
     $ErrorActionPreference = "Stop"
-    $result = @()
-    foreach ($text in $BraceText) {
-        if ($text -match "(.*?){(.*?)}(.*)") {
-            $head = $Matches[1]
-            $m = $Matches[2]
-            $tail = $Matches[3]
-            $captures = [Regex]::Matches($m, "^(?:(.*?)(?<!(?<!\\)\\),)*(.*)$").Groups[1..2].Captures
+    class Context {
+        # Prefixes, the prefix just before current braces.
+        [List[StringBuilder]] $Prefixes
 
-            $expanded = $captures | % { "$head$_$tail" }
-            $result += Expand-BashLikeBrace $expanded
-        }
-        else {
-            $result += @($text)
+        # BraceArgs, the current-level brace arguments.
+        [List[string]] $BraceArgs
+
+        Context() {
+            $this.Prefixes = [List[StringBuilder]]::new()
+            $this.BraceArgs = [List[string]]::new()
+
+            # Add default prefix
+            $this.Prefixes.Add([StringBuilder]::new())
         }
     }
-    return $result
+
+    # $stack, the all previous level contexts.
+    $stack = [Stack[Context]]::new()
+    # $context, the current context.
+    $context = [Context]::new()
+
+    function prefixesToBraceArgs ($prefixes, $braceArgs) {
+        foreach ($prefix in $prefixes) {
+            $braceArgs.Add($prefix.ToString())
+        }
+    }
+
+    foreach ($ch in $BraceText.ToCharArray()) {
+        switch ($ch) {
+            '{' {
+                # Push current context and start new one
+                $stack.Push($context)
+                $context = [Context]::new()
+            }
+            ',' {
+                # End of the current context: Append all of current prefixes to
+                # previous BraceArgs.
+                $prevContext = $stack.Pop()
+                prefixesToBraceArgs $context.Prefixes $prevContext.BraceArgs
+
+                # Start of a new context: the next argument should be processed
+                # within a new context.
+                $stack.Push($prevContext)
+                $context = [Context]::new()
+            }
+            '}' {
+                # End of the current context: Append all of current prefixes to
+                # previous BraceArgs.
+                $prevContext = $stack.Pop()
+                prefixesToBraceArgs $context.Prefixes $prevContext.BraceArgs
+
+                # Use the previous context as current one.
+                $context = $prevContext
+
+                # This is also the end of the brace expansion: all BraceArgs
+                # should be now moved to Prefixes.
+                $expanded = [List[StringBuilder]]::new()
+                foreach ($prefix in $context.Prefixes) {
+                    foreach ($arg in $context.BraceArgs) {
+                        $expanded.Add(
+                            [StringBuilder]::new($prefix).Append($arg))
+                    }
+                }
+                $context.Prefixes = $expanded
+
+                # Remove ended BraceArgs
+                $context.BraceArgs.Clear()
+            }
+            default {
+                # Add this character to all current prefixes
+                foreach ($prefix in $context.Prefixes) {
+                    $prefix.Append($ch) | Out-Null
+                }
+            }
+        }
+    }
+
+    # Expansion completed. Convert all string builder to string.
+    return $context.Prefixes | ForEach-Object { $_.ToString() }
 }
 
 function Invoke-PipedCommand ($ScriptBlock) {
