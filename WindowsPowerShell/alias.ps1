@@ -12,6 +12,7 @@ Set-Alias -Name tt -Value Start-CargoTestCerussite
 Set-Alias -Name par -Value Start-ProconAssistantRun
 
 Set-Alias -Name ^ -Value Expand-BashLikeBrace
+Set-Alias -Name _ -Value Invoke-PipedCommand
 
 # programs
 Set-Alias -Name pa -Value procon-assistant

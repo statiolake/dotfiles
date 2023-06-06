@@ -22,7 +22,6 @@ function Get-CommandPath ($Query, [switch] $NoCommandType) {
 function Expand-BashLikeBrace ($BraceText) {
     $ErrorActionPreference = "Stop"
     $result = @()
-    # echo $result.GetType()
     foreach ($text in $BraceText) {
         if ($text -match "(.*?){(.*?)}(.*)") {
             $head = $Matches[1]
@@ -38,6 +37,12 @@ function Expand-BashLikeBrace ($BraceText) {
         }
     }
     return $result
+}
+
+function Invoke-PipedCommand ($ScriptBlock) {
+    Begin { $piped = @() }
+    Process { $piped += $input }
+    End { Invoke-Command  -NoNewScope $ScriptBlock -ArgumentList $piped }
 }
 
 
