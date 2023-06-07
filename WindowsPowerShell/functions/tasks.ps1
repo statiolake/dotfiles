@@ -3,7 +3,6 @@ using namespace System.Text;
 using namespace System.Linq;
 
 function Set-LocationToWorkspace () {
-    make_workspace
     $path = workspace_path -d
     Set-Location $path
 }
