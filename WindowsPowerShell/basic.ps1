@@ -1,5 +1,6 @@
 ﻿# Load custom formatter for ApplicationInfo (result of Get-Command)
 Update-FormatData -PrependPath "$confdir\Format\ApplicationInfo.Format.ps1xml"
+Update-FormatData -PrependPath "$confdir\Format\AliasInfo.Format.ps1xml"
 
 # Set prompt
 function Prompt () {
