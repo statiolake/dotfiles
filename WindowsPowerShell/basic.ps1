@@ -1,4 +1,7 @@
-﻿# Set prompt
+﻿# Load custom formatter for ApplicationInfo (result of Get-Command)
+Update-FormatData -PrependPath "$confdir\Format\ApplicationInfo.Format.ps1xml"
+
+# Set prompt
 function Prompt () {
     # Save last status before running bunch of commands to construct prompt...
     $lastStatus = $?

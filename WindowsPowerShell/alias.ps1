@@ -1,8 +1,10 @@
-﻿# cmd.exe implemented commands
+﻿# cmdlets
+Set-Alias -Name which -Value Get-Command
+
+# cmd.exe implemented commands
 Set-Alias -Name mklink -Value Start-CmdMklink
 
 # tasks
-Set-Alias -Name which -Value Get-CommandPath
 Set-Alias -Name cdwork -Value Set-LocationToWorkspace
 Set-Alias -Name gcl -Value Get-CommittedGitLine
 Set-Alias -Name changeeditor -Value Update-Editor

@@ -9,20 +9,6 @@ function Set-LocationToWorkspace () {
 }
 
 
-# Add command-line switch for disabling displaying `CommandType`
-function Get-CommandPath ($Query, [switch] $NoCommandType) {
-    $ErrorActionPreference = "Stop"
-    $cmd = Get-Command $Query
-
-    $output = ""
-    if (!$NoCommandType) {
-        $output = "[" + $cmd.CommandType + "] "
-    }
-    $output += $cmd.Definition
-
-    Write-Output $output
-}
-
 function Expand-BashLikeBrace ($BraceText) {
     $ErrorActionPreference = "Stop"
     class Context {
