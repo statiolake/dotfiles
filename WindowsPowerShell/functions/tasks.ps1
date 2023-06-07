@@ -103,43 +103,6 @@ function Get-CommittedGitLine () {
     $log | awk 'NF==3 {plus+=$1; minus+=$2} END {printf(\"%d (+%d, -%d)\n\", plus+minus, plus, minus)}'
 }
 
-
-function Update-Editor () {
-    $editor = Read-Host -Prompt "What editor do you want to use"
-    if ($editor -eq "") {
-        Write-Output "You entered a blank name. Do nothing now. exit."
-        return
-    }
-    else {
-        if ($editor -eq "gvim.exe") {
-            Write-Output "apply context menu settings for GVim..."
-            regedit $env:HOME\cabinet\settings\reg_contextmenu_prefer_gvim.reg
-        }
-        elseif ($editor -eq "nvim.exe") {
-            Write-Output "apply context menu settings for Neovim..."
-            regedit $env:HOME\cabinet\settings\reg_contextmenu_prefer_nvim.reg
-        }
-        elseif ($editor -eq "nvim-qt.exe") {
-            Write-Output "apply context menu settings for Neovim-qt..."
-            regedit $env:HOME\cabinet\settings\reg_contextmenu_prefer_nvimqt.reg
-        }
-        elseif ($editor -eq "code.exe") {
-            Write-Output "apply context menu settings for VSCode..."
-            regedit $env:HOME\cabinet\settings\reg_contextmenu_prefer_vscode.reg
-        }
-
-        [System.Environment]::SetEnvironmentVariable('EDITOR', $editor, [System.EnvironmentVariableTarget]::User)
-        Write-Output "change editor from $env:EDITOR to $editor."
-        $env:EDITOR = $editor
-        Write-Output "Some other files needs to be updated. Change them manually with your new favorite editor!"
-
-        & "$env:EDITOR" `
-            "$env:HOME\dev\github\procon-assistant\target\release\config.json" `
-            "$env:HOME\dev\github\memo_v2\target\release\config.json" `
-            "$env:HOME\.gitconfig"
-    }
-}
-
 function Find-Uwp () {
     $query = $args[0]
     $uwpapps = Get-AppxPackage -Name *$query*
@@ -168,20 +131,4 @@ function Find-Uwp () {
             }
         }
     }
-}
-
-function Stop-Emacs () {
-    emacsclient -e "(skk-reread-private-jisyo t)" > $null 2> $null
-    emacsclient -e "(kill-emacs)"
-}
-
-function Start-Emacs () {
-    runemacs --daemon
-}
-
-function Restart-Emacs () {
-    Write-Output "killing emacs..."
-    Stop-Emacs
-    Write-Output "restarting emacs..."
-    Start-Emacs
 }
