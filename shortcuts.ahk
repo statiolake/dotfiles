@@ -179,6 +179,10 @@ Return
 !^j::Send, ^{Down}
 !^k::Send, ^{Up}
 !^l::Send, ^{Right}
+!+h::Send, +{Left}
+!+j::Send, +{Down}
+!+k::Send, +{Up}
+!+l::Send, +{Right}
 
 /*****************************************************************************
   IME制御用 関数群 (IME.ahk)
