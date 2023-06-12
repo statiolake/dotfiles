@@ -32,6 +32,10 @@ function getters.is_wsl()
 end
 
 function getters.shell()
+  if M.is_win32 and executable 'pwsh.exe' then
+    return 'pwsh.exe'
+  end
+
   if M.is_win32 and executable 'rsh.exe' then
     return 'rsh.exe'
   end
