@@ -16,7 +16,7 @@ use {
   url = 'neoclide/coc.nvim',
   rev = 'release',
   depends = pack {
-    'mason.nvim',
+    --'mason.nvim',
     when(selector == 'coc', 'coc-list-vim-select'),
     when(selector == 'telescope', 'telescope.nvim'),
     when(selector == 'telescope', 'telescope-coc.nvim'),
