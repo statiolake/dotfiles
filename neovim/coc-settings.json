@@ -114,6 +114,7 @@
     "javascriptreact": ["coc-tsserver", "coc-prettier", "coc-deno"],
     "json": ["coc-json", "coc-prettier", "coc-format-json"],
     "jsonc": ["coc-json", "coc-prettier", "coc-format-json"],
+    "kotlin": ["coc-kotlin"],
     "latex": ["coc-texlab"],
     "lua": ["coc-sumneko-lua", "@statiolake/coc-stylua"],
     "markdown": ["coc-markdown-preview-enhanced"],

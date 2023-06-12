@@ -13,7 +13,7 @@ set_global_config {
   ['editor.useTreesitter'] = true,
   ['editor.ime'] = 'native',
   ['ui.useIcons'] = use_icons,
-  ['ui.colorset'] = 'iceberg-dark',
+  ['ui.colorset'] = 'alduin',
   ['ui.transparent'] = false,
   ['ui.font.size'] = 11,
   ['ui.font.linespace'] = 4,
