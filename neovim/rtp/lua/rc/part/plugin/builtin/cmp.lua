@@ -158,7 +158,7 @@ use {
         },
       },
       performance = {
-        --debounce = 200,
+        debounce = 200,
       },
     }
 
