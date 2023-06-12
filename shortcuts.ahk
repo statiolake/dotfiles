@@ -1,4 +1,4 @@
-Terminal := "WezTerm"
+Terminal := "Windows Terminal"
 
 If (Terminal = "Windows Terminal")
 {
