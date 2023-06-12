@@ -40,6 +40,53 @@ add {
     alduin = {
       background = 'dark',
       editor = 'alduin',
+      lualine = function()
+        local alduin_theme = {
+          inactive = {
+            a = { gui = 'bold', fg = '#1e1e1e', bg = '#946868' },
+            b = { bg = '#1e1e1e', fg = '#946868' },
+            c = { bg = '#131313', fg = '#f5f5c0' },
+          },
+          replace = {
+            a = { gui = 'bold', fg = '#969696', bg = '#c06800' },
+            b = { bg = '#1e1e1e', fg = '#ca720a' },
+            c = { bg = '#131313', fg = '#f5f5c0' },
+          },
+          normal = {
+            a = { gui = 'bold', fg = '#1e1e1e', bg = '#946868' },
+            b = { bg = '#1e1e1e', fg = '#946868' },
+            c = { bg = '#131313', fg = '#f5f5c0' },
+          },
+          terminal = {
+            a = { gui = 'bold', fg = '#1e1e1e', bg = '#94c0c0' },
+            b = { bg = '#1e1e1e', fg = '#94c0c0' },
+            c = { bg = '#131313', fg = '#f5f5c0' },
+          },
+          visual = {
+            a = { gui = 'bold', fg = '#1e1e1e', bg = '#c06868' },
+            b = { bg = '#1e1e1e', fg = '#c06868' },
+            c = { bg = '#131313', fg = '#f5f5c0' },
+          },
+          insert = {
+            a = { gui = 'bold', fg = '#1e1e1e', bg = '#fff594' },
+            b = { bg = '#1e1e1e', fg = '#fff594' },
+            c = { bg = '#131313', fg = '#f5f5c0' },
+          },
+          command = {
+            a = { gui = 'bold', fg = '#1e1e1e', bg = '#94c0c0' },
+            b = { bg = '#1e1e1e', fg = '#94c0c0' },
+            c = { bg = '#131313', fg = '#f5f5c0' },
+          },
+        }
+
+        if cg 'ui.transparent' then
+          for _mode, color in pairs(alduin_theme) do
+            color.c.bg = 'NONE'
+          end
+        end
+
+        return alduin_theme
+      end,
       hook = function()
         if b(vim.g.alduin_Shout_Become_Ethereal) then
           hi.define('Normal', { guibg = '#000000' })
@@ -311,7 +358,7 @@ add {
 }
 
 add {
-  'ellisonleao/gruvbox.nvim',
+  'morhetz/gruvbox',
   colorsets = {
     gruvbox = {
       background = 'dark',
@@ -541,6 +588,31 @@ add {
     tokyonight = {
       background = 'dark',
       editor = 'tokyonight',
+      lualine = 'tokyonight',
+      hook = function() end,
+    },
+  },
+}
+
+add {
+  'sainnhe/everforest',
+  colorsets = {
+    everforest = {
+      background = 'dark',
+      editor = 'everforest',
+      lualine = 'everforest',
+      hook = function() end,
+    },
+  },
+}
+
+add {
+  'rebelot/kanagawa.nvim',
+  colorsets = {
+    kanagawa = {
+      background = 'dark',
+      editor = 'kanagawa',
+      lualine = 'kanagawa',
       hook = function() end,
     },
   },

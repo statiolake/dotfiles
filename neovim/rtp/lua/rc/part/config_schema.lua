@@ -18,6 +18,7 @@ cfg.set_schema {
   ['ui.colorset'] = KA.new(),
   ['ui.transparent'] = KA.new(),
   ['ui.font.size'] = KA.new(),
+  ['ui.font.linespace'] = KA.new(),
   ['ui.font.en.win32'] = KA.new(),
   ['ui.font.jp.win32'] = KA.new(),
   ['ui.font.en.linux'] = KA.new(),

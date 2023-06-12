@@ -206,7 +206,7 @@ local function setup_gui_after()
     end
   end
 
-  vim.opt.linespace = 3
+  vim.opt.linespace = cg 'ui.font.linespace'
 
   if gui == 'neovim-qt' then
     vim.cmd [[

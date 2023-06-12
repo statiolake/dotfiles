@@ -32,54 +32,16 @@ use {
 
     local use_icons = cg 'ui.useIcons'
 
-    local alduin_theme = {
-      inactive = {
-        a = { gui = 'bold', fg = '#1e1e1e', bg = '#946868' },
-        b = { bg = '#1e1e1e', fg = '#946868' },
-        c = { bg = '#131313', fg = '#f5f5c0' },
-      },
-      replace = {
-        a = { gui = 'bold', fg = '#969696', bg = '#c06800' },
-        b = { bg = '#1e1e1e', fg = '#ca720a' },
-        c = { bg = '#131313', fg = '#f5f5c0' },
-      },
-      normal = {
-        a = { gui = 'bold', fg = '#1e1e1e', bg = '#946868' },
-        b = { bg = '#1e1e1e', fg = '#946868' },
-        c = { bg = '#131313', fg = '#f5f5c0' },
-      },
-      terminal = {
-        a = { gui = 'bold', fg = '#1e1e1e', bg = '#94c0c0' },
-        b = { bg = '#1e1e1e', fg = '#94c0c0' },
-        c = { bg = '#131313', fg = '#f5f5c0' },
-      },
-      visual = {
-        a = { gui = 'bold', fg = '#1e1e1e', bg = '#c06868' },
-        b = { bg = '#1e1e1e', fg = '#c06868' },
-        c = { bg = '#131313', fg = '#f5f5c0' },
-      },
-      insert = {
-        a = { gui = 'bold', fg = '#1e1e1e', bg = '#fff594' },
-        b = { bg = '#1e1e1e', fg = '#fff594' },
-        c = { bg = '#131313', fg = '#f5f5c0' },
-      },
-      command = {
-        a = { gui = 'bold', fg = '#1e1e1e', bg = '#94c0c0' },
-        b = { bg = '#1e1e1e', fg = '#94c0c0' },
-        c = { bg = '#131313', fg = '#f5f5c0' },
-      },
-    }
-    if cg 'ui.transparent' then
-      for _mode, color in pairs(alduin_theme) do
-        color.c.bg = 'NONE'
-      end
+    local theme = colorset.get(cg 'ui.colorset').lualine
+    if type(theme) == 'function' then
+      theme = theme()
     end
 
     ac.on_vimenter(function()
       require('lualine').setup {
         options = {
           icons_enabled = use_icons,
-          theme = alduin_theme,
+          theme = theme,
           component_separators = '│',
           section_separators = use_icons and { left = '', right = '' }
             or '',
