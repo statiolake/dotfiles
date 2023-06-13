@@ -800,6 +800,9 @@ end
 use {
   'windwp/nvim-autopairs',
   simple = true,
+  before_load = function()
+    k.i('<S-Space>', '<Space>')
+  end,
   after_load = function()
     local autopairs = require 'nvim-autopairs'
 
