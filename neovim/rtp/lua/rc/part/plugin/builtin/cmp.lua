@@ -9,7 +9,7 @@ local snippet_engine = cg 'editor.ide.builtin.snippet'
 
 use {
   'hrsh7th/nvim-cmp',
-  depends = {
+  depends = pack {
     'cmp-nvim-lsp',
     'cmp-buffer',
     'cmp-path',

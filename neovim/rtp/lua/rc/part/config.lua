@@ -9,7 +9,7 @@ set_global_config {
   ['editor.ide.builtin.useFloatPum'] = true,
   ['editor.ide.builtin.useSnip'] = 'triggerOnly', -- [always, triggerOnly, never], only with ddc
   ['editor.ide.builtin.selector'] = 'telescope', -- [telescope, fzf, ddu]
-  ['editor.ide.builtin.snippet'] = 'vsnip', -- [vsnip, ultisnips], only with cmp
+  ['editor.ide.builtin.snippet'] = 'ultisnips', -- [vsnip, ultisnips], only with cmp
   ['editor.useTreesitter'] = true,
   ['editor.ime'] = 'native',
   ['ui.useIcons'] = use_icons,
