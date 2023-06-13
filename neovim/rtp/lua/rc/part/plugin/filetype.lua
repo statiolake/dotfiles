@@ -1,6 +1,8 @@
 local use = require('rc.lib.plugin_manager').use
 local cg = get_global_config
 
+local treesitter_enabled = cg 'editor.useTreesitter'
+
 use {
   'iamcco/markdown-preview.nvim',
   enabled = cg 'editor.ide.framework' ~= 'coc',
@@ -55,12 +57,19 @@ use {
 }
 
 -- 追加のファイルタイプ
-use 'Snape3058/kotlin-vim'
+use {
+  'Snape3058/kotlin-vim',
+  enabled = not treesitter_enabled,
+}
 
-use 'PProvost/vim-ps1'
+use {
+  'PProvost/vim-ps1',
+  enabled = not treesitter_enabled,
+}
 
 use {
   'vim-python/python-syntax',
+  enabled = not treesitter_enabled,
   before_load = function()
     vim.g.python_highlight_all = 1
     vim.g.python_version_2 = 0
@@ -69,34 +78,51 @@ use {
 
 use {
   'cespare/vim-toml',
+  enabled = not treesitter_enabled,
   rev = 'main',
 }
 
 use {
   'rhysd/vim-crystal',
+  enabled = not treesitter_enabled,
   before_load = function()
     vim.g.crystal_define_mappings = 0
   end,
 }
 
-use 'tkztmk/vim-vala'
+use {
+  'tkztmk/vim-vala',
+  enabled = not treesitter_enabled,
+}
 
-use 'zah/nim.vim'
+use {
+  'zah/nim.vim',
+  enabled = not treesitter_enabled,
+}
 
-use 'JuliaEditorSupport/julia-vim'
+use {
+  'JuliaEditorSupport/julia-vim',
+  enabled = not treesitter_enabled,
+}
 
 -- use {
 --   'jlcrochet/vim-cs',
+--   enabled = not treesitter_enabled,
 -- }
 
 -- use {
 --   'jlcrochet/vim-razor',
+--    enabled = not treesitter_enabled,
 -- }
 
-use 'leafgarland/typescript-vim'
+use {
+  'leafgarland/typescript-vim',
+  enabled = not treesitter_enabled,
+}
 
 use {
   'bfrg/vim-cpp-modern',
+  enabled = not treesitter_enabled,
   before_load = function()
     vim.g.cpp_class_scope_highlight = 1
     vim.g.cpp_member_variable_highlight = 1
@@ -107,4 +133,7 @@ use {
   end,
 }
 
-use 'kevinoid/vim-jsonc'
+use {
+  'kevinoid/vim-jsonc',
+  enabled = not treesitter_enabled,
+}

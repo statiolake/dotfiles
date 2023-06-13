@@ -16,6 +16,8 @@ vim.filetype.add {
     vala = 'vala',
     cr = 'crystal',
     kt = 'kotlin',
+    ps1 = 'ps1',
+    toml = 'toml',
   },
 }
 
