@@ -820,7 +820,7 @@ use {
     local Rule = require 'nvim-autopairs.rule'
     local cond = require 'nvim-autopairs.conds'
 
-    -- `(|)` でスペースキーを押したときに `( | )` にする
+    -- `(|)` でスペースキーを押したときに `( | )` にする {{{
     local brackets = { { '(', ')' }, { '[', ']' }, { '{', '}' } }
     autopairs.add_rules {
       Rule(' ', ' ')
@@ -854,6 +854,7 @@ use {
         :with_del(cond.none())
         :use_key(bracket[2])
     end
+    -- }}}
   end,
 }
 
