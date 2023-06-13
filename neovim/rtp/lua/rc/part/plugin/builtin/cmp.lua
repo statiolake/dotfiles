@@ -128,7 +128,14 @@ use {
       sources = {
         { name = snippet_engine },
         { name = 'nvim_lsp' },
-        { name = 'buffer' },
+        {
+          name = 'buffer',
+          option = {
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs()
+            end,
+          },
+        },
       },
       view = {
         entries = (use_float_pum and 'custom' or 'native'),
@@ -158,7 +165,7 @@ use {
         },
       },
       performance = {
-        debounce = 200,
+        -- debounce = 200,
       },
     }
 
