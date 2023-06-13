@@ -15,7 +15,7 @@ set_global_config {
   ['ui.useIcons'] = use_icons,
   ['ui.colorset'] = 'alduin',
   ['ui.transparent'] = false,
-  ['ui.font.size'] = 11,
+  ['ui.font.size'] = 12,
   ['ui.font.linespace'] = 4,
   ['ui.font.en.win32'] = 'Consolas',
   ['ui.font.jp.win32'] = 'Meiryo',
