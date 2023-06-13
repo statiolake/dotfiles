@@ -60,6 +60,7 @@ class Directories:
             self.base = Path(__file__).parent.absolute()
             self.git = self.base / "git"
             self.neovim = self.base / "neovim"
+            self.neovim_new = self.base / "neovim-new"
 
     class Target:
         def __init__(self):
@@ -70,21 +71,24 @@ class Directories:
             # TODO: XDG_CONFIG_HOME
             self.config = self.home / ".config"
             self.nvimfiles, self.nvimdata = self._get_nvimfiles()
+            self.nvimfiles_new, self.nvimdata_new = self._get_nvimfiles(
+                "nvim-new"
+            )
             if ENV == Platform.WINDOWS:
                 self.pwshprofiles = self._get_pwshprofiles()
 
-        def _get_nvimfiles(self):
+        def _get_nvimfiles(self, appname="nvim"):
             if ENV == Platform.WINDOWS:
                 localappdata = Directories.envvar("LOCALAPPDATA")
                 return (
-                    localappdata / "nvim",
-                    localappdata / "nvim-data",
+                    localappdata / appname,
+                    localappdata / f"{appname}-data",
                 )
             else:
                 # TODO: $XDG_CONFIG_HOME を使うべき
                 return (
-                    self.home / ".config" / "nvim",
-                    self.home / ".local" / "share" / "nvim",
+                    self.home / ".config" / appname,
+                    self.home / ".local" / "share" / appname,
                 )
 
         def _get_pwshprofiles(self):
@@ -379,6 +383,13 @@ def setup_neovim(d, *, force, silent):
     )
     linkd(d.s.neovim / "vsnip", d.t.nvimfiles / ".vsnip", silent=silent)
     linkf(d.s.neovim / "init.lua", d.t.nvimfiles / "init.lua", silent=silent)
+
+    linkd(d.s.neovim_new / "lua", d.t.nvimfiles_new / "lua", silent=silent)
+    linkf(
+        d.s.neovim_new / "init.lua",
+        d.t.nvimfiles_new / "init.lua",
+        silent=silent,
+    )
 
     # SKK-JISYO.L for skkeleton or eskk
     echo("Downloading SKK-JISYO.L...", SUBARROW)
