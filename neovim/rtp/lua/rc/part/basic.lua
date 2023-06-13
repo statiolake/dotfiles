@@ -46,7 +46,6 @@ vim.opt.autoindent = true
 vim.opt.smartindent = false
 vim.opt.cindent = true
 vim.opt.cinkeys = { '0{', '0}', '0)', '0]', ':', '!^F', 'o', 'O', 'e' }
-vim.opt.cinoptions = { '(s', 'm1' }
 
 -- indentexpr を自動設定させないようにする → やっぱり使う
 --vim.cmd[[filetype plugin on]]
@@ -131,6 +130,12 @@ if cg 'editor.ide.framework' == 'coc' then
   end)
 end
 -- }}}
+
+ac.augroup('rc__cinoptions', function(au)
+  au('BufEnter', '*', function()
+    vim.opt.cinoptions = { '(0', 'm1', 'Ws' }
+  end)
+end)
 
 -- クリップボード設定
 require('rc.clipboard').setup()
