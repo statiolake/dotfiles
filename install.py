@@ -360,6 +360,7 @@ def install_deno(d, *, force):
 def setup_neovim(d, *, force, silent):
     echo("Making symlinks...", SUBARROW)
     os.makedirs(d.t.nvimfiles, exist_ok=True)
+    os.makedirs(d.t.nvimfiles_new, exist_ok=True)
     os.makedirs(d.t.nvimdata, exist_ok=True)
     os.makedirs(d.t.nvimdata / "coc", exist_ok=True)
     linkf(
