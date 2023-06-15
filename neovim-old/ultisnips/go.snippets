@@ -1,0 +1,15 @@
+snippet main "template for quick code writing" b
+package main
+
+import "fmt"
+
+func main() {
+	$0
+}
+endsnippet
+
+snippet iferr "if err != nil"
+	if err != nil {
+		return ${1:nil, err}
+	}
+endsnippet
