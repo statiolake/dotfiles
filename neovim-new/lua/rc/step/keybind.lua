@@ -1,6 +1,6 @@
 local k = require 'rc.lib.keybind'
 local cmd = require 'rc.lib.command'
-local env = require 'rc.env'
+local env = require 'rc.lib.env'
 
 -- Windows で <C-z> を無効化する
 --

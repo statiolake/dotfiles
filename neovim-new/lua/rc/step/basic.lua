@@ -1,7 +1,7 @@
 local k = require 'rc.lib.keybind'
 local ac = require 'rc.lib.autocmd'
 local vimfn = require 'rc.lib.vimfn'
-local env = require 'rc.env'
+local env = require 'rc.lib.env'
 local cg = get_global_config
 
 vim.opt.fileencoding = 'utf-8'

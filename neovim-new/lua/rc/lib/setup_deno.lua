@@ -1,6 +1,6 @@
 local M = {}
 
-local env = require 'rc.env'
+local env = require 'rc.lib.env'
 local vimfn = require 'rc.lib.vimfn'
 
 local system_path = coalesce {

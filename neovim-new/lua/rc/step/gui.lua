@@ -1,6 +1,5 @@
 local ac = require 'rc.lib.autocmd'
-local env = require 'rc.env'
-local manager = require 'rc.lib.plugin_manager'
+local env = require 'rc.lib.env'
 local stl = require 'rc.statusline'
 local cg = get_global_config
 
@@ -21,7 +20,8 @@ local function setup_gui()
   -- 常にステータスラインを表示
   -- 新しい Neovim ではグローバルステータスラインを有効にする
   -- Note: LuaLine を使う場合はそちらでも設定する必要がある
-  vim.opt.laststatus = manager.tap 'lualine' and 3 or 2
+  local has_lualine, _ = require 'lualine'
+  vim.opt.laststatus = has_lualine and 3 or 2
 
   -- シンタックスハイライトを利用する
   vim.cmd [[syntax on]]

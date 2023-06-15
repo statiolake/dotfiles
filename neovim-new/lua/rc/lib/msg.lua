@@ -5,19 +5,13 @@ M.Severity = {
   INFO = 1,
   WARN = 2,
   ERROR = 3,
-  NONE = 9,
 }
 
 --- 表示する最小の重大度
 M.severity_filter = M.Severity.INFO
 
 function M.setup()
-  -- 指定されている場合は無効化する
-  local ok, rc_disable_msg =
-    pcall(vim.fn.str2nr, vim.fn.getenv 'NVIM_RC_DISABLE_MSG')
-  if ok and rc_disable_msg ~= 0 then
-    M.severity_filter = M.Severity.NONE
-  end
+  -- TODO: 環境変数に応じて警告を抑制
 end
 
 function M.msg(severity, format, ...)
