@@ -59,6 +59,7 @@ class Directories:
         def __init__(self):
             self.base = Path(__file__).parent.absolute()
             self.git = self.base / "git"
+            self.neovim_old = self.base / "neovim-old"
             self.neovim = self.base / "neovim"
 
     class Target:
@@ -69,22 +70,25 @@ class Directories:
             self.bin = self.home / "bin"
             # TODO: XDG_CONFIG_HOME
             self.config = self.home / ".config"
-            self.nvimfiles, self.nvimdata = self._get_nvimfiles()
+            self.nvimfiles_old, self.nvimdata_old = self._get_nvimfiles(
+                "nvim-old"
+            )
+            self.nvimfiles, self.nvimdata = self._get_nvimfiles("nvim")
             if ENV == Platform.WINDOWS:
                 self.pwshprofiles = self._get_pwshprofiles()
 
-        def _get_nvimfiles(self):
+        def _get_nvimfiles(self, appname="nvim"):
             if ENV == Platform.WINDOWS:
                 localappdata = Directories.envvar("LOCALAPPDATA")
                 return (
-                    localappdata / "nvim",
-                    localappdata / "nvim-data",
+                    localappdata / appname,
+                    localappdata / f"{appname}-data",
                 )
             else:
                 # TODO: $XDG_CONFIG_HOME を使うべき
                 return (
-                    self.home / ".config" / "nvim",
-                    self.home / ".local" / "share" / "nvim",
+                    self.home / ".config" / appname,
+                    self.home / ".local" / "share" / appname,
                 )
 
         def _get_pwshprofiles(self):
@@ -355,30 +359,49 @@ def install_deno(d, *, force):
 
 def setup_neovim(d, *, force, silent):
     echo("Making symlinks...", SUBARROW)
+    os.makedirs(d.t.nvimfiles_old, exist_ok=True)
+    os.makedirs(d.t.nvimdata_old, exist_ok=True)
+    os.makedirs(d.t.nvimdata_old / "coc", exist_ok=True)
     os.makedirs(d.t.nvimfiles, exist_ok=True)
-    os.makedirs(d.t.nvimdata, exist_ok=True)
-    os.makedirs(d.t.nvimdata / "coc", exist_ok=True)
     linkf(
-        d.s.neovim / "vimrc_vscode_neovim",
+        d.s.neovim_old / "vimrc_vscode_neovim",
         d.t.home / ".vimrc_vscode_neovim",
         silent=silent,
     )
     linkf(
-        d.s.neovim / "coc-settings.json",
-        d.t.nvimfiles / "coc-settings.json",
+        d.s.neovim_old / "coc-settings.json",
+        d.t.nvimfiles_old / "coc-settings.json",
         silent=silent,
     )
-    linkd(d.s.neovim / "rtp", d.t.nvimfiles / "rtp", silent=silent)
+    linkd(d.s.neovim_old / "rtp", d.t.nvimfiles_old / "rtp", silent=silent)
+    linkd(
+        d.s.neovim_old / "ultisnips",
+        d.t.nvimfiles_old / "ultisnips",
+        silent=silent,
+    )
+    linkd(
+        d.s.neovim_old / "ultisnips",
+        d.t.nvimdata_old / "coc" / "ultisnips",
+        silent=silent,
+    )
+    linkd(
+        d.s.neovim_old / "vsnip", d.t.nvimfiles_old / ".vsnip", silent=silent
+    )
+    linkf(
+        d.s.neovim_old / "init.lua",
+        d.t.nvimfiles_old / "init.lua",
+        silent=silent,
+    )
+
     linkd(
         d.s.neovim / "ultisnips", d.t.nvimfiles / "ultisnips", silent=silent
     )
-    linkd(
-        d.s.neovim / "ultisnips",
-        d.t.nvimdata / "coc" / "ultisnips",
+    linkd(d.s.neovim / "lua", d.t.nvimfiles / "lua", silent=silent)
+    linkf(
+        d.s.neovim / "init.lua",
+        d.t.nvimfiles / "init.lua",
         silent=silent,
     )
-    linkd(d.s.neovim / "vsnip", d.t.nvimfiles / ".vsnip", silent=silent)
-    linkf(d.s.neovim / "init.lua", d.t.nvimfiles / "init.lua", silent=silent)
 
     # SKK-JISYO.L for skkeleton or eskk
     echo("Downloading SKK-JISYO.L...", SUBARROW)

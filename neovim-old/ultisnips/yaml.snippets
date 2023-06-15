@@ -1,0 +1,22 @@
+snippet auth "bearer" b
+security:
+	- bearer: []
+endsnippet
+
+snippet consumejson "consume json" b
+consumes: [application/json]
+endsnippet
+
+snippet producejson "produce json" b
+produces: [application/json]
+endsnippet
+
+snippet errorschema "error type" b
+schema:
+	type: object
+	properties:
+		code:
+			type: integer
+		error:
+			type: string
+endsnippet

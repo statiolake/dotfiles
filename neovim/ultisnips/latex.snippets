@@ -1,1 +1,506 @@
-tex.snippets
+priority -50
+
+extends texmath
+
+#====================================================================================================
+# ドキュメントクラス・設定短縮
+#====================================================================================================
+snippet doc "documentclass, usepackage, etc." b
+\documentclass[luatex, unicode, pdfusetitle]{ltjsarticle}
+\usepackage{luatexja}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage[yu-win10,deluxe]{luatexja-preset}
+\usepackage{color}
+\usepackage{amsmath, amssymb, amsthm, mathrsfs}
+\usepackage{mathtools}
+\usepackage{cancel}
+\usepackage{ulem}
+\usepackage{framed}
+\usepackage{cases}
+\usepackage{setspace}
+\usepackage{ifthen}
+\usepackage[shortlabels,inline]{enumitem}
+\usepackage{hhline}
+\usepackage{myzmath}
+\usepackage{myxphysics}
+\usepackage{myunit}
+\usepackage[top=20truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+%\usepackage{helvet}
+\usepackage{titlesec}
+\titleformat*{\section}{\fontsize{16}{25}\bfseries}
+\titleformat*{\subsection}{\fontsize{14}{25}\bfseries}
+\titleformat*{\subsubsection}{\fontsize{12}{25}\bfseries}
+\titleformat*{\paragraph}{\normalsize\bfseries}
+\titleformat*{\subparagraph}{\normalsize\bfseries}
+\renewcommand{\textbf}[1]{{\bfseries #1}}
+\theoremstyle{definition}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem*{theorem*}{定理}
+\newtheorem*{definition*}{定義}
+\newtheorem*{lemma*}{補題}
+\newtheorem*{corollary*}{系}
+\begin{document}
+${0}
+\end{document}
+endsnippet
+
+snippet beamer "documentclass, usepackage, etc." b
+\documentclass[luatex, unicode, pdfusetitle]{beamer}
+\usepackage{luatexja}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage[yu-win10,deluxe]{luatexja-preset}
+\usepackage{color}
+\usepackage{amsmath, amssymb, amsthm, mathrsfs}
+\usepackage{mathtools}
+\usepackage{cancel}
+\usepackage{ulem}
+\usepackage{framed}
+\usepackage{cases}
+\usepackage{setspace}
+\usepackage{ifthen}
+\usepackage[shortlabels,inline]{enumitem}
+\usepackage{hhline}
+\usepackage{myzmath}
+\usepackage{myxphysics}
+\usepackage{myunit}
+%\usepackage{helvet}
+\renewcommand{\textbf}[1]{{\bfseries #1}}
+\theoremstyle{definition}
+
+\renewcommand{\kanjifamilydefault}{\gtdefault} % 既定をゴシック体に
+\usetheme{default}
+\usecolor{beaver}
+
+\title{$1}
+\author{${2:理学部 中井大介 \\ 0530--33--7718}}
+\date{\number\year 年\number\month 月\number\day 日}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{目次}
+	\tableofcontents
+\end{frame}
+
+\section{${0:ここにセクション名}}
+
+\begin{frame}{ここにタイトル}
+	ここが内容
+\end{frame}
+endsnippet
+
+snippet conf_landscape "\AtBeginDvi" b
+\AtBeginDvi{\special{landscape}}
+endsnippet
+
+snippet conf_a5paper "\AtBeginDvi" b
+\AtBeginDvi{\special{pdf: pagesize width 148truemm height 210truemm}}
+endsnippet
+
+snippet conf_tate_tikz "tate-mode for tikz" b
+\usepackage{pxeveryshi} % for tikz in tate-mode.
+endsnippet
+
+snippet conf_tate_geometry "tate-mode for tikz" b
+\usepackage{lltjp-geometry} % for geometry in tate-mode
+endsnippet
+
+snippet conf_fancyhdr "fancyhdr" b
+\pagestyle{fancy} % insert it between \begin{document} .. \end{document}
+endsnippet
+
+snippet pac "Package" b
+\usepackage[${1:options}]{${2:package}}$0
+endsnippet
+
+snippet package_tikz "usepackage for tikz" b
+\usepackage{pgf,tikz,pgfplots}
+\usepackage{gnuplot-lua-tikz}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{cd}
+\pgfplotsset{compat=1.16}
+endsnippet
+
+snippet axis "\begin{axis}" b
+	\begin{axis}[
+		trig format plots=rad,
+		samples=100,
+		x=1cm,y=1cm,
+		%axis lines=middle,
+		xmin=-4, xmax=4,
+		ymin=-4, ymax=4,
+		%ticks=none,
+		xtick={-4,-3,...,4},ytick={-4,-3,...,4},
+		%xticklabels={,,},yticklabels={,,},
+	]
+		% sample:
+		%\addplot [line width=2pt] {x};
+		%\addplot [line width=2pt, decoration={
+		%	pre length=1mm,
+		%	post length=1mm,
+		%	markings,
+		%	mark=at position 0.5 with {\arrow [scale=1.5]{stealth}}
+		%}, postaction=decorate] {x};
+		%\addplot [line width=2pt, decoration={
+		%	markings,
+		%	mark=between positions 0.2 and 0.99 step 2em with {\arrow [scale=1.5]{stealth}}
+		%}, postaction=decorate] {x};
+		%\addplot [domain=-4:4, variable=t, line width=2pt] ({0},{t});
+		%\node [anchor=south west] at (axis cs: 1,0) {$\psi$};
+	\end{axis}
+endsnippet
+
+snippet resizebox "\resizebox"
+\resizebox{${1:\\linewidth}}{!}{
+	${2:${VISUAL}}
+}$0
+endsnippet
+
+snippet package_fancyhdr "usepackage for fancyhdr" b
+\usepackage{fancyhdr}
+endsnippet
+
+snippet package_chem "usepackage for chemistry" b
+\usepackage[version=3]{mhchem}
+\usepackage{chemfig}
+endsnippet
+
+snippet package_kokugo "usepackage for kokugo" b
+\usepackage{trenban,furikana,tsayusen,tnamisen,anaume}
+endsnippet
+
+snippet package_mine "usepackage for my... packages" b
+\usepackage{myuline,myenumlabel,mydaimon}
+endsnippet
+
+#====================================================================================================
+# 短縮
+#====================================================================================================
+snippet deftitle "\title, \author, \date" b
+\title{${1}}
+\author{${2:理学部 中井大介 \\\\ 0530--33--7718}}
+\date{${3:\number\year 年\number\month 月\number\day 日}}
+endsnippet
+
+snippet figtblcaption "\figcaption, \tblcaption" b
+% 図表を混在させるため
+\makeatletter
+\newcommand{\figcaption}[1]{\def\@captype{figure}\caption{#1}}
+\newcommand{\tblcaption}[1]{\def\@captype{table}\caption{#1}}
+\makeatother
+endsnippet
+
+snippet thbases "\thl, \thn, \thr" b
+\newcommand{\thbase}[2]{\multicolumn{1}{#1}{#2}}
+\newcommand{\thl}[1]{\thbase{|c}{#1}}
+\newcommand{\thn}[1]{\thbase{c}{#1}}
+\newcommand{\thr}[1]{\thbase{c|}{#1}}
+endsnippet
+
+snippet counterwithsection "figure 1.22 or something" b
+\makeatletter
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\@addtoreset{figure}{section}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\@addtoreset{table}{section}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\@addtoreset{equation}{section}
+\makeatother
+endsnippet
+
+snippet im "Inline math" i
+$${1}$$0
+endsnippet
+
+snippet st "s.t. (such that)" i
+~\mathrm{s.t.}~
+endsnippet
+
+snippet env "begin{} / end{}" b
+\begin{${1:align*}}
+	${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+snippet envd "begin{} / end{}" b
+\begin{${1:tabular}}{${2:cc}}
+	${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+snippet envop "begin{} / end{}" b
+\begin{${1:enumerate}}[${2:(1)}]
+	${0:${VISUAL}}
+\end{$1}
+endsnippet
+
+snippet minipage "minipage" b
+\begin{minipage}{${1:.3\\hsize}}
+
+\end{minipage}
+\hfill
+\begin{minipage}{${2:.6\\hsize}}
+
+\end{minipage} \\\\
+${0}
+endsnippet
+
+snippet tab "tabular / array environment" b
+\begin{${1:t}${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${2:c}}
+$0${2/((?<=.)c|l|r)|./(?1: & )/g}
+\end{$1${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
+endsnippet
+
+snippet table "Table environment" b
+\begin{table}[${1:htpb}]
+	\centering
+	\caption{${2:caption}}
+	\label{tab:${3:label}}
+	\begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
+	$0${5/((?<=.)c|l|r)|./(?1: & )/g}
+	\end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
+\end{table}
+endsnippet
+
+snippet fig "Figure environment" b
+\begin{figure}[${2:htpb}]
+	\centering
+	\includegraphics[width=${3:0.8}\linewidth]{${4:name.ext}}
+	\caption{${4/(\w+)\.\w+/\u$1/}$0}
+	\label{fig:${4/(\w+)\.\w+/$1/}}
+\end{figure}
+endsnippet
+
+snippet enum "Enumerate" b
+\begin{enumerate}[${1:(1)}]
+	\item $0
+\end{enumerate}
+endsnippet
+
+snippet item "Itemize" b
+\begin{itemize}
+	\item $0
+\end{itemize}
+endsnippet
+
+snippet desc "Description" b
+\begin{description}
+	\item[$1] $0
+\end{description}
+endsnippet
+
+#----------------------------------------------------------------------------------------------------
+
+snippet defi "zdefine environment" b
+\begin{zdefine}{}{}
+	${0:${VISUAL}}
+\end{zdefine}
+endsnippet
+
+snippet axiom "zaxiom environment" b
+\begin{zaxiom}{}{}
+	${0:${VISUAL}}
+\end{zaxiom}
+endsnippet
+
+snippet theo "ztheorem environment" b
+\begin{ztheorem}{}{}
+	${0:${VISUAL}}
+\end{ztheorem}
+endsnippet
+
+snippet cor "zcorollary environment" b
+\begin{zcorollary}{}{}
+	${0:${VISUAL}}
+\end{zcorollary}
+endsnippet
+
+snippet prin "zprinciple environment" b
+\begin{zprinciple}{}{}
+	${0:${VISUAL}}
+\end{zprinciple}
+endsnippet
+
+snippet form "zformula environment" b
+\begin{zformula}{}{}
+	${0:${VISUAL}}
+\end{zformula}
+endsnippet
+
+snippet lemma "zlemma environment" b
+\begin{zlemma}{}{}
+	${0:${VISUAL}}
+\end{zlemma}
+endsnippet
+
+snippet prop "zprop environment" b
+\begin{zprop}{}{}
+	${0:${VISUAL}}
+\end{zprop}
+endsnippet
+
+snippet chara "zchara environment" b
+\begin{zchara}{}{}
+	${0:${VISUAL}}
+\end{zchara}
+endsnippet
+
+snippet exer "zexer environment" b
+\begin{zexer}{}{}
+	${0:${VISUAL}}
+\end{zexer}
+endsnippet
+
+snippet exam "zexam environment" b
+\begin{zexam}{}{}
+	${0:${VISUAL}}
+\end{zexam}
+endsnippet
+
+snippet note "znote environment" b
+\begin{znote}{}{}
+	${0:${VISUAL}}
+\end{znote}
+endsnippet
+
+snippet alone "zalone environment" b
+\begin{zalone}{}{}
+	${0:${VISUAL}}
+\end{zalone}
+endsnippet
+
+snippet proof "zproof environment" b
+\begin{zproof}{}{}
+	${0:${VISUAL}}
+\end{zproof}
+endsnippet
+
+snippet ans "zans environment" b
+\begin{zans}{}{}
+	${0:${VISUAL}}
+\end{zans}
+endsnippet
+
+snippet align "align environment" b
+\begin{align}
+	${0:${VISUAL}}
+\end{align}
+endsnippet
+
+snippet align* "align environment" b
+\begin{align*}
+	${0:${VISUAL}}
+\end{align*}
+endsnippet
+
+snippet tikz "\begin{tikzpicture}...\end{}" b
+\begin{tikzpicture}
+	${0:${VISUAL}}
+\end{tikzpicture}
+endsnippet
+
+#====================================================================================================
+# 箇条書き・セクション・図など
+#====================================================================================================
+
+snippet li "Individual item" b
+\item ${0}
+endsnippet
+
+snippet part "Part" b
+\part{${1:part name}}\label{prt:${2:${1/(\w+)|\W+/(?1:\L$0\E:_)/ga}}}
+
+${0}
+endsnippet
+
+snippet cha "Chapter" b
+\chapter{${1:chapter name}}\label{cha:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+
+${0}
+endsnippet
+
+snippet sec "Section" b
+\section{${1:section name}}\label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+${0}
+endsnippet
+
+snippet ssec "Subsection" b
+\subsection{${1:subsection name}}\label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+${0}
+endsnippet
+
+snippet sssec "Subsubsection" b
+\subsubsection{${1:subsubsection name}}\label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+${0}
+endsnippet
+
+snippet par "Paragraph" b
+\paragraph{${1:paragraph name}}\label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+
+${0}
+endsnippet
+
+snippet subp "Subparagraph" b
+\subparagraph{${1:subparagraph name}}\label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+
+${0}
+endsnippet
+
+snippet ni "Non-indented paragraph" b
+\noindent
+${0}
+endsnippet
+
+snippet incgraph "includegraphics" b
+\includegraphics[${1:width=\\hsize}]{${2:${VISUAL}}}${0}
+endsnippet
+
+snippet group "\begingroup ... \endgroup" b
+\begingroup
+	${0:${VISUAL}}
+\endgroup
+endsnippet
+
+#====================================================================================================
+# 文中短縮
+#====================================================================================================
+
+snippet cmd "\command" i
+\\${1:command}{${2:${VISUAL}}}${0}
+endsnippet
+
+snippet "bb" "\mathbb{}" i
+\\mathbb{${1:${VISUAL}}}${0}
+endsnippet
+
+snippet "z?rm" "\zrm{}" ir
+\\zrm{${1:${VISUAL}}}${0}
+endsnippet
+
+snippet "\\?bf" "\textbf{}" ir
+\textbf{${1:${VISUAL}}}${0}
+endsnippet
+
+snippet \ce "\ce{}" i
+\ce{${1:${VISUAL}}}${0}
+endsnippet
+
+snippet color "\textcolor{col}{}" i
+\textcolor{${1:color}}{${2:${VISUAL}}}${0}
+endsnippet
+
+snippet mid "middle bar on set" i
+\mathrel{}\middle|\mathrel{}
+endsnippet
+
+snippet fboxsection "fbox-ed section number format" b
+\titleformat{\section}{\fontsize{16}{25}\bfseries\sffamily}{\fbox{\thesection}}{1em}{}
+endsnippet
+
+# vim:ft=snippets:

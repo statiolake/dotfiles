@@ -1,0 +1,8 @@
+# スニペットの中にスニペット終了記号 "endsnippet" が出現するという面倒さがある
+# のでちょっとしたハックが必要。
+# reference: https://github.com/honza/vim-snippets/blob/8426857c1b8d1c00bbe0faa6dfff99acb1521042/UltiSnips/snippets.snippets#L5-L9
+snippet snip "Ultisnips snippet definition" b
+`!p snip.rv = "snippet"` ${1:Tab_trigger} "${2:Description}" ${3:b}
+${0:${VISUAL}}
+`!p snip.rv = "endsnippet"`
+endsnippet
