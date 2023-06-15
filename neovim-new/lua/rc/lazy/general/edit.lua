@@ -115,27 +115,21 @@ return {
   },
   {
     'haya14busa/vim-asterisk',
-    keys = {
-      { '*', mode = { 'n', 'x' }, '<Plug>(asterisk-z*)' },
-      { '#', mode = { 'n', 'x' }, '<Plug>(asterisk-z#)' },
-      { 'g*', mode = { 'n', 'x' }, '<Plug>(asterisk-gz*)' },
-      { 'g#', mode = { 'n', 'x' }, '<Plug>(asterisk-gz#)' },
-    },
     init = function()
+      k.nx('*', '<Plug>(asterisk-z*)')
+      k.nx('#', '<Plug>(asterisk-z#)')
+      k.nx('g*', '<Plug>(asterisk-gz*)')
+      k.nx('g#', '<Plug>(asterisk-gz#)')
       vim.g['asterisk#keeppos'] = 1
     end,
   },
   {
     'rlane/pounce.nvim',
-    keys = {
-      {
-        '<Leader>w',
-        mode = { 'n', 'v', 'o' },
-        function()
-          require('pounce').pounce()
-        end,
-      },
-    },
+    init = function()
+      k.nvono('<Leader>w', function()
+        require('pounce').pounce()
+      end)
+    end,
   },
   {
     'numToStr/Comment.nvim',
@@ -157,8 +151,8 @@ return {
   },
   {
     'statiolake/vim-evalvis',
-    keys = { '<C-e>', mode = 'x', '<Plug>(evalvis-eval)' },
     init = function()
+      k.x('<C-e>', '<Plug>(evalvis-eval)')
       vim.g['evalvis#language'] = 'python3'
     end,
   },

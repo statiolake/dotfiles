@@ -1,6 +1,7 @@
 local ac = require 'rc.lib.autocmd'
 local env = require 'rc.lib.env'
 local vimfn = require 'rc.lib.vimfn'
+local k = require 'rc.lib.keybind'
 
 local function skk_large_dictionary()
   local jisyo_cands = {
@@ -29,11 +30,10 @@ return {
   {
     'vim-skk/skkeleton',
     dependencies = { 'denops.vim' },
-    keys = {
-      { '<C-j>', mode = 'i', '<Plug>(skkeleton-enable)' },
-      { '<C-j>', mode = 'c', '<Plug>(skkeleton-enable)' },
-    },
     init = function()
+      k.i('<C-j>', '<Plug>(skkeleton-enable)')
+      k.c('<C-j>', '<Plug>(skkeleton-enable)')
+
       ac.augroup('rc__skkeleton_init', function(au)
         au('User', 'skkeleton-initialize-pre', function()
           vim.fn['skkeleton#register_kanatable']('rom', {

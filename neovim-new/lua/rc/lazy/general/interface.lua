@@ -21,12 +21,12 @@ return {
       'plenary.nvim',
       'telescope-ui-select.nvim',
     },
-    keys = {
-      { '<C-e>', k.cmd 'Telescope find_files' },
-      { '<C-f>', k.cmd 'Telescope live_grep' },
-      { '<C-q>', k.cmd 'Telescope buffers' },
-      { '<C-s>', k.cmd 'Telescope resume' },
-    },
+    init = function()
+      k.nno('<C-e>', k.cmd 'Telescope find_files')
+      k.nno('<C-f>', k.cmd 'Telescope live_grep')
+      k.nno('<C-q>', k.cmd 'Telescope buffers')
+      k.nno('<C-s>', k.cmd 'Telescope resume')
+    end,
     config = function()
       -- リザルト画面が fold されてしまう問題を修正
       -- https://github.com/nvim-telescope/telescope.nvim/issues/991
@@ -92,7 +92,9 @@ return {
   },
   {
     'simnalamburt/vim-mundo',
-    keys = { '<A-z>', k.cmd 'MundoToggle' },
+    init = function()
+      k.nno('<A-z>', k.cmd 'MundoToggle')
+    end,
   },
   {
     'nvim-pack/nvim-spectre',
@@ -106,15 +108,13 @@ return {
   },
   {
     't9md/vim-quickhl',
-    keys = {
-      { '+', mode = { 'n' }, '<Plug>(quickhl-manual-this-whole-word)' },
-      { '+', mode = { 'x' }, '<Plug>(quickhl-manual-this)' },
-      { '-', mode = { 'n' }, '<Plug>(quickhl-manual-clear)' },
-      { '-', mode = { 'x' }, '<Plug>(quickhl-manual-clear)' },
-      { '<Leader>M', mode = { 'n' }, '<Plug>(quickhl-manual-reset)' },
-      { '<Leader>M', mode = { 'x' }, '<Plug>(quickhl-manual-reset)' },
-    },
     init = function()
+      k.n('+', '<Plug>(quickhl-manual-this-whole-word)')
+      k.x('+', '<Plug>(quickhl-manual-this)')
+      k.n('-', '<Plug>(quickhl-manual-clear)')
+      k.x('-', '<Plug>(quickhl-manual-clear)')
+      k.n('<Leader>M', '<Plug>(quickhl-manual-reset)')
+      k.x('<Leader>M', '<Plug>(quickhl-manual-reset)')
       cmd.add('NoQuickHl', vim.fn['quickhl#manual#reset'])
     end,
   },

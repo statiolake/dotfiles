@@ -8,26 +8,16 @@ return {
   },
   {
     'wsdjeg/vim-fetch',
-    keys = {
-      'gf',
-      mode = { 'n', 'x' },
-      'gF',
-    },
+    init = function()
+      k.nx('gf', 'gF')
+    end,
   },
   {
     'tyru/open-browser.vim',
-    keys = {
-      {
-        'gx',
-        mode = { 'n', 'x' },
-        '<Plug>(openbrowser-open)',
-      },
-      {
-        'g?',
-        mode = { 'n', 'x' },
-        '<Plug>(openbrowser-search)',
-      },
-    },
+    init = function()
+      k.nx('gx', '<Plug>(openbrowser-open)')
+      k.nx('g?', '<Plug>(openbrowser-search)')
+    end,
   },
   {
     'statiolake/vim-junkfile',
@@ -87,14 +77,10 @@ return {
   },
   {
     'Shatur/neovim-session-manager',
-    dependencies = {
-      'plenary.nvim',
-      'telescope.nvim',
-    },
-    keys = {
-      { '<C-y>', k.cmd 'SessionManager load_session' },
-      { '<C-A-y>', k.cmd 'SessionManager load_current_dir_session' },
-    },
+    init = function()
+      k.nno('<C-y>', k.cmd 'SessionManager load_session')
+      k.nno('<C-A-y>', k.cmd 'SessionManager load_current_dir_session')
+    end,
     config = function()
       local path = require 'plenary.path'
       local session_config = require 'session_manager.config'
