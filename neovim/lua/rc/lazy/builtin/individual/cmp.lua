@@ -217,10 +217,8 @@ return {
       vim.g.UltiSnipsRemoveSelectModeMappings = 0
     end,
     config = function()
-      ac.augroup('rc__unregister_ultisnips_autotrigger', function(au)
-        au('VimEnter', '*', function()
-          vim.cmd [[autocmd! UltiSnips_AutoTrigger]]
-        end)
+      ac.on_vimenter(function()
+        vim.cmd [[autocmd! UltiSnips_AutoTrigger]]
       end)
     end,
   },

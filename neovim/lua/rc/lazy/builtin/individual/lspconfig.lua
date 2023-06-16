@@ -80,6 +80,7 @@ return {
       'rust-tools.nvim',
       'nvim-lsp-ts-utils',
       'nvim-jdtls',
+      'mason.nvim',
       'mason-lspconfig.nvim',
       'cmp-nvim-lsp',
       'nvim-navic',
@@ -320,20 +321,7 @@ return {
         }
       end
 
-      ok, _ = require 'config-local'
-      if ok then
-        -- もし klen/nvim-config-local がインストールされているのなら、その設定
-        -- が終わってから読み込むことにする (プロジェクトローカルなオプションを
-        -- 反映してから読み込みたいため)
-        ac.augroup('rc__lsp_after_config', function(au)
-          au('User', 'ConfigLocalFinished', function()
-            configure_servers()
-          end)
-        end)
-      else
-        -- ローカルな vimrc を読み込む機能がない場合は今すぐ設定する
-        configure_servers()
-      end
+      configure_servers()
 
       -- nvim-jdtls {{{
       ac.augroup('rc__nvim_jdtls', function(au)
