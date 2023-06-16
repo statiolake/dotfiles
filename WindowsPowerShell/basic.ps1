@@ -7,7 +7,8 @@ Update-FormatData -PrependPath "$confdir\Format\AliasInfo.Format.ps1xml"
 $PSDefaultParameterValues['Out-Default:OutVariable'] = '__'
 
 # Set prompt
-function Prompt () {
+function Prompt ()
+{
     # Save last status before running bunch of commands to construct prompt...
     $lastStatus = $?
 
@@ -38,7 +39,8 @@ function Prompt () {
     Write-Host $location -NoNewline -ForegroundColor Blue
     Write-Host
 
-    if ($location.Provider.Name -eq "FileSystem") {
+    if ($location.Provider.Name -eq "FileSystem")
+    {
         $notifyLocation = "$([char]27)]9;9;`"$($location.ProviderPath)`"$([char]27)\"
         Write-Host $notifyLocation -NoNewline
     }

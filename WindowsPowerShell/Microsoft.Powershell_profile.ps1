@@ -8,7 +8,8 @@ Set-PSReadlineKeyHandler -Chord "Ctrl+l" -ScriptBlock {
 }
 
 # default editor
-if ( -not $env:EDITOR ) {
+if ( -not $env:EDITOR )
+{
   $env:EDITOR = "v.exe"
 }
 
@@ -25,6 +26,7 @@ $confdir = (Get-Item $profile).DirectoryName
 
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) {
+if (Test-Path($ChocolateyProfile))
+{
   Import-Module "$ChocolateyProfile"
 }

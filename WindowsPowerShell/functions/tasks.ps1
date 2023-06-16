@@ -2,22 +2,26 @@
 using namespace System.Text;
 using namespace System.Linq;
 
-function Set-LocationToWorkspace () {
+function Set-LocationToWorkspace ()
+{
     $path = workspace_path -d
     Set-Location $path
 }
 
 
-function Expand-BashLikeBrace ($BraceText) {
+function Expand-BashLikeBrace ($BraceText)
+{
     $ErrorActionPreference = "Stop"
-    class Context {
+    class Context
+    {
         # Prefixes, the prefix just before current braces.
         [List[StringBuilder]] $Prefixes
 
         # BraceArgs, the current-level brace arguments.
         [List[string]] $BraceArgs
 
-        Context() {
+        Context()
+        {
             $this.Prefixes = [List[StringBuilder]]::new()
             $this.BraceArgs = [List[string]]::new()
 
@@ -31,20 +35,26 @@ function Expand-BashLikeBrace ($BraceText) {
     # $context, the current context.
     $context = [Context]::new()
 
-    function prefixesToBraceArgs ($prefixes, $braceArgs) {
-        foreach ($prefix in $prefixes) {
+    function prefixesToBraceArgs ($prefixes, $braceArgs)
+    {
+        foreach ($prefix in $prefixes)
+        {
             $braceArgs.Add($prefix.ToString())
         }
     }
 
-    foreach ($ch in $BraceText.ToCharArray()) {
-        switch ($ch) {
-            '{' {
+    foreach ($ch in $BraceText.ToCharArray())
+    {
+        switch ($ch)
+        {
+            '{'
+            {
                 # Push current context and start new one
                 $stack.Push($context)
                 $context = [Context]::new()
             }
-            ',' {
+            ','
+            {
                 # End of the current context: Append all of current prefixes to
                 # previous BraceArgs.
                 $prevContext = $stack.Pop()
@@ -55,7 +65,8 @@ function Expand-BashLikeBrace ($BraceText) {
                 $stack.Push($prevContext)
                 $context = [Context]::new()
             }
-            '}' {
+            '}'
+            {
                 # End of the current context: Append all of current prefixes to
                 # previous BraceArgs.
                 $prevContext = $stack.Pop()
@@ -67,8 +78,10 @@ function Expand-BashLikeBrace ($BraceText) {
                 # This is also the end of the brace expansion: all BraceArgs
                 # should be now moved to Prefixes.
                 $expanded = [List[StringBuilder]]::new()
-                foreach ($prefix in $context.Prefixes) {
-                    foreach ($arg in $context.BraceArgs) {
+                foreach ($prefix in $context.Prefixes)
+                {
+                    foreach ($arg in $context.BraceArgs)
+                    {
                         $expanded.Add(
                             [StringBuilder]::new($prefix).Append($arg))
                     }
@@ -78,9 +91,11 @@ function Expand-BashLikeBrace ($BraceText) {
                 # Remove ended BraceArgs
                 $context.BraceArgs.Clear()
             }
-            default {
+            default
+            {
                 # Add this character to all current prefixes
-                foreach ($prefix in $context.Prefixes) {
+                foreach ($prefix in $context.Prefixes)
+                {
                     $prefix.Append($ch) | Out-Null
                 }
             }
@@ -91,42 +106,55 @@ function Expand-BashLikeBrace ($BraceText) {
     return $context.Prefixes | ForEach-Object { $_.ToString() }
 }
 
-function Invoke-PipedCommand ($ScriptBlock) {
-    Begin { $piped = @() }
-    Process { $piped += $input }
-    End { Invoke-Command  -NoNewScope $ScriptBlock -ArgumentList $piped }
+function Invoke-PipedCommand ($ScriptBlock)
+{
+    Begin
+    { $piped = @() 
+    }
+    Process
+    { $piped += $input 
+    }
+    End
+    { Invoke-Command  -NoNewScope $ScriptBlock -ArgumentList $piped 
+    }
 }
 
 
-function Get-CommittedGitLine () {
+function Get-CommittedGitLine ()
+{
     $log = git log --numstat --pretty="%%H" --author=statiolake --no-merges
     $log | awk 'NF==3 {plus+=$1; minus+=$2} END {printf(\"%d (+%d, -%d)\n\", plus+minus, plus, minus)}'
 }
 
-function Find-Uwp () {
+function Find-Uwp ()
+{
     $query = $args[0]
     $uwpapps = Get-AppxPackage -Name *$query*
-    if ($uwpapps.Length -eq 0) {
+    if ($uwpapps.Length -eq 0)
+    {
         Write-Output "Found no packages."
-    }
-    elseif ($uwpapps.Length -eq 1) {
+    } elseif ($uwpapps.Length -eq 1)
+    {
         Write-Output "Found only one package. to launch this:"
 
         $PackageFamilyName = $uwpapps.PackageFamilyName
         $ApplicationIDs = ($uwpapps | Get-AppxPackageManifest).Package.Applications.Application.Id
 
-        foreach ($ApplicationID in $ApplicationIDs) {
+        foreach ($ApplicationID in $ApplicationIDs)
+        {
             $command = "Start-Process shell:AppsFolder\" + $PackageFamilyName + "!" + $ApplicationID
             Write-Output "> $command"
         }
-    }
-    else {
+    } else
+    {
         Write-Output "Found multiple packages; Possible candidates are:"
-        foreach ($uwpapp in $uwpapps) {
+        foreach ($uwpapp in $uwpapps)
+        {
             $PackageFamilyName = $uwpapp.PackageFamilyName
             Write-Output "* $PackageFamilyName"
             $ApplicationIDs = ($uwpapp | Get-AppxPackageManifest).Package.Applications.Application.Id
-            foreach ($ApplicationID in $ApplicationIDs) {
+            foreach ($ApplicationID in $ApplicationIDs)
+            {
                 Write-Output "    + $ApplicationID"
             }
         }
