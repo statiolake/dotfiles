@@ -45,7 +45,17 @@ for line in orig_msg_lines:
             result.append(f"{COMMENT_CHAR}\n")
         result.extend(git_log_lines)
         inserted = True
+    elif (
+        line.strip()
+        == f"{COMMENT_CHAR} ------------------------ >8 ------------------------"
+    ):
+        # Neovim の tree-sitter は # --- >8 --- な行がないと色が壊れるので無理
+        # やり追加する
+        result.append(
+            f"{COMMENT_CHAR}# ------------------------ >8 ------------------------\n"
+        )
     result.append(line)
+
 
 if not inserted:
     # ここで適当に append してしまうと rebase 時にメッセージが壊れる。
@@ -55,6 +65,7 @@ if not inserted:
     # てしまう事故が多発した。
     # result += git_log_lines
     pass
+
 
 with open(orig_msg_path, "wt", encoding="utf-8") as f:
     f.writelines(result)
