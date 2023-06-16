@@ -3,6 +3,16 @@
 import subprocess
 import sys
 
+try:
+    COMMENT_CHAR = (
+        subprocess.check_output(["git", "config", "core.commentChar"])
+        .decode("utf-8")
+        .strip()
+        or "#"
+    )
+except subprocess.CalledProcessError:
+    COMMENT_CHAR = "#"
+
 orig_msg_path = sys.argv[1]
 with open(orig_msg_path, "rt", encoding="utf-8") as f:
     orig_msg_lines = f.readlines()
@@ -14,9 +24,9 @@ try:
         .splitlines()
     )
     git_log_lines = [
-        "# Last commits:\n",
-        *[f"#   {line}\n" for line in commit_lines],
-        "#\n",
+        f"{COMMENT_CHAR} Last commits:\n",
+        *[f"{COMMENT_CHAR}   {line}\n" for line in commit_lines],
+        f"{COMMENT_CHAR}\n",
     ]
 except:
     git_log_lines = []
@@ -24,12 +34,15 @@ except:
 result = []
 inserted = False
 
-changes_to_be_commited = ["# コミット予定の変更点:", "# Changes to be committed:"]
+changes_to_be_commited = [
+    f"{COMMENT_CHAR} コミット予定の変更点:",
+    f"{COMMENT_CHAR} Changes to be committed:",
+]
 
 for line in orig_msg_lines:
     if line.strip() in changes_to_be_commited:
-        if result[-1].strip() != "#":
-            result.append("#\n")
+        if result[-1].strip() != COMMENT_CHAR:
+            result.append(f"{COMMENT_CHAR}\n")
         result.extend(git_log_lines)
         inserted = True
     result.append(line)
