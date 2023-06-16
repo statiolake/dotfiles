@@ -512,4 +512,16 @@ return {
       },
     },
   },
+  {
+    'folke/noice.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    dependencies = {
+      'nui.nvim',
+    },
+  },
+  {
+    'MunifTanjim/nui.nvim',
+    lazy = true,
+  },
 }
