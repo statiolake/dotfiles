@@ -88,6 +88,7 @@ return {
       'nvim-config-local',
       'nvim-config-local',
       'fidget.nvim',
+      'null-ls.nvim',
     },
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
