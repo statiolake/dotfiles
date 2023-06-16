@@ -9,6 +9,7 @@
     excludesfile = ~/.gitignore_global
     symlinks = true
     hooksPath = ~/.config/git/hooks
+    commentChar = ";"
 [alias]
     s = status
     co = checkout
