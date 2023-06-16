@@ -1,4 +1,4 @@
-local cg = get_global_config
+local c = require 'rc.config'
 
 local M = {}
 
@@ -89,17 +89,15 @@ function M.lsp_status(padding)
     return padding and padding_lsp_status(s) or s
   end
 
-  local ide = cg 'editor.ide.framework'
-  if ide == 'coc' then
+  if c.ide == 'coc' then
     return adjuster(coc_status())
-  elseif ide == 'builtin' then
+  elseif c.ide == 'builtin' then
     return adjuster(builtin_status())
   end
 end
 
 function M.symbol_line()
-  local ide = cg 'editor.ide.framework'
-  if ide == 'builtin' then
+  if c.ide == 'builtin' then
     -- coc-symbol-line または nvim-navic を利用して symbol line を表示する
     -- nvim-navic がインストール・ロードされていない間もエラーにならないよう
     -- に、また get_location が空の間は > を表示しないようにしたいのでちょっ
@@ -112,7 +110,7 @@ function M.symbol_line()
       end
     end
     return ''
-  elseif ide == 'coc' then
+  elseif c.ide == 'coc' then
     -- coc-nav で得る
     return table.concat(
       table
@@ -123,14 +121,6 @@ function M.symbol_line()
         :to_table(),
       ' > '
     )
-  end
-end
-
-function M.simple_mode_status()
-  if cg 'editor.simpleMode' then
-    return '(simple mode)'
-  else
-    return ''
   end
 end
 

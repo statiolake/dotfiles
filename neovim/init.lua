@@ -11,14 +11,10 @@ require('rc.lib.msg').setup()
 require('rc.lib.setup_node').ensure_node()
 require('rc.lib.setup_deno').ensure_deno()
 
-require 'rc.step.config_schema'
-require 'rc.step.config'
-
-require 'rc.step.basic'
-
 -- プラグインのセットアップ
 require('lazy').setup 'rc.lazy'
 
+require 'rc.step.basic'
 require 'rc.step.format'
 require 'rc.step.ftplugin'
 require 'rc.step.gui'

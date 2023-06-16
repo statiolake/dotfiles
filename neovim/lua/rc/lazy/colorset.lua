@@ -1,9 +1,7 @@
 local colorset = require 'rc.lib.colorset'
-local cg = get_global_config
-
-local transparent = cg 'ui.transparent'
-local use_icons = cg 'ui.useIcons'
 local hi = require 'rc.lib.highlight'
+
+local transparent = false
 
 local function colorset_plugin(opts)
   return {
@@ -69,8 +67,8 @@ return {
             },
           }
 
-          if cg 'ui.transparent' then
-            for _mode, color in pairs(alduin_theme) do
+          if transparent then
+            for _, color in pairs(alduin_theme) do
               color.c.bg = 'NONE'
             end
           end
@@ -185,29 +183,29 @@ return {
           -- signify
           hi.define('SignifySignAdd', {
             guifg = '#008787',
-            gui = (not use_icons and not transparent) and 'reverse' or nil,
+            gui = (not c.use_icons and not transparent) and 'reverse' or nil,
           })
           hi.define('SignifySignChange', {
             guifg = '#005f5f',
-            gui = (not use_icons and not transparent) and 'reverse' or nil,
+            gui = (not c.use_icons and not transparent) and 'reverse' or nil,
           })
           hi.define('SignifySignDelete', {
             guifg = '#af5f5f',
-            gui = (not use_icons and not transparent) and 'reverse' or nil,
+            gui = (not c.use_icons and not transparent) and 'reverse' or nil,
           })
 
           -- gitsigns.nvim
           hi.define('GitSignsAdd', {
             guifg = '#008787',
-            gui = (not use_icons and not transparent) and 'reverse' or nil,
+            gui = (not c.use_icons and not transparent) and 'reverse' or nil,
           })
           hi.define('GitSignsChange', {
             guifg = '#005f5f',
-            gui = (not use_icons and not transparent) and 'reverse' or nil,
+            gui = (not c.use_icons and not transparent) and 'reverse' or nil,
           })
           hi.define('GitSignsDelete', {
             guifg = '#af5f5f',
-            gui = (not use_icons and not transparent) and 'reverse' or nil,
+            gui = (not c.use_icons and not transparent) and 'reverse' or nil,
           })
 
           -- conflict-marker

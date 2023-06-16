@@ -4,9 +4,71 @@ local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
 local msg = require 'rc.lib.msg'
 local cmd = require 'rc.lib.command'
+local c = require 'rc.config'
 
-local cg = get_global_config
-local use_icons = cg 'ui.useIcons'
+local lsp_settings = {
+  pyright = {
+    python = {
+      analysis = {
+        diagnosticMode = 'workspace',
+        typeCheckingMode = 'basic',
+      },
+    },
+  },
+  rust_analyzer = {
+    ['rust-analyzer'] = {
+      assist = {
+        importEnforceGranularity = true,
+        importGranularity = 'crate',
+      },
+      callInfo = {
+        full = true,
+      },
+      checkOnSave = {
+        command = 'clippy',
+      },
+      procMacro = {
+        enable = true,
+      },
+      rustfmt = {
+        overrideCommand = {
+          'cargo',
+          'clippy',
+          '--workspace',
+          '--message-format=json',
+          '--all-targets',
+        },
+      },
+    },
+  },
+  lua_ls = {
+    Lua = {
+      IntelliSense = {
+        traceBeSetted = true,
+        traceFieldInject = true,
+        traceLocalSet = true,
+        traceReturn = true,
+      },
+      completion = {
+        callSnippet = 'Both',
+      },
+    },
+  },
+  gopls = {
+    gopls = {
+      staticcheck = true,
+      analyses = {
+        ST1000 = false,
+        ST1003 = true,
+        ST1016 = false,
+        ST1020 = false,
+        ST1021 = false,
+        ST1022 = true,
+        ST1023 = true,
+      },
+    },
+  },
+}
 
 return {
   {
@@ -76,7 +138,7 @@ return {
         info = 'Info',
         hint = 'Hint',
       }
-      local signs = cg 'ui.signs'
+      local signs = c.signs
       for kind, sign in pairs(signs.diagnostics) do
         local hl = 'DiagnosticSign' .. kind_map[kind]
         vim.fn.sign_define(hl, { text = sign, texthl = hl, numhl = '' })
@@ -84,7 +146,7 @@ return {
       -- }}}
 
       -- floating window を設定する {{{
-      local border = cg 'ui.border'
+      local border = c.border
       vim.diagnostic.config {
         float = {
           border = border,
@@ -102,7 +164,6 @@ return {
       -- サーバー設定 {{{
       local mason_lspconfig = require 'mason-lspconfig'
       local lspconfig = require 'lspconfig'
-      local settings = cg 'lsp'
 
       -- デフォルトオプションの設定 {{{
 
@@ -164,13 +225,13 @@ return {
         mason_lspconfig.setup_handlers {
           function(server_name) -- デフォルト
             lspconfig[server_name].setup {
-              settings = settings[server_name] or {},
+              settings = lsp_settings[server_name] or {},
             }
           end,
 
           lua_ls = function()
             lspconfig.lua_ls.setup {
-              settings = settings.lua_ls or {},
+              settings = lsp_settings.lua_ls or {},
             }
           end,
 
@@ -179,18 +240,18 @@ return {
               tools = {
                 inlay_hints = {
                   auto = false,
-                  parameter_hints_prefix = use_icons and '  ' or ' <- ',
-                  other_hints_prefix = use_icons and ' • ' or ' >> ',
+                  parameter_hints_prefix = c.use_icons and '  ' or ' <- ',
+                  other_hints_prefix = c.use_icons and ' • ' or ' >> ',
                   highlight = 'NonText',
                 },
                 hover_actions = {
-                  border = cg 'ui.border',
+                  border = c.border,
                 },
               },
               server = {
                 standalone = true,
                 cmd = when(env.is_win32, { 'cmd', '/c', 'rust-analyzer' }),
-                settings = settings.rust_analyzer or {},
+                settings = lsp_settings.rust_analyzer or {},
               },
             }
           end,
@@ -201,7 +262,7 @@ return {
               autostart = lspconfig.util.default_config.autostart
                 and require('rc.lib.typescript_detector').opened_node_project(),
               init_options = ts_utils.init_options,
-              settings = settings.tsserver or {},
+              settings = lsp_settings.tsserver or {},
               on_attach = function(client, bufnr)
                 local _ = bufnr
                 ts_utils.setup {
@@ -215,7 +276,7 @@ return {
           denols = function()
             lspconfig.denols.setup {
               single_file_support = true,
-              settings = settings.denols or {},
+              settings = lsp_settings.denols or {},
               autostart = lspconfig.util.default_config.autostart
                 and not require('rc.lib.typescript_detector').opened_node_project(),
             }
@@ -235,7 +296,7 @@ return {
               end)(),
               single_file_support = true,
               capabilities = capabilities,
-              settings = settings.clangd or {},
+              settings = lsp_settings.clangd or {},
             }
           end,
 
@@ -323,7 +384,7 @@ return {
             -- Here you can configure eclipse.jdt.ls specific settings
             -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
             -- for a list of options
-            settings = settings.jdtls or {},
+            settings = lsp_settings.jdtls or {},
 
             -- Language server `initializationOptions`
             -- You need to extend the `bundles` with paths to jar files
@@ -463,11 +524,11 @@ return {
     'williamboman/mason.nvim',
     opts = {
       ui = {
-        border = cg 'ui.border',
+        border = c.border,
         icons = {
-          package_installed = use_icons and '' or '*',
-          package_uninstalled = use_icons and '' or '-',
-          package_pending = use_icons and '' or '+',
+          package_installed = c.use_icons and '' or '*',
+          package_uninstalled = c.use_icons and '' or '-',
+          package_pending = c.use_icons and '' or '+',
         },
       },
     },

@@ -2,7 +2,7 @@ local k = require 'rc.lib.keybind'
 local ac = require 'rc.lib.autocmd'
 local vimfn = require 'rc.lib.vimfn'
 local env = require 'rc.lib.env'
-local cg = get_global_config
+local c = require 'rc.config'
 
 vim.opt.fileencoding = 'utf-8'
 vim.opt.fileencodings = {
@@ -123,7 +123,7 @@ end)
 
 -- 'hlsearch': !insert {{{
 -- coc の pum がハイライトされてしまうので
-if cg 'editor.ide.framework' == 'coc' then
+if c.ide == 'coc' then
   ac.augroup('rc__set_hlsearch', function(au)
     au('InsertEnter', '*', 'set nohlsearch')
     au('InsertLeave', '*', 'set hlsearch')
@@ -138,7 +138,7 @@ ac.augroup('rc__cinoptions', function(au)
 end)
 
 -- クリップボード設定
-require('rc.clipboard').setup()
+require('rc.lib.clipboard').setup()
 
 -- 何かと入用なのでサーバーはとりあえず開始しておく
 if env.is_win32 then

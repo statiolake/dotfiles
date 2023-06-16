@@ -2,8 +2,7 @@ local env = require 'rc.lib.env'
 local ac = require 'rc.lib.autocmd'
 local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
-
-local cg = get_global_config
+local c = require 'rc.config'
 
 return {
   {
@@ -155,14 +154,15 @@ return {
         formatting = {
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, vim_item)
-            local use_icons = cg 'ui.useIcons'
             local f = require('lspkind').cmp_format {
-              mode = use_icons and 'symbol' or 'text',
+              mode = c.use_icons and 'symbol' or 'text',
               maxwidth = 50,
             }(entry, vim_item)
 
-            f.kind =
-              string.format(' %s ', use_icons and f.kind or f.kind:sub(1, 1))
+            f.kind = string.format(
+              ' %s ',
+              c.use_icons and f.kind or f.kind:sub(1, 1)
+            )
             return f
           end,
         },

@@ -26,7 +26,7 @@ k.add({ 'i', 'n', 'v', 'o' }, '<F1>', '<Esc>')
 --       cmd_terminal = 'terminal'
 --     else
 --       -- そうでないならいい感じに split してやる
---       local vsplit = c 'ui.preferredSplit'()
+--       local vsplit = require('lib.layout').preferred_split()
 --       cmd_terminal = string.format('%s | terminal', vsplit)
 --     end
 --     vim.cmd(string.format('%s %s', cmd_terminal, shell))

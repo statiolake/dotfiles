@@ -1,7 +1,6 @@
 local k = require 'rc.lib.keybind'
 local env = require 'rc.lib.env'
 local vimfn = require 'rc.lib.vimfn'
-local cg = get_global_config
 
 -- 追加のファイルタイプ設定
 vim.filetype.add {
@@ -57,7 +56,7 @@ require('rc.lib.autocmd').augroup('rc__ftplugin', function(au)
 
     -- coc-texlab の forward search の設定を挟んでおく
     -- :CocMachineConfig は Docker ではしんどいので...
-    if cg 'editor.ide.framework' == 'coc' then
+    if c.ide == 'coc' then
       if env.is_unix and b(vim.fn.executable 'zathura') then
         vim.fn['coc#config']('texlab.forwardSearch.executable', 'zathura')
         vim.fn['coc#config']('texlab.forwardSearch.args', {

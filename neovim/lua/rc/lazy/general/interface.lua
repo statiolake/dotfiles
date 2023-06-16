@@ -5,9 +5,7 @@ local ac = require 'rc.lib.autocmd'
 local env = require 'rc.lib.env'
 local colorset = require 'rc.lib.colorset'
 local hi = require 'rc.lib.highlight'
-local cg = get_global_config
-
-local use_icons = cg 'ui.useIcons'
+local c = require 'rc.config'
 
 return {
   {
@@ -34,20 +32,19 @@ return {
           vim.opt_local.foldenable = false
         end)
       end)
-      local border = cg 'ui.border'
-      local function extract(c)
+      local function extract(bc)
         -- border は { char, highlight } のリストということもある
-        return c[1] or c
+        return bc[1] or bc
       end
       local borderchars = {
-        extract(border[2]),
-        extract(border[4]),
-        extract(border[6]),
-        extract(border[8]),
-        extract(border[1]),
-        extract(border[3]),
-        extract(border[5]),
-        extract(border[7]),
+        extract(c.border[2]),
+        extract(c.border[4]),
+        extract(c.border[6]),
+        extract(c.border[8]),
+        extract(c.border[1]),
+        extract(c.border[3]),
+        extract(c.border[5]),
+        extract(c.border[7]),
       }
       local telescope = require 'telescope'
       telescope.setup {
@@ -77,11 +74,11 @@ return {
   {
     'alvarosevilla95/luatab.nvim',
     dependencies = pack {
-      when(cg 'ui.useIcons', 'nvim-web-devicons'),
+      when(c.use_icons, 'nvim-web-devicons'),
     },
     config = function()
       local opts = {}
-      if not cg 'ui.useIcons' then
+      if not c.use_icons then
         opts.devicon = function()
           return ''
         end
@@ -120,20 +117,19 @@ return {
   {
     'voldikss/vim-floaterm',
     init = function()
-      local border = cg 'ui.border'
-      local function extract(c)
+      local function extract(cb)
         -- border は { char, highlight } のリストということもある
-        return c[1] or c
+        return cb[1] or cb
       end
       vim.g.floaterm_borderchars = {
-        extract(border[2]),
-        extract(border[4]),
-        extract(border[6]),
-        extract(border[8]),
-        extract(border[1]),
-        extract(border[3]),
-        extract(border[5]),
-        extract(border[7]),
+        extract(c.border[2]),
+        extract(c.border[4]),
+        extract(c.border[6]),
+        extract(c.border[8]),
+        extract(c.border[1]),
+        extract(c.border[3]),
+        extract(c.border[5]),
+        extract(c.border[7]),
       }
       colorset.register_editor_colorscheme_hook(function()
         hi.link('FloatermBorder', 'FloatBorder')
@@ -171,21 +167,20 @@ return {
       'nvim-navic',
     },
     config = function()
-      local stl = require 'rc.statusline'
+      local stl = require 'rc.lib.statusline'
 
-      local use_icons = cg 'ui.useIcons'
-
-      local theme = colorset.get(cg 'ui.colorset').lualine
+      local theme = colorset.get(c.colorset).lualine
       if type(theme) == 'function' then
         theme = theme()
       end
 
       require('lualine').setup {
         options = {
-          icons_enabled = use_icons,
+          icons_enabled = c.use_icons,
           theme = theme,
           component_separators = '│',
-          section_separators = use_icons and { left = '', right = '' }
+          section_separators = c.use_icons
+              and { left = '', right = '' }
             or '',
           disabled_filetypes = {},
           always_divide_middle = true,
@@ -202,7 +197,7 @@ return {
               'diff',
               symbols = {
                 added = '+',
-                modified = use_icons and '' or '~',
+                modified = c.use_icons and '' or '~',
                 removed = '-',
               },
             },
@@ -212,18 +207,17 @@ return {
             {
               'filename',
               symbols = {
-                modified = use_icons and ' ' or '[+]',
-                readonly = use_icons and ' ' or '[-]', -- Text to show when the file is non-modifiable or readonly.
+                modified = c.use_icons and ' ' or '[+]',
+                readonly = c.use_icons and ' ' or '[-]', -- Text to show when the file is non-modifiable or readonly.
                 unnamed = '(untitled)',
               },
             },
             stl.symbol_line,
           },
-          lualine_x = pack {
-            when(not cg 'editor.simpleMode', function()
+          lualine_x = {
+            function()
               return stl.lsp_status(false)
-            end),
-            when(cg 'editor.simpleMode', stl.simple_mode_status),
+            end,
           },
           lualine_y = {
             'encoding',
@@ -255,7 +249,7 @@ return {
   {
     'kyazdani42/nvim-tree.lua',
     dependencies = pack {
-      when(use_icons, 'nvim-web-devicons'),
+      when(c.use_icons, 'nvim-web-devicons'),
     },
     cmd = 'NvimTreeToggle',
     init = function()
@@ -365,7 +359,7 @@ return {
         update_cwd = true,
         diagnostics = {
           enable = true,
-          icons = cg('ui.signs').diagnostics,
+          icons = c.signs.diagnostics,
         },
         update_focused_file = {
           enable = true,
@@ -391,26 +385,26 @@ return {
             show = {
               git = true,
               folder = true,
-              file = use_icons,
-              folder_arrow = use_icons,
+              file = c.use_icons,
+              folder_arrow = c.use_icons,
             },
             glyphs = {
               git = {
-                unstaged = use_icons and '' or '~',
-                staged = use_icons and '' or '@',
-                unmerged = use_icons and '' or '!',
-                renamed = use_icons and '' or '>',
-                untracked = use_icons and '' or '+',
-                deleted = use_icons and '' or '-',
-                ignored = use_icons and '◌' or '_',
+                unstaged = c.use_icons and '' or '~',
+                staged = c.use_icons and '' or '@',
+                unmerged = c.use_icons and '' or '!',
+                renamed = c.use_icons and '' or '>',
+                untracked = c.use_icons and '' or '+',
+                deleted = c.use_icons and '' or '-',
+                ignored = c.use_icons and '◌' or '_',
               },
               folder = {
-                default = use_icons and '' or '+',
-                open = use_icons and '' or '~',
-                empty = use_icons and '' or '+',
-                empty_open = use_icons and '' or '+',
-                symlink = use_icons and '' or 'L',
-                symlink_open = use_icons and '' or 'L',
+                default = c.use_icons and '' or '+',
+                open = c.use_icons and '' or '~',
+                empty = c.use_icons and '' or '+',
+                empty_open = c.use_icons and '' or '+',
+                symlink = c.use_icons and '' or 'L',
+                symlink_open = c.use_icons and '' or 'L',
               },
             },
           },
@@ -427,10 +421,10 @@ return {
         folder_open = '',
       },
       signs = {
-        fold_open = use_icons and '' or '~',
-        fold_closed = use_icons and '' or '+',
+        fold_open = c.use_icons and '' or '~',
+        fold_closed = c.use_icons and '' or '+',
       },
-      use_icons = use_icons,
+      use_icons = c.use_icons,
     },
   },
   {
@@ -440,37 +434,37 @@ return {
       signs = {
         add = {
           hl = 'GitSignsAdd',
-          text = use_icons and '┃' or '+',
+          text = c.use_icons and '┃' or '+',
           numhl = 'GitSignsAddNr',
           linehl = 'GitSignsAddLn',
         },
         change = {
           hl = 'GitSignsChange',
-          text = use_icons and '┃' or '~',
+          text = c.use_icons and '┃' or '~',
           numhl = 'GitSignsChangeNr',
           linehl = 'GitSignsChangeLn',
         },
         delete = {
           hl = 'GitSignsDelete',
-          text = use_icons and '' or '_',
+          text = c.use_icons and '' or '_',
           numhl = 'GitSignsDeleteNr',
           linehl = 'GitSignsDeleteLn',
         },
         topdelete = {
           hl = 'GitSignsDelete',
-          text = use_icons and '' or '‾',
+          text = c.use_icons and '' or '‾',
           numhl = 'GitSignsDeleteNr',
           linehl = 'GitSignsDeleteLn',
         },
         changedelete = {
           hl = 'GitSignsChange',
-          text = use_icons and '┃' or '~',
+          text = c.use_icons and '┃' or '~',
           numhl = 'GitSignsChangeNr',
           linehl = 'GitSignsChangeLn',
         },
         untracked = {
           hl = 'GitSignsAdd',
-          text = use_icons and '┃' or '+',
+          text = c.use_icons and '┃' or '+',
           numhl = 'GitSignsAddNr',
           linehl = 'GitSignsAddLn',
         },

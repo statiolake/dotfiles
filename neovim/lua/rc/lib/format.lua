@@ -2,7 +2,7 @@ local ac = require 'rc.lib.autocmd'
 local cmd = require 'rc.lib.command'
 local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
-local c, cg = get_config, get_global_config
+local c = require 'rc.config'
 
 local function allwinsaveview()
   local orig_winid = vim.fn.win_getid(vim.fn.winnr())
@@ -83,10 +83,9 @@ local function run_formatter(is_auto)
     vim.cmd 'FixWhitespace'
   end
 
-  local ide = cg 'editor.ide.framework'
-  if ide == 'builtin' then
+  if c.ide == 'builtin' then
     run_builtin_formatter(is_auto)
-  elseif ide == 'coc' then
+  elseif c.ide == 'coc' then
     run_coc_formatter(is_auto)
   end
 end

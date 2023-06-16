@@ -1,8 +1,7 @@
 local ac = require 'rc.lib.autocmd'
 local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
-
-local cg = get_global_config
+local c = require 'rc.config'
 
 -- Hack: https://github.com/neovim/neovim/pull/19677 に対応する
 -- とんでもないデフォルト値を設定してくれたもんだな...
@@ -35,10 +34,10 @@ return {
       require('lsp-status').config {
         -- Diagnostics は Lualine で表示されるのでいらない
         diagnostics = false,
-        indicator_errors = cg 'ui.signs.diagnostics.error',
-        indicator_warnings = cg 'ui.signs.diagnostics.warning',
-        indicator_info = cg 'ui.signs.diagnostics.info',
-        indicator_hint = cg 'ui.signs.diagnostics.hint',
+        indicator_errors = c.signs.diagnostics.error,
+        indicator_warnings = c.signs.diagnostics.warning,
+        indicator_info = c.signs.diagnostics.info,
+        indicator_hint = c.signs.diagnostics.hint,
         indicator_ok = 'OK',
         spinner_frames = {
           '.',
@@ -61,35 +60,34 @@ return {
     config = function()
       -- 遅延ロード
       ac.on_vim_started(function()
-        local use_icons = get_global_config 'ui.useIcons'
         require('nvim-navic').setup {
           icons = {
-            File = use_icons and ' ' or 'FILE:',
-            Module = use_icons and ' ' or 'MOD:',
-            Namespace = use_icons and ' ' or 'NS:',
-            Package = use_icons and ' ' or 'PKG:',
-            Class = use_icons and ' ' or 'C:',
-            Method = use_icons and ' ' or 'M:',
-            Property = use_icons and ' ' or 'P:',
-            Field = use_icons and ' ' or 'V:',
-            Constructor = use_icons and ' ' or 'CTOR:',
-            Enum = use_icons and '練' or 'E:',
-            Interface = use_icons and '練' or 'IF:',
-            Function = use_icons and ' ' or 'F:',
-            Variable = use_icons and ' ' or 'V:',
-            Constant = use_icons and ' ' or 'CONST:',
-            String = use_icons and ' ' or 'S:',
-            Number = use_icons and ' ' or 'I:',
-            Boolean = use_icons and '◩ ' or 'B:',
-            Array = use_icons and ' ' or 'A:',
-            Object = use_icons and ' ' or 'O:',
-            Key = use_icons and ' ' or 'K:',
-            Null = use_icons and 'ﳠ ' or 'N:',
-            EnumMember = use_icons and ' ' or 'EM:',
-            Struct = use_icons and ' ' or 'C:',
-            Event = use_icons and ' ' or 'EV:',
-            Operator = use_icons and ' ' or 'OP:',
-            TypeParameter = use_icons and ' ' or 'T:',
+            File = c.use_icons and ' ' or 'FILE:',
+            Module = c.use_icons and ' ' or 'MOD:',
+            Namespace = c.use_icons and ' ' or 'NS:',
+            Package = c.use_icons and ' ' or 'PKG:',
+            Class = c.use_icons and ' ' or 'C:',
+            Method = c.use_icons and ' ' or 'M:',
+            Property = c.use_icons and ' ' or 'P:',
+            Field = c.use_icons and ' ' or 'V:',
+            Constructor = c.use_icons and ' ' or 'CTOR:',
+            Enum = c.use_icons and '練' or 'E:',
+            Interface = c.use_icons and '練' or 'IF:',
+            Function = c.use_icons and ' ' or 'F:',
+            Variable = c.use_icons and ' ' or 'V:',
+            Constant = c.use_icons and ' ' or 'CONST:',
+            String = c.use_icons and ' ' or 'S:',
+            Number = c.use_icons and ' ' or 'I:',
+            Boolean = c.use_icons and '◩ ' or 'B:',
+            Array = c.use_icons and ' ' or 'A:',
+            Object = c.use_icons and ' ' or 'O:',
+            Key = c.use_icons and ' ' or 'K:',
+            Null = c.use_icons and 'ﳠ ' or 'N:',
+            EnumMember = c.use_icons and ' ' or 'EM:',
+            Struct = c.use_icons and ' ' or 'C:',
+            Event = c.use_icons and ' ' or 'EV:',
+            Operator = c.use_icons and ' ' or 'OP:',
+            TypeParameter = c.use_icons and ' ' or 'T:',
           },
         }
       end)
@@ -100,11 +98,10 @@ return {
     'matsui54/denops-signature_help',
     dependencies = { 'denops.vim' },
     init = function()
-      local cfg_border = cg 'ui.border'
       vim.g.signature_help_config = {
-        border = cfg_border
-          and cfg_border[1]
-          and (cfg_border[1][1] or cfg_border[1]) ~= ' ',
+        border = c.border
+          and c.border[1]
+          and (c.border[1][1] or c.border[1]) ~= ' ',
         style = 'virtual',
         multiLabel = true,
       }
@@ -147,12 +144,11 @@ return {
   {
     'folke/trouble.nvim',
     config = function()
-      local use_icons = cg 'ui.useIcons'
       require('trouble').setup {
-        icons = use_icons,
-        fold_open = use_icons and '' or '~',
-        fold_closed = use_icons and '' or '+',
-        signs = (cg 'ui.signs').diagnostics,
+        icons = c.use_icons,
+        fold_open = c.use_icons and '' or '~',
+        fold_closed = c.use_icons and '' or '+',
+        signs = c.signs.diagnostics,
       }
 
       k.nno('<A-m>', k.cmd 'TroubleToggle')

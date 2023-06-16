@@ -1,3 +1,5 @@
+local c = require 'rc.config'
+
 -- FIXME: neovim#16363 を仮に実装してしまう
 -- Python (pyright, pyls) のように複数のサーバーを使っている環境で意図しない
 -- フォーカスが発生してしまうため。
@@ -78,7 +80,7 @@ local M = {}
 
 function M.enable_multi_server_hover()
   vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(hover_handler, {
-    border = get_global_config 'ui.border',
+    border = c.border,
   })
 end
 
@@ -86,7 +88,7 @@ function M.enable_multi_server_signature_help()
   -- TODO: multi server support for signature help...
   vim.lsp.handlers['textDocument/signatureHelp'] =
     vim.lsp.with(vim.lsp.handlers.signature_help, {
-      border = get_global_config 'ui.border',
+      border = c.border,
     })
 end
 

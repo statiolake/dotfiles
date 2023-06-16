@@ -1,4 +1,4 @@
-local use_icons = get_global_config 'ui.useIcons'
+local c = require 'rc.config'
 
 return {
   {
@@ -11,12 +11,12 @@ return {
   },
   {
     'kyazdani42/nvim-web-devicons',
-    enabled = use_icons,
+    enabled = c.use_icons,
     lazy = true,
   },
   {
     'ryanoasis/vim-devicons',
-    enabled = use_icons,
+    enabled = c.use_icons,
     lazy = true,
   },
   {

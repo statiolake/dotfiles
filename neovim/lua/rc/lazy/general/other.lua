@@ -1,6 +1,5 @@
 local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
-local cg = get_global_config
 
 return {
   {
@@ -85,7 +84,7 @@ return {
       local path = require 'plenary.path'
       local session_config = require 'session_manager.config'
       local is_home_dir = vimfn.expand(vim.fn.getcwd()) == vimfn.expand '~'
-      local autoload_mode = (cg 'editor.simpleMode' or is_home_dir)
+      local autoload_mode = is_home_dir
           and session_config.AutoloadMode.Disabled
         or session_config.AutoloadMode.CurrentDir
       require('session_manager').setup {

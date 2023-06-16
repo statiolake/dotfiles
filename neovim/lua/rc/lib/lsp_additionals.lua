@@ -1,16 +1,15 @@
 local msg = require 'rc.lib.msg'
 local ac = require 'rc.lib.autocmd'
-local cg = get_global_config
+local c = require 'rc.config'
 
 local M = {}
 
 function M.setup()
-  local ide = cg 'editor.ide.framework'
-  if ide == 'coc' then
+  if c.ide == 'coc' then
     -- 特に何もしない
     -- (coc-extension-auto-installer で初回起動時自動インストール)
     vim.cmd [[quitall!]]
-  elseif ide == 'builtin' then
+  elseif c.ide == 'builtin' then
     ac.on_vimenter(function()
       local tools = {
         'lua-language-server',
