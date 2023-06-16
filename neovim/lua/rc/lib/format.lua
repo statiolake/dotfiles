@@ -34,7 +34,7 @@ local function should_run()
     return false
   end
 
-  return c 'editor.formatOnSave'
+  return c.format_on_save
 end
 
 local function run_builtin_formatter(is_auto)

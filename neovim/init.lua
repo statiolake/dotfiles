@@ -11,10 +11,8 @@ require('rc.lib.msg').setup()
 require('rc.lib.setup_node').ensure_node()
 require('rc.lib.setup_deno').ensure_deno()
 
--- プラグインのセットアップ
-require('lazy').setup 'rc.lazy'
-
 require 'rc.step.basic'
+require 'rc.step.plugin'
 require 'rc.step.format'
 require 'rc.step.ftplugin'
 require 'rc.step.gui'
