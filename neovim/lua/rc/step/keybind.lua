@@ -90,8 +90,10 @@ local function looping(kind, dir)
   end
 end
 
-k.nno('<C-n>', k.cmd 'Cnext')
-k.nno('<C-p>', k.cmd 'Cprev')
+if vim.fn.mapcheck('<C-n>', 'n') == '' then
+  k.nno('<C-n>', k.cmd 'Cnext')
+  k.nno('<C-p>', k.cmd 'Cprev')
+end
 k.nno('<A-n>', k.cmd 'Cnext')
 k.nno('<A-p>', k.cmd 'Cprev')
 
