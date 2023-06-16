@@ -481,7 +481,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     dependencies = { 'mason.nvim' },
     lazy = true,
-    config = function() end,
+    config = true,
   },
   {
     'folke/neodev.nvim',
