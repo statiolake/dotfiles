@@ -18,11 +18,20 @@ return {
       'plenary.nvim',
       'telescope-ui-select.nvim',
     },
+    cmd = 'Telescope',
     init = function()
       k.nno('<C-e>', k.cmd 'Telescope find_files')
       k.nno('<C-f>', k.cmd 'Telescope live_grep')
       k.nno('<C-q>', k.cmd 'Telescope buffers')
       k.nno('<C-s>', k.cmd 'Telescope resume')
+
+      -- デフォルトのハイライト色を設定する
+      colorset.register_editor_colorscheme_hook(function()
+        vim.cmd [[
+        hi! link TelescopeBorder FloatBorder
+        hi! link TelescopeNormal NormalFloat
+      ]]
+      end)
     end,
     config = function()
       -- リザルト画面が fold されてしまう問題を修正
@@ -59,23 +68,18 @@ return {
         },
       }
       telescope.load_extension 'ui-select'
-      -- デフォルトのハイライト色を設定する
-      colorset.register_editor_colorscheme_hook(function()
-        vim.cmd [[
-        hi! link TelescopeBorder FloatBorder
-        hi! link TelescopeNormal NormalFloat
-      ]]
-      end)
     end,
   },
   {
     'nvim-telescope/telescope-ui-select.nvim',
+    lazy = true,
   },
   {
     'alvarosevilla95/luatab.nvim',
     dependencies = pack {
       when(c.use_icons, 'nvim-web-devicons'),
     },
+    event = 'VeryLazy',
     config = function()
       local opts = {}
       if not c.use_icons then
@@ -88,6 +92,7 @@ return {
   },
   {
     'simnalamburt/vim-mundo',
+    cmd = 'MundoToggle',
     init = function()
       k.nno('<A-z>', k.cmd 'MundoToggle')
     end,
@@ -95,15 +100,26 @@ return {
   {
     'nvim-pack/nvim-spectre',
     dependencies = { 'plenary.nvim' },
+    cmd = 'Spectre',
     init = function()
-      local spectre = require 'spectre'
-      cmd.add('Spectre', spectre.open)
-      k.nno('<A-f>', spectre.open)
+      cmd.add('Spectre', function()
+        require('spectre').open()
+      end)
+      k.nno('<A-f>', k.cmd 'Spectre')
     end,
     config = true,
   },
   {
     't9md/vim-quickhl',
+    keys = {
+      '<Plug>(quickhl-manual-this-whole-word)',
+      '<Plug>(quickhl-manual-this)',
+      '<Plug>(quickhl-manual-clear)',
+      '<Plug>(quickhl-manual-reset)',
+    },
+    cmd = {
+      'NoQuickHl',
+    },
     init = function()
       k.n('+', '<Plug>(quickhl-manual-this-whole-word)')
       k.x('+', '<Plug>(quickhl-manual-this)')
@@ -116,6 +132,7 @@ return {
   },
   {
     'voldikss/vim-floaterm',
+    cmd = 'FloatermNew',
     init = function()
       local function extract(cb)
         -- border は { char, highlight } のリストということもある
@@ -162,6 +179,7 @@ return {
   },
   {
     'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy',
     dependencies = {
       'lush.nvim',
       'nvim-navic',
@@ -415,6 +433,7 @@ return {
   {
     'sindrets/diffview.nvim',
     dependencies = { 'plenary.nvim' },
+    cmd = 'DiffviewOpen',
     opts = {
       icons = { -- Only applies when use_icons is true.
         folder_closed = '',
@@ -430,6 +449,7 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     dependencies = { 'plenary.nvim' },
+    event = 'VeryLazy',
     opts = {
       signs = {
         add = {

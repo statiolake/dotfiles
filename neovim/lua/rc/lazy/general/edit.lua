@@ -4,6 +4,7 @@ local k = require 'rc.lib.keybind'
 return {
   {
     'windwp/nvim-autopairs',
+    event = 'InsertEnter',
     init = function()
       k.i('<S-Space>', '<Space>')
     end,
@@ -60,9 +61,11 @@ return {
   },
   {
     'tpope/vim-endwise',
+    event = 'InsertEnter',
   },
   {
     'alvan/vim-closetag',
+    event = 'InsertEnter',
     init = function()
       -- filenames like *.xml, *.html, *.xhtml, ...
       -- These are the file extensions where this plugin is enabled.
@@ -101,6 +104,7 @@ return {
   },
   {
     'andymass/vim-matchup',
+    event = 'VeryLazy',
     init = function()
       vim.g.matchup_matchpref = {
         html = {
@@ -115,6 +119,12 @@ return {
   },
   {
     'haya14busa/vim-asterisk',
+    keys = {
+      '<Plug>(asterisk-z*)',
+      '<Plug>(asterisk-z#)',
+      '<Plug>(asterisk-gz*)',
+      '<Plug>(asterisk-gz#)',
+    },
     init = function()
       k.nx('*', '<Plug>(asterisk-z*)')
       k.nx('#', '<Plug>(asterisk-z#)')
@@ -125,6 +135,7 @@ return {
   },
   {
     'rlane/pounce.nvim',
+    lazy = true,
     init = function()
       k.nvono('<Leader>w', function()
         require('pounce').pounce()
@@ -133,24 +144,30 @@ return {
   },
   {
     'numToStr/Comment.nvim',
+    event = 'VeryLazy',
     config = true,
   },
   {
     'kana/vim-textobj-entire',
+    event = 'VeryLazy',
     dependencies = { 'vim-textobj-user' },
   },
   {
     'kana/vim-textobj-indent',
+    event = 'VeryLazy',
     dependencies = { 'vim-textobj-user' },
   },
   {
     'kana/vim-textobj-user',
+    event = 'VeryLazy',
   },
   {
     'tpope/vim-surround',
+    event = 'VeryLazy',
   },
   {
     'statiolake/vim-evalvis',
+    keys = { '<Plug>(evalvis-eval)' },
     init = function()
       k.x('<C-e>', '<Plug>(evalvis-eval)')
       vim.g['evalvis#language'] = 'python3'
@@ -158,10 +175,20 @@ return {
   },
   {
     'tpope/vim-repeat',
+    event = 'VeryLazy',
   },
   {
     -- :s 拡張 (:S) 他
     'tpope/vim-abolish',
+    cmd = {
+      'S',
+      'ToSnakeCase',
+      'ToUpperCase',
+      'ToDashCase',
+      'ToDotCase',
+      'ToPascalCase',
+      'ToCamelCase',
+    },
     init = function()
       local function feed(keys)
         return function()
@@ -178,6 +205,12 @@ return {
   },
   {
     'dhruvasagar/vim-table-mode',
+    cmd = {
+      'TableModeDisable',
+      'TableModeEnable',
+      'TableModeRealign',
+      'TableModeToggle',
+    },
     init = function()
       vim.g.table_mode_corner = '|'
     end,

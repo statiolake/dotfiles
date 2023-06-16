@@ -1,11 +1,22 @@
 local colorset = require 'rc.lib.colorset'
 local hi = require 'rc.lib.highlight'
 
+local c = require 'rc.config'
 local transparent = false
 
 local function colorset_plugin(opts)
+  local is_main = false
+  for name, _ in pairs(opts.colorsets) do
+    if name == c.colorset then
+      is_main = true
+    end
+  end
+  local priority = is_main and 1000 or 50
+
   return {
     opts[1],
+    lazy = not is_main,
+    priority = priority,
     init = function()
       if opts.init then
         opts.init()
@@ -338,7 +349,7 @@ return {
 
   colorset_plugin {
     'metalelf0/jellybeans-nvim',
-    depends = { 'lush.nvim' },
+    dependencies = { 'lush.nvim' },
     colorsets = {
       jellybeans = {
         background = 'dark',

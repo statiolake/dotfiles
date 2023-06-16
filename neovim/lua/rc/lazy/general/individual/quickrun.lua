@@ -5,8 +5,9 @@ local env = require 'rc.lib.env'
 
 return {
   {
-
     'thinca/vim-quickrun',
+    cmd = 'QuickRun',
+    keys = { '<Plug>(partial-quickrun)' },
     dependencies = { 'vim-quickrun-runner-nvimterm' },
     init = function()
       local deepcopy = require('rc.lib.lang.object').deepcopy
@@ -386,5 +387,6 @@ return {
   },
   {
     'statiolake/vim-quickrun-runner-nvimterm',
+    lazy = true,
   },
 }

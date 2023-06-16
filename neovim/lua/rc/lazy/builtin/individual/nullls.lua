@@ -149,6 +149,7 @@ local source_configs = {
 return {
   {
     'jose-elias-alvarez/null-ls.nvim',
+    lazy = true,
     config = function()
       local null_ls = require 'null-ls'
 
@@ -194,6 +195,7 @@ return {
   {
     'jayp0521/mason-null-ls.nvim',
     dependencies = { 'mason.nvim', 'null-ls.nvim' },
+    lazy = true,
     config = function() end,
   },
 }

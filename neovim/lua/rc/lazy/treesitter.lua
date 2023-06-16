@@ -1,6 +1,7 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    event = 'VeryLazy',
     dependencies = {
       'playground',
       'nvim-ts-context-commentstring',
@@ -47,11 +48,14 @@ return {
   },
   {
     'nvim-treesitter/playground',
+    lazy = true,
   },
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
+    lazy = true,
   },
   {
     'yioneko/nvim-yati',
+    lazy = true,
   },
 }

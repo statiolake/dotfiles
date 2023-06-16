@@ -7,12 +7,17 @@ return {
   },
   {
     'wsdjeg/vim-fetch',
+    keys = { 'gF' },
     init = function()
       k.nx('gf', 'gF')
     end,
   },
   {
     'tyru/open-browser.vim',
+    keys = {
+      '<Plug>(openbrowser-open)',
+      '<Plug>(openbrowser-search)',
+    },
     init = function()
       k.nx('gx', '<Plug>(openbrowser-open)')
       k.nx('g?', '<Plug>(openbrowser-search)')
@@ -20,6 +25,7 @@ return {
   },
   {
     'statiolake/vim-junkfile',
+    cmd = 'Junkfile',
     init = function()
       if vim.fn.executable 'workspace_path' ~= 0 then
         vim.g['junkfile#workspace_path'] = 'workspace_path -d'
@@ -34,6 +40,7 @@ return {
   {
     -- ソースコードを画像化するプラグイン (Rust 製 silicon に依存)
     'segeljakt/vim-silicon',
+    cmd = 'Silicon',
     init = function()
       vim.g.silicon = {
         theme = 'gruvbox',

@@ -30,6 +30,7 @@ return {
   {
     'vim-skk/skkeleton',
     dependencies = { 'denops.vim' },
+    keys = { '<Plug>(skkeleton-enable)' },
     init = function()
       k.i('<C-j>', '<Plug>(skkeleton-enable)')
       k.c('<C-j>', '<Plug>(skkeleton-enable)')

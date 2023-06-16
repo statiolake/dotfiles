@@ -7,7 +7,7 @@ local active_colorset = nil
 
 ---Set editor colorscheme
 local function set_colorscheme(scheme)
-  vim.cmd(string.format('colorscheme %s', scheme))
+  vim.cmd.colorscheme { scheme }
   ac.emit('ColorScheme', scheme)
 end
 

@@ -88,6 +88,7 @@ return {
       'nvim-config-local',
       'fidget.nvim',
     },
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       --vim.lsp.set_log_level 'trace'
 
@@ -491,10 +492,12 @@ return {
   {
     'williamboman/mason-lspconfig.nvim',
     dependencies = { 'mason.nvim' },
+    lazy = true,
     config = function() end,
   },
   {
     'folke/neodev.nvim',
+    lazy = true,
     config = function()
       -- Hack: neodev.nvim は root_dir が stdpath('config') に含まれるか
       -- stdpath('config') が root_dir に含まれるかのどちらかの場合にしか依存ラ
@@ -522,6 +525,7 @@ return {
   },
   {
     'williamboman/mason.nvim',
+    lazy = true,
     opts = {
       ui = {
         border = c.border,
@@ -533,8 +537,21 @@ return {
       },
     },
   },
-  { 'simrat39/rust-tools.nvim' },
-  { 'jose-elias-alvarez/nvim-lsp-ts-utils' },
-  { 'mfussenegger/nvim-jdtls' },
-  { 'folke/neoconf.nvim', cmd = 'Neoconf', config = true },
+  {
+    'simrat39/rust-tools.nvim',
+    lazy = true,
+  },
+  {
+    'jose-elias-alvarez/nvim-lsp-ts-utils',
+    lazy = true,
+  },
+  {
+    'mfussenegger/nvim-jdtls',
+    lazy = true,
+  },
+  {
+    'folke/neoconf.nvim',
+    cmd = 'Neoconf',
+    config = true,
+  },
 }

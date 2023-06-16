@@ -7,7 +7,7 @@ local c = require 'rc.config'
 return {
   {
     'hrsh7th/nvim-cmp',
-    depends = pack {
+    dependencies = pack {
       'cmp-nvim-lsp',
       'cmp-buffer',
       'cmp-path',
@@ -16,6 +16,7 @@ return {
       'ultisnips',
       'cmp-nvim-ultisnips',
     },
+    event = 'InsertEnter',
     config = function()
       local snip = require 'rc.lib.ultisnips_wrapper'
       local cmp = require 'cmp'
@@ -192,15 +193,16 @@ return {
       end
     end,
   },
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/cmp-buffer' },
-  { 'hrsh7th/cmp-path' },
-  { 'hrsh7th/cmp-cmdline' },
-  { 'quangnguyen30192/cmp-nvim-ultisnips' },
-  { 'onsails/lspkind.nvim' },
+  { 'hrsh7th/cmp-nvim-lsp', lazy = true },
+  { 'hrsh7th/cmp-buffer', lazy = true },
+  { 'hrsh7th/cmp-path', lazy = true },
+  { 'hrsh7th/cmp-cmdline', lazy = true },
+  { 'quangnguyen30192/cmp-nvim-ultisnips', lazy = true },
+  { 'onsails/lspkind.nvim', lazy = true },
   {
     'SirVer/ultisnips',
     dependencies = { 'vim-snippets', 'vim-emmet-ultisnips' },
+    lazy = true,
     init = function()
       vim.g.UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit =
         env.path_under_config 'ultisnips'
@@ -222,6 +224,6 @@ return {
       end)
     end,
   },
-  { 'honza/vim-snippets' },
-  { 'adriaanzon/vim-emmet-ultisnips' },
+  { 'honza/vim-snippets', lazy = true },
+  { 'adriaanzon/vim-emmet-ultisnips', lazy = true },
 }

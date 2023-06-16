@@ -1,8 +1,8 @@
 return {
   {
     'iamcco/markdown-preview.nvim',
-    on_ft = { 'markdown' },
-    after_load = function()
+    ft = { 'markdown' },
+    config = function()
       vim.fn['mkdp#util#install']()
     end,
   },

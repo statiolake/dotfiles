@@ -30,6 +30,7 @@ return {
   { import = 'rc.lazy.builtin.individual.nullls' },
   {
     'nvim-lua/lsp-status.nvim',
+    lazy = true,
     config = function()
       require('lsp-status').config {
         -- Diagnostics は Lualine で表示されるのでいらない
@@ -54,49 +55,49 @@ return {
       }
     end,
   },
-  { 'RRethy/vim-illuminate' },
+  {
+    'RRethy/vim-illuminate',
+    lazy = true,
+  },
   {
     'SmiteshP/nvim-navic',
-    config = function()
-      -- 遅延ロード
-      ac.on_vim_started(function()
-        require('nvim-navic').setup {
-          icons = {
-            File = c.use_icons and ' ' or 'FILE:',
-            Module = c.use_icons and ' ' or 'MOD:',
-            Namespace = c.use_icons and ' ' or 'NS:',
-            Package = c.use_icons and ' ' or 'PKG:',
-            Class = c.use_icons and ' ' or 'C:',
-            Method = c.use_icons and ' ' or 'M:',
-            Property = c.use_icons and ' ' or 'P:',
-            Field = c.use_icons and ' ' or 'V:',
-            Constructor = c.use_icons and ' ' or 'CTOR:',
-            Enum = c.use_icons and '練' or 'E:',
-            Interface = c.use_icons and '練' or 'IF:',
-            Function = c.use_icons and ' ' or 'F:',
-            Variable = c.use_icons and ' ' or 'V:',
-            Constant = c.use_icons and ' ' or 'CONST:',
-            String = c.use_icons and ' ' or 'S:',
-            Number = c.use_icons and ' ' or 'I:',
-            Boolean = c.use_icons and '◩ ' or 'B:',
-            Array = c.use_icons and ' ' or 'A:',
-            Object = c.use_icons and ' ' or 'O:',
-            Key = c.use_icons and ' ' or 'K:',
-            Null = c.use_icons and 'ﳠ ' or 'N:',
-            EnumMember = c.use_icons and ' ' or 'EM:',
-            Struct = c.use_icons and ' ' or 'C:',
-            Event = c.use_icons and ' ' or 'EV:',
-            Operator = c.use_icons and ' ' or 'OP:',
-            TypeParameter = c.use_icons and ' ' or 'T:',
-          },
-        }
-      end)
-    end,
+    lazy = true,
+    opts = {
+      icons = {
+        File = c.use_icons and ' ' or 'FILE:',
+        Module = c.use_icons and ' ' or 'MOD:',
+        Namespace = c.use_icons and ' ' or 'NS:',
+        Package = c.use_icons and ' ' or 'PKG:',
+        Class = c.use_icons and ' ' or 'C:',
+        Method = c.use_icons and ' ' or 'M:',
+        Property = c.use_icons and ' ' or 'P:',
+        Field = c.use_icons and ' ' or 'V:',
+        Constructor = c.use_icons and ' ' or 'CTOR:',
+        Enum = c.use_icons and '練' or 'E:',
+        Interface = c.use_icons and '練' or 'IF:',
+        Function = c.use_icons and ' ' or 'F:',
+        Variable = c.use_icons and ' ' or 'V:',
+        Constant = c.use_icons and ' ' or 'CONST:',
+        String = c.use_icons and ' ' or 'S:',
+        Number = c.use_icons and ' ' or 'I:',
+        Boolean = c.use_icons and '◩ ' or 'B:',
+        Array = c.use_icons and ' ' or 'A:',
+        Object = c.use_icons and ' ' or 'O:',
+        Key = c.use_icons and ' ' or 'K:',
+        Null = c.use_icons and 'ﳠ ' or 'N:',
+        EnumMember = c.use_icons and ' ' or 'EM:',
+        Struct = c.use_icons and ' ' or 'C:',
+        Event = c.use_icons and ' ' or 'EV:',
+        Operator = c.use_icons and ' ' or 'OP:',
+        TypeParameter = c.use_icons and ' ' or 'T:',
+      },
+    },
   },
   { import = 'rc.lazy.builtin.individual.cmp' },
   {
     'matsui54/denops-signature_help',
     dependencies = { 'denops.vim' },
+    lazy = true,
     init = function()
       vim.g.signature_help_config = {
         border = c.border
@@ -120,29 +121,28 @@ return {
 
   {
     'j-hui/fidget.nvim',
-    config = function()
-      require('fidget').setup {
-        text = {
-          spinner = {
-            '.',
-            'o',
-            'O',
-            '@',
-            '*',
-            '.',
-            'o',
-            'O',
-            '@',
-            '*',
-          },
-          done = 'OK',
+    lazy = true,
+    opts = {
+      text = {
+        spinner = {
+          '.',
+          'o',
+          'O',
+          '@',
+          '*',
+          '.',
+          'o',
+          'O',
+          '@',
+          '*',
         },
-      }
-    end,
+        done = 'OK',
+      },
+    },
   },
-
   {
     'folke/trouble.nvim',
+    cmd = 'TroubleToggle',
     config = function()
       require('trouble').setup {
         icons = c.use_icons,
