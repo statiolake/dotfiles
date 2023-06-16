@@ -12,7 +12,6 @@ local use_icons = cg 'ui.useIcons'
 return {
   {
     'equalsraf/neovim-gui-shim',
-    enabled = vim.fn.getenv 'DOCKERMAN_ATTACHED' == '1',
   },
   {
     'nvim-telescope/telescope.nvim',

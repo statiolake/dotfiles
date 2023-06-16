@@ -1,3 +1,5 @@
+local use_icons = get_global_config 'ui.useIcons'
+
 return {
   {
     'nvim-lua/plenary.nvim',
@@ -9,10 +11,12 @@ return {
   },
   {
     'kyazdani42/nvim-web-devicons',
+    enabled = use_icons,
     lazy = true,
   },
   {
     'ryanoasis/vim-devicons',
+    enabled = use_icons,
     lazy = true,
   },
   {
