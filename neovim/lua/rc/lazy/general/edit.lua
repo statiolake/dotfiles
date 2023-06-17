@@ -61,11 +61,9 @@ return {
   },
   {
     'tpope/vim-endwise',
-    event = 'InsertEnter',
   },
   {
     'alvan/vim-closetag',
-    event = 'InsertEnter',
     init = function()
       -- filenames like *.xml, *.html, *.xhtml, ...
       -- These are the file extensions where this plugin is enabled.
