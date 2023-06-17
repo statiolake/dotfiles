@@ -113,9 +113,9 @@ return {
     't9md/vim-quickhl',
     keys = {
       '<Plug>(quickhl-manual-this-whole-word)',
-      '<Plug>(quickhl-manual-this)',
-      '<Plug>(quickhl-manual-clear)',
-      '<Plug>(quickhl-manual-reset)',
+      { '<Plug>(quickhl-manual-this)', mode = 'x' },
+      { '<Plug>(quickhl-manual-clear)', mode = { 'n', 'x' } },
+      { '<Plug>(quickhl-manual-reset)', mode = { 'n', 'x' } },
     },
     cmd = {
       'NoQuickHl',
@@ -123,10 +123,8 @@ return {
     init = function()
       k.n('+', '<Plug>(quickhl-manual-this-whole-word)')
       k.x('+', '<Plug>(quickhl-manual-this)')
-      k.n('-', '<Plug>(quickhl-manual-clear)')
-      k.x('-', '<Plug>(quickhl-manual-clear)')
-      k.n('<Leader>M', '<Plug>(quickhl-manual-reset)')
-      k.x('<Leader>M', '<Plug>(quickhl-manual-reset)')
+      k.nx('-', '<Plug>(quickhl-manual-clear)')
+      k.nx('<Leader>M', '<Plug>(quickhl-manual-reset)')
       cmd.add('NoQuickHl', vim.fn['quickhl#manual#reset'])
     end,
   },

@@ -7,7 +7,7 @@ return {
   },
   {
     'wsdjeg/vim-fetch',
-    keys = { 'gF' },
+    keys = { { 'gF', mode = { 'n', 'x' } } },
     init = function()
       k.nx('gf', 'gF')
     end,
@@ -15,8 +15,8 @@ return {
   {
     'tyru/open-browser.vim',
     keys = {
-      '<Plug>(openbrowser-open)',
-      '<Plug>(openbrowser-search)',
+      { '<Plug>(openbrowser-open)', mode = { 'n', 'x' } },
+      { '<Plug>(openbrowser-search)', mode = { 'n', 'x' } },
     },
     init = function()
       k.nx('gx', '<Plug>(openbrowser-open)')

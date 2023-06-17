@@ -120,10 +120,10 @@ return {
   {
     'haya14busa/vim-asterisk',
     keys = {
-      '<Plug>(asterisk-z*)',
-      '<Plug>(asterisk-z#)',
-      '<Plug>(asterisk-gz*)',
-      '<Plug>(asterisk-gz#)',
+      { '<Plug>(asterisk-z*)', mode = { 'n', 'x' } },
+      { '<Plug>(asterisk-z#)', mode = { 'n', 'x' } },
+      { '<Plug>(asterisk-gz*)', mode = { 'n', 'x' } },
+      { '<Plug>(asterisk-gz#)', mode = { 'n', 'x' } },
     },
     init = function()
       k.nx('*', '<Plug>(asterisk-z*)')
