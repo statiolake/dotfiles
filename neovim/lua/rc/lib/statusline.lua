@@ -60,7 +60,7 @@ end
 
 local function builtin_status()
   if #vim.lsp.get_active_clients { bufnr = 0 } <= 0 then
-    return '(no active LS found)'
+    return 'No LSP'
   end
   local ok, lsp_status = pcall(require, 'lsp-status')
   if not ok then

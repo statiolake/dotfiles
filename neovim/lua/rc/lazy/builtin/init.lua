@@ -52,6 +52,7 @@ return {
           '@',
           '*',
         },
+        status_symbol = 'LSP',
       }
     end,
   },
