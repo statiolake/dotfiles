@@ -28,11 +28,10 @@ return {
     cmd = 'Junkfile',
     init = function()
       if vim.fn.executable 'workspace_path' ~= 0 then
-        vim.g['junkfile#workspace_path'] = 'workspace_path -d'
-        vim.g['junkfile#workspace_path_is_shell_command'] = 1
+        vim.g['junkfile#workspace_path'] =
+          vim.fn.trim(vim.fn.system 'workspace_path -d')
       else
-        vim.g['junkfile#workspace_path'] = '~/junk/%Y/%m%d'
-        vim.g['junkfile#workspace_path_is_shell_command'] = 0
+        vim.g['junkfile#workspace_path'] = vimfn.expand '~/junk/%Y/%m%d'
       end
       k.n('<A-t>', ':<C-u>Junkfile ', { silent = false })
     end,
