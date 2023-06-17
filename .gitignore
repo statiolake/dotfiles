@@ -1,3 +1,5 @@
 .vim
 /neovim/lua51
 *.swp
+/WindowsPowerShell/Modules
+/WindowsPowerShell/Scripts

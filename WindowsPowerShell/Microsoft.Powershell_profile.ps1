@@ -17,6 +17,9 @@
 
   $confdir = (Get-Item $profile).DirectoryName
 
+  # example: ~\Documents\WindowsPowerShell\rawpipe.ps1
+  . "$confdir\rawpipe.ps1"
+
   # example: ~\Documents\WindowsPowerShell\basic.ps1
   . "$confdir\basic.ps1"
 
