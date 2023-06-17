@@ -77,6 +77,7 @@ return {
       local keys = { '<C-@>', '<C-\\>' }
       for _, key in ipairs(keys) do
         k.add({ 'n', 't' }, key, function()
+          require('lazy').load { plugins = { 'vim-floaterm' } }
           local floaterm_name = 'main_shell_terminal'
           if vim.fn['floaterm#terminal#get_bufnr'](floaterm_name) ~= -1 then
             vim.cmd.FloatermToggle { floaterm_name }
