@@ -1,4 +1,4 @@
-c = {}
+local c = {}
 
 c.ide = 'coc'
 c.format_on_save = true

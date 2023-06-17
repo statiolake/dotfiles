@@ -12,70 +12,6 @@ return {
     'equalsraf/neovim-gui-shim',
   },
   {
-    'nvim-telescope/telescope.nvim',
-    enabled = c.ide ~= 'coc',
-    dependencies = {
-      'popup.nvim',
-      'plenary.nvim',
-      'telescope-ui-select.nvim',
-    },
-    cmd = 'Telescope',
-    init = function()
-      k.nno('<C-e>', k.cmd 'Telescope find_files')
-      k.nno('<C-f>', k.cmd 'Telescope live_grep')
-      k.nno('<C-q>', k.cmd 'Telescope buffers')
-      k.nno('<C-s>', k.cmd 'Telescope resume')
-
-      -- デフォルトのハイライト色を設定する
-      colorset.register_editor_colorscheme_hook(function()
-        vim.cmd [[
-        hi! link TelescopeBorder FloatBorder
-        hi! link TelescopeNormal NormalFloat
-      ]]
-      end)
-    end,
-    config = function()
-      -- リザルト画面が fold されてしまう問題を修正
-      -- https://github.com/nvim-telescope/telescope.nvim/issues/991
-      ac.augroup('rc__telescope_fix_fold', function(au)
-        au('FileType', 'TelescopeResults', function()
-          vim.opt_local.foldenable = false
-        end)
-      end)
-      local function extract(bc)
-        -- border は { char, highlight } のリストということもある
-        return bc[1] or bc
-      end
-      local borderchars = {
-        extract(c.border[2]),
-        extract(c.border[4]),
-        extract(c.border[6]),
-        extract(c.border[8]),
-        extract(c.border[1]),
-        extract(c.border[3]),
-        extract(c.border[5]),
-        extract(c.border[7]),
-      }
-      local telescope = require 'telescope'
-      telescope.setup {
-        defaults = {
-          mappings = {
-            i = {
-              -- skkeleton の有効化と重複するので無効化しておく
-              ['<C-j>'] = false,
-            },
-          },
-          borderchars = borderchars,
-        },
-      }
-      telescope.load_extension 'ui-select'
-    end,
-  },
-  {
-    'nvim-telescope/telescope-ui-select.nvim',
-    lazy = true,
-  },
-  {
     'alvarosevilla95/luatab.nvim',
     dependencies = pack {
       when(c.use_icons, 'nvim-web-devicons'),
@@ -97,18 +33,6 @@ return {
     init = function()
       k.nno('<A-z>', k.cmd 'MundoToggle')
     end,
-  },
-  {
-    'nvim-pack/nvim-spectre',
-    dependencies = { 'plenary.nvim' },
-    cmd = 'Spectre',
-    init = function()
-      cmd.add('Spectre', function()
-        require('spectre').open()
-      end)
-      k.nno('<A-f>', k.cmd 'Spectre')
-    end,
-    config = true,
   },
   {
     't9md/vim-quickhl',
@@ -443,72 +367,6 @@ return {
         fold_closed = c.use_icons and '' or '+',
       },
       use_icons = c.use_icons,
-    },
-  },
-  {
-    'lewis6991/gitsigns.nvim',
-    dependencies = { 'plenary.nvim' },
-    event = 'VeryLazy',
-    opts = {
-      signs = {
-        add = {
-          hl = 'GitSignsAdd',
-          text = c.use_icons and '┃' or '+',
-          numhl = 'GitSignsAddNr',
-          linehl = 'GitSignsAddLn',
-        },
-        change = {
-          hl = 'GitSignsChange',
-          text = c.use_icons and '┃' or '~',
-          numhl = 'GitSignsChangeNr',
-          linehl = 'GitSignsChangeLn',
-        },
-        delete = {
-          hl = 'GitSignsDelete',
-          text = c.use_icons and '' or '_',
-          numhl = 'GitSignsDeleteNr',
-          linehl = 'GitSignsDeleteLn',
-        },
-        topdelete = {
-          hl = 'GitSignsDelete',
-          text = c.use_icons and '' or '‾',
-          numhl = 'GitSignsDeleteNr',
-          linehl = 'GitSignsDeleteLn',
-        },
-        changedelete = {
-          hl = 'GitSignsChange',
-          text = c.use_icons and '┃' or '~',
-          numhl = 'GitSignsChangeNr',
-          linehl = 'GitSignsChangeLn',
-        },
-        untracked = {
-          hl = 'GitSignsAdd',
-          text = c.use_icons and '┃' or '+',
-          numhl = 'GitSignsAddNr',
-          linehl = 'GitSignsAddLn',
-        },
-      },
-      current_line_blame = true,
-      on_attach = function(bufnr)
-        local _ = bufnr
-
-        k.n(
-          ']c',
-          "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'",
-          { expr = true }
-        )
-        k.n(
-          '[c',
-          "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
-          { expr = true }
-        )
-
-        -- テキストオブジェクト
-        k.add({ 'o', 'x' }, 'ih', k.cmd 'Gitsigns select_hunk')
-      end,
-      diff_opts = {
-        internal = true,
-      },
     },
   },
 }

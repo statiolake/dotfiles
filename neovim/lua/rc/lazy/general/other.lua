@@ -119,9 +119,9 @@ return {
       vim.g.startuptime_tries = 10
     end,
   },
-  {
-    import = 'rc.lazy.general.individual.skkeleton',
-  },
+  -- {
+  --   import = 'rc.lazy.general.individual.skkeleton',
+  -- },
   {
     import = 'rc.lazy.general.individual.quickrun',
   },

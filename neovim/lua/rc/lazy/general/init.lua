@@ -1,5 +1,3 @@
--- ignored   'williamboman/mason.nvim', for error
-
 return {
   { import = 'rc.lazy.general.edit' },
   { import = 'rc.lazy.general.interface' },

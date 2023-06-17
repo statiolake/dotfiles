@@ -27,29 +27,29 @@ local function skk_user_dictionary()
 end
 
 return {
-  -- {
-  --   'vim-skk/skkeleton',
-  --   dependencies = { 'denops.vim' },
-  --   keys = { { '<Plug>(skkeleton-enable)', mode = { 'i', 'c' } } },
-  --   init = function()
-  --     k.i('<C-j>', '<Plug>(skkeleton-enable)')
-  --     k.c('<C-j>', '<Plug>(skkeleton-enable)')
-  --
-  --     ac.augroup('rc__skkeleton_init', function(au)
-  --       au('User', 'skkeleton-initialize-pre', function()
-  --         vim.fn['skkeleton#register_kanatable']('rom', {
-  --           ['v,'] = { ',', '' },
-  --           ['v.'] = { '.', '' },
-  --         })
-  --         vim.fn['skkeleton#register_keymap']('input', '<C-j>', 'kakutei')
-  --         vim.fn['skkeleton#config'] {
-  --           ['markerHenkan'] = '@',
-  --           ['markerHenkanSelect'] = '*',
-  --           ['globalJisyo'] = skk_large_dictionary(),
-  --           ['userJisyo'] = skk_user_dictionary(),
-  --         }
-  --       end)
-  --     end)
-  --   end,
-  -- },
+  {
+    'vim-skk/skkeleton',
+    dependencies = { 'denops.vim' },
+    keys = { { '<Plug>(skkeleton-enable)', mode = { 'i', 'c' } } },
+    init = function()
+      k.i('<C-j>', '<Plug>(skkeleton-enable)')
+      k.c('<C-j>', '<Plug>(skkeleton-enable)')
+
+      ac.augroup('rc__skkeleton_init', function(au)
+        au('User', 'skkeleton-initialize-pre', function()
+          vim.fn['skkeleton#register_kanatable']('rom', {
+            ['v,'] = { ',', '' },
+            ['v.'] = { '.', '' },
+          })
+          vim.fn['skkeleton#register_keymap']('input', '<C-j>', 'kakutei')
+          vim.fn['skkeleton#config'] {
+            ['markerHenkan'] = '@',
+            ['markerHenkanSelect'] = '*',
+            ['globalJisyo'] = skk_large_dictionary(),
+            ['userJisyo'] = skk_user_dictionary(),
+          }
+        end)
+      end)
+    end,
+  },
 }
