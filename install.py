@@ -474,8 +474,16 @@ def setup_emacs(d, *, silent):
 
 
 def setup_powershell(d, *, silent):
+    # PowerShell はプロファイルが OneDrive に置かれてしまい、symlink が壊れて
+    # しまうので、symlink ではなく $profile を編集して再読み込みすることで対応
+    # する
+    profile_name = "Microsoft.Powershell_profile.ps1"
     for path in d.t.pwshprofiles:
-        linkd(d.s.base / "WindowsPowerShell", path, silent=silent)
+        os.makedirs(path, exist_ok=True)
+        with open(path / profile_name, "wt") as f:
+            real_profile_path = d.s.base / "WindowsPowerShell" / profile_name
+            print(f'$profile = "{real_profile_path}"', file=f)
+            print(". $profile", file=f)
 
 
 def setup_alacritty(d, *, silent):
