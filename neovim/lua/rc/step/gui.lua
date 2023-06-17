@@ -135,29 +135,29 @@ end
 -- }}}
 
 -- winbar {{{
-local fnreg = require 'rc.lib.function_registry'
-
--- winbar に symbol line を表示する
-if b(vim.fn.has 'nvim-0.8') then
-  local winbar = ''
-
-  -- ファイル名
-  winbar = winbar .. '%f'
-
-  -- 変更があればマークを追加する
-  local modified = c.use_icons and ' ' or '[+]'
-  winbar = winbar .. ('%{&modified ? "' .. modified .. '" : ""}')
-
-  local symbol_line_fnstr = fnreg.global_registry:register_for_vimscript(
-    function()
-      return stl.symbol_line()
-    end,
-    'symbol_line_helper'
-  )
-  winbar = winbar .. ('%{%' .. symbol_line_fnstr .. '()%}')
-
-  vim.opt.winbar = winbar
-end
+-- local fnreg = require 'rc.lib.function_registry'
+--
+-- -- winbar に symbol line を表示する
+-- if b(vim.fn.has 'nvim-0.8') then
+--   local winbar = ''
+--
+--   -- ファイル名
+--   winbar = winbar .. '%f'
+--
+--   -- 変更があればマークを追加する
+--   local modified = c.use_icons and ' ' or '[+]'
+--   winbar = winbar .. ('%{&modified ? "' .. modified .. '" : ""}')
+--
+--   local symbol_line_fnstr = fnreg.global_registry:register_for_vimscript(
+--     function()
+--       return stl.symbol_line()
+--     end,
+--     'symbol_line_helper'
+--   )
+--   winbar = winbar .. ('%{%' .. symbol_line_fnstr .. '()%}')
+--
+--   vim.opt.winbar = winbar
+-- end
 -- }}}
 
 --- カーソル設定 {{{

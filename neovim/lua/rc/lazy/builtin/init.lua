@@ -3,6 +3,10 @@ local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
 local c = require 'rc.config'
 
+if c.ide ~= 'builtin' then
+  return {}
+end
+
 -- Hack: https://github.com/neovim/neovim/pull/19677 に対応する
 -- とんでもないデフォルト値を設定してくれたもんだな...
 ac.augroup('rc__fix_formatexpr', function(au)

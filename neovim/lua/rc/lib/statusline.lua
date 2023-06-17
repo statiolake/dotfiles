@@ -111,6 +111,10 @@ function M.symbol_line()
     end
     return ''
   elseif c.ide == 'coc' then
+    if not vim.b.coc_nav then
+      return ''
+    end
+
     -- coc-nav で得る
     return table.concat(
       table

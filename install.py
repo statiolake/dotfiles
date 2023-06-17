@@ -396,6 +396,11 @@ def setup_neovim(d, *, force, silent):
     linkd(
         d.s.neovim / "ultisnips", d.t.nvimfiles / "ultisnips", silent=silent
     )
+    linkf(
+        d.s.neovim / "coc-settings.json",
+        d.t.nvimfiles / "coc-settings.json",
+        silent=silent,
+    )
     linkd(d.s.neovim / "lua", d.t.nvimfiles / "lua", silent=silent)
     linkf(
         d.s.neovim / "init.lua",

@@ -13,6 +13,7 @@ return {
   },
   {
     'nvim-telescope/telescope.nvim',
+    enabled = c.ide ~= 'coc',
     dependencies = {
       'popup.nvim',
       'plenary.nvim',
@@ -178,9 +179,9 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
-    dependencies = {
+    dependencies = pack {
       'lush.nvim',
-      'nvim-navic',
+      when(c.ide == 'builtin', 'nvim-navic'),
     },
     config = function()
       local stl = require 'rc.lib.statusline'
