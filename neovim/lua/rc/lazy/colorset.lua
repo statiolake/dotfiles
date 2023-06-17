@@ -33,48 +33,53 @@ return {
     name = 'alduin',
     'AlessandroYorba/Alduin',
     init = function()
-      -- vim.g.alduin_Shout_Become_Ethereal = 1
+      vim.g.alduin_Shout_Become_Ethereal = 1
     end,
     colorsets = {
       alduin = {
         background = 'dark',
         editor = 'alduin',
         lualine = function()
+          local dimmed = b(vim.g.alduin_Shout_Become_Ethereal) and '#131313'
+            or '#1e1e1e'
+          local more_dimmed = b(vim.g.alduin_Shout_Become_Ethereal)
+              and '#101010'
+            or '#131313'
           local alduin_theme = {
             inactive = {
-              a = { gui = 'bold', fg = '#1e1e1e', bg = '#946868' },
-              b = { bg = '#1e1e1e', fg = '#946868' },
-              c = { bg = '#131313', fg = '#f5f5c0' },
+              a = { gui = 'bold', fg = dimmed, bg = '#946868' },
+              b = { bg = dimmed, fg = '#946868' },
+              c = { bg = more_dimmed, fg = '#f5f5c0' },
             },
             replace = {
               a = { gui = 'bold', fg = '#969696', bg = '#c06800' },
-              b = { bg = '#1e1e1e', fg = '#ca720a' },
-              c = { bg = '#131313', fg = '#f5f5c0' },
+              b = { bg = dimmed, fg = '#ca720a' },
+              c = { bg = more_dimmed, fg = '#f5f5c0' },
             },
             normal = {
-              a = { gui = 'bold', fg = '#1e1e1e', bg = '#946868' },
-              b = { bg = '#1e1e1e', fg = '#946868' },
-              c = { bg = '#131313', fg = '#f5f5c0' },
+              a = { gui = 'bold', fg = dimmed, bg = '#946868' },
+              b = { bg = dimmed, fg = '#946868' },
+              c = { bg = more_dimmed, fg = '#f5f5c0' },
             },
             terminal = {
-              a = { gui = 'bold', fg = '#1e1e1e', bg = '#94c0c0' },
-              b = { bg = '#1e1e1e', fg = '#94c0c0' },
-              c = { bg = '#131313', fg = '#f5f5c0' },
+              a = { gui = 'bold', fg = dimmed, bg = '#94c0c0' },
+              b = { bg = dimmed, fg = '#94c0c0' },
+              c = { bg = more_dimmed, fg = '#f5f5c0' },
             },
             visual = {
-              a = { gui = 'bold', fg = '#1e1e1e', bg = '#c06868' },
-              b = { bg = '#1e1e1e', fg = '#c06868' },
-              c = { bg = '#131313', fg = '#f5f5c0' },
+              a = { gui = 'bold', fg = dimmed, bg = '#c06868' },
+              b = { bg = dimmed, fg = '#c06868' },
+              c = { bg = more_dimmed, fg = '#f5f5c0' },
             },
             insert = {
-              a = { gui = 'bold', fg = '#1e1e1e', bg = '#fff594' },
-              b = { bg = '#1e1e1e', fg = '#fff594' },
-              c = { bg = '#131313', fg = '#f5f5c0' },
+              a = { gui = 'bold', fg = dimmed, bg = '#fff594' },
+              b = { bg = dimmed, fg = '#fff594' },
+              c = { bg = more_dimmed, fg = '#f5f5c0' },
             },
             command = {
-              a = { gui = 'bold', fg = '#1e1e1e', bg = '#94c0c0' },
-              b = { bg = '#1e1e1e', fg = '#94c0c0' },
-              c = { bg = '#131313', fg = '#f5f5c0' },
+              a = { gui = 'bold', fg = dimmed, bg = '#94c0c0' },
+              b = { bg = dimmed, fg = '#94c0c0' },
+              c = { bg = more_dimmed, fg = '#f5f5c0' },
             },
           }
 
@@ -87,13 +92,13 @@ return {
           return alduin_theme
         end,
         hook = function()
-          if b(vim.g.alduin_Shout_Become_Ethereal) then
-            hi.define('Normal', { guibg = '#000000' })
-            hi.define('NormalFloat', { guibg = '#1c1c1c' })
-            hi.define('CursorLine', { guibg = '#181818' })
-            hi.define('SignColumn', { guibg = '#080808' })
-            hi.link('Delimiter', 'Operator')
-          end
+          -- if b(vim.g.alduin_Shout_Become_Ethereal) then
+          --   hi.define('Normal', { guibg = '#000000' })
+          --   hi.define('NormalFloat', { guibg = '#1c1c1c' })
+          --   hi.define('CursorLine', { guibg = '#181818' })
+          --   hi.define('SignColumn', { guibg = '#080808' })
+          --   hi.link('Delimiter', 'Operator')
+          -- end
 
           if transparent then
             hi.define('Normal', { guibg = 'NONE' })
