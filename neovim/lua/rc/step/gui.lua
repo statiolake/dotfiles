@@ -1,6 +1,5 @@
 local ac = require 'rc.lib.autocmd'
 local env = require 'rc.lib.env'
-local stl = require 'rc.lib.statusline'
 local c = require 'rc.config'
 
 local font

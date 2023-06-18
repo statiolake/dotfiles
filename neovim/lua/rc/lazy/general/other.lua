@@ -24,16 +24,22 @@ return {
     end,
   },
   {
-    'statiolake/vim-junkfile',
+    'statiolake/nvim-junkfile',
     cmd = 'Junkfile',
     init = function()
-      if vim.fn.executable 'workspace_path' ~= 0 then
-        vim.g['junkfile#workspace_path'] =
-          vim.fn.trim(vim.fn.system 'workspace_path -d')
-      else
-        vim.g['junkfile#workspace_path'] = vimfn.expand '~/junk/%Y/%m%d'
-      end
       k.n('<A-t>', ':<C-u>Junkfile ', { silent = false })
+    end,
+    config = function()
+      local workspace_path
+      if vim.fn.executable 'workspace_path' ~= 0 then
+        workspace_path = vim.fn.trim(vim.fn.system 'workspace_path -d')
+      else
+        workspace_path = vimfn.expand '~/junk/%Y/%m%d'
+      end
+
+      require('junkfile').setup {
+        workspace_path = workspace_path,
+      }
     end,
   },
   {

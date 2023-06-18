@@ -1,7 +1,17 @@
 local c = require 'rc.config'
+local vimfn = require 'rc.lib.vimfn'
 
 -- プラグインのセットアップ
+local local_dir = vimfn.expand '~/dev/github'
+local possible_subdir = vimfn.expand(local_dir .. '/statiolake')
+if b(vim.fn.isdirectory(possible_subdir)) then
+  local_dir = possible_subdir
+end
+
 require('lazy').setup('rc.lazy', {
+  dev = {
+    path = local_dir,
+  },
   ui = {
     icons = {
       cmd = c.use_icons and ' ' or 'cmd:',
