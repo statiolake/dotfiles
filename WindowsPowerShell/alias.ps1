@@ -19,4 +19,7 @@ Set-Alias -Name pa -Value procon-assistant
 Set-Alias -Name plt -Value procon-lib-tester
 
 # aliases
+#
+# Though I have cmdlink, I need this alias to set up git completion of posh-git
+# correctly.
 Set-Alias -Name g -Value git

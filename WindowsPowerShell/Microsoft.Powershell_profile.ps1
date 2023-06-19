@@ -26,6 +26,7 @@
   # example: ~\Documents\WindowsPowerShell\alias.ps1
   . "$confdir\alias.ps1"
 
+  # I need to load plugins after alias.ps1 (which sets alias `g` for git)
   # example: ~\Documents\WindowsPowerShell\plugins.ps1
   . "$confdir\plugins.ps1"
 
