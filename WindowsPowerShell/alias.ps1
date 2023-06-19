@@ -17,3 +17,6 @@ Set-Alias -Name _ -Value Invoke-PipedCommand
 # programs
 Set-Alias -Name pa -Value procon-assistant
 Set-Alias -Name plt -Value procon-lib-tester
+
+# aliases
+Set-Alias -Name g -Value git
