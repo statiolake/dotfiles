@@ -69,7 +69,7 @@ local function run_coc_formatter(_is_auto)
     if vimfn.expand '%:t' == 'coc-settings.json' then
       pcall(vim.fn.CocAction, 'runCommand', 'formatJson', '--sort-keys')
     end
-    pcall(vim.fn.CocAction, 'organizeImport')
+    --pcall(vim.fn.CocAction, 'organizeImport')
     pcall(vim.fn.CocAction, 'format')
   end
 end

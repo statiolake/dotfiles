@@ -17,9 +17,11 @@ return {
           'ddu-ff-filter',
           'vim',
         },
-        disable_macro = true,
+        disable_in_macro = true,
+        disable_in_visualblock = true,
         map_cr = false,
       }
+
       local Rule = require 'nvim-autopairs.rule'
       local cond = require 'nvim-autopairs.conds'
       -- `(|)` でスペースキーを押したときに `( | )` にする {{{
@@ -102,7 +104,6 @@ return {
   },
   {
     'andymass/vim-matchup',
-    event = 'VeryLazy',
     init = function()
       vim.g.matchup_matchpref = {
         html = {
