@@ -199,29 +199,4 @@ return {
   { 'hrsh7th/cmp-cmdline', lazy = true },
   { 'quangnguyen30192/cmp-nvim-ultisnips', lazy = true },
   { 'onsails/lspkind.nvim', lazy = true },
-  {
-    'SirVer/ultisnips',
-    dependencies = { 'vim-snippets', 'vim-emmet-ultisnips' },
-    lazy = true,
-    init = function()
-      vim.g.UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit =
-        env.path_under_config 'ultisnips'
-      vim.g.UltiSnipsSnippetDirectories = { 'ultisnips' }
-
-      vim.g.UltiSnipsEditSplit = 'context'
-
-      -- マッピングは補完エンジン側でやる
-      vim.g.UltiSnipsExpandTrigger = '<NUL>'
-      vim.g.UltiSnipsJumpForwardTrigger = '<NUL>'
-      vim.g.UltiSnipsJumpBackwardTrigger = '<NUL>'
-      vim.g.UltiSnipsRemoveSelectModeMappings = 0
-    end,
-    config = function()
-      ac.on_vimenter(function()
-        vim.cmd [[autocmd! UltiSnips_AutoTrigger]]
-      end)
-    end,
-  },
-  { 'honza/vim-snippets', lazy = true },
-  { 'adriaanzon/vim-emmet-ultisnips', lazy = true },
 }

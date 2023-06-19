@@ -4,6 +4,9 @@ local vimfn = require 'rc.lib.vimfn'
 local c = require 'rc.config'
 local colorset = require 'rc.lib.colorset'
 local cmd = require 'rc.lib.command'
+local env = require 'rc.lib.env'
+
+local completion = 'ddc'
 
 if c.ide ~= 'builtin' then
   return {}
@@ -100,7 +103,7 @@ return {
       },
     },
   },
-  { import = 'rc.lazy.ide.builtin.individual.cmp' },
+  { import = 'rc.lazy.ide.builtin.individual.' .. completion },
   {
     'matsui54/denops-signature_help',
     dependencies = { 'denops.vim' },
@@ -321,4 +324,29 @@ return {
       })
     end,
   },
+  {
+    'SirVer/ultisnips',
+    dependencies = { 'vim-snippets', 'vim-emmet-ultisnips' },
+    lazy = true,
+    init = function()
+      vim.g.UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit =
+        env.path_under_config 'ultisnips'
+      vim.g.UltiSnipsSnippetDirectories = { 'ultisnips' }
+
+      vim.g.UltiSnipsEditSplit = 'context'
+
+      -- マッピングは補完エンジン側でやる
+      vim.g.UltiSnipsExpandTrigger = '<NUL>'
+      vim.g.UltiSnipsJumpForwardTrigger = '<NUL>'
+      vim.g.UltiSnipsJumpBackwardTrigger = '<NUL>'
+      vim.g.UltiSnipsRemoveSelectModeMappings = 0
+    end,
+    config = function()
+      ac.on_vimenter(function()
+        vim.cmd [[autocmd! UltiSnips_AutoTrigger]]
+      end)
+    end,
+  },
+  { 'honza/vim-snippets', lazy = true },
+  { 'adriaanzon/vim-emmet-ultisnips', lazy = true },
 }

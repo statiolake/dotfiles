@@ -73,7 +73,7 @@ local lsp_settings = {
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = pack {
+    dependencies = {
       'telescope.nvim',
       'lsp-status.nvim',
       'neodev.nvim',
@@ -82,7 +82,6 @@ return {
       'nvim-jdtls',
       'mason.nvim',
       'mason-lspconfig.nvim',
-      'cmp-nvim-lsp',
       'nvim-navic',
       'vim-illuminate',
       'nvim-config-local',
@@ -187,12 +186,16 @@ return {
       end
       -- }}}
 
-      -- 補完 {{{
-      -- nvim-cmp
-      table.in_place_deep_extend(
-        default_config.capabilities,
-        require('cmp_nvim_lsp').default_capabilities()
-      )
+      -- 補完を capabilities に追加する {{{
+      table.in_place_deep_extend(default_config.capabilities, {
+        textDocument = {
+          completion = {
+            completionItem = {
+              snippetSupport = true,
+            },
+          },
+        },
+      })
       -- }}}
 
       default_config.autostart = true

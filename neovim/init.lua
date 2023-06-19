@@ -12,8 +12,10 @@ require('rc.lib.setup_node').ensure_node()
 require('rc.lib.setup_deno').ensure_deno()
 
 require 'rc.step.basic'
+require 'rc.step.keybind'
+
 require 'rc.step.plugin'
+
 require 'rc.step.format'
 require 'rc.step.ftplugin'
 require 'rc.step.gui'
-require 'rc.step.keybind'
