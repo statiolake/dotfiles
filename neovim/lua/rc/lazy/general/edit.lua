@@ -103,6 +103,14 @@ return {
     end,
   },
   {
+    'mattn/emmet-vim',
+    event = 'VeryLazy',
+    init = function()
+      vim.g.user_emmet_leader_key = '<C-k>'
+      k.i('<C-k><C-k>', '<Plug>(emmet-expand-abbr)')
+    end,
+  },
+  {
     'andymass/vim-matchup',
     init = function()
       vim.g.matchup_matchpref = {
