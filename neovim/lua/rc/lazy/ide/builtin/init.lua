@@ -6,7 +6,7 @@ local colorset = require 'rc.lib.colorset'
 local cmd = require 'rc.lib.command'
 local env = require 'rc.lib.env'
 
-local completion = 'cmp'
+local completion = 'ddc'
 
 if c.ide ~= 'builtin' then
   return {}
@@ -326,7 +326,7 @@ return {
   },
   {
     'SirVer/ultisnips',
-    dependencies = { 'vim-snippets', 'vim-emmet-ultisnips' },
+    dependencies = { 'vim-snippets' },
     lazy = true,
     init = function()
       vim.g.UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit =
@@ -348,5 +348,4 @@ return {
     end,
   },
   { 'honza/vim-snippets', lazy = true },
-  { 'adriaanzon/vim-emmet-ultisnips', lazy = true },
 }

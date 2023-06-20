@@ -2,11 +2,13 @@ local env = require 'rc.lib.env'
 local ac = require 'rc.lib.autocmd'
 local k = require 'rc.lib.keybind'
 
+local pum = true
+
 return {
   {
     'Shougo/ddc.vim',
     event = 'InsertEnter',
-    dependencies = {
+    dependencies = pack {
       'denops.vim',
       'ddc-matcher_subseq',
       'ddc-sorter_subseq',
@@ -17,8 +19,9 @@ return {
       'ddc-source-omni',
       'ddc-ultisnips',
       'ultisnips',
-      'ddc-ui-native',
+      when(not pum, 'ddc-ui-native'),
       'ddc-ultisnips-expand',
+      when(pum, 'ddc-ui-pum'),
     },
     init = function()
       local snip = require 'rc.lib.ultisnips_wrapper'
@@ -30,11 +33,19 @@ return {
       end
 
       local function pum_visible()
-        return b(vim.fn.pumvisible())
+        if pum then
+          return b(vim.fn['pum#visible']())
+        else
+          return b(vim.fn.pumvisible())
+        end
       end
 
       local function complete_info()
-        return vim.fn.complete_info()
+        if pum then
+          return vim.fn['pum#complete_info']()
+        else
+          return vim.fn.complete_info()
+        end
       end
 
       local function pum_selected()
@@ -51,7 +62,11 @@ return {
           return ''
         end
 
-        return k.t '<C-y>'
+        if pum then
+          return k.t(k.cmd 'call pum#map#confirm()')
+        else
+          return k.t '<C-y>'
+        end
       end
 
       local function keyseq_cancel()
@@ -75,7 +90,11 @@ return {
           return ''
         end
 
-        return k.t '<C-n>'
+        if pum then
+          return k.t(k.cmd 'call pum#map#insert_relative(1)')
+        else
+          return k.t '<C-n>'
+        end
       end
 
       local function keyseq_insert_prev(fallback)
@@ -83,7 +102,11 @@ return {
           return fallback or ''
         end
 
-        return k.t '<C-p>'
+        if pum then
+          return k.t(k.cmd 'call pum#map#insert_relative(1)')
+        else
+          return k.t '<C-p>'
+        end
       end
 
       local function keyseq_tab()
@@ -168,7 +191,6 @@ return {
       k.ino('<C-CR>', keyseq_c_cr, { expr = true })
       k.ino('<Tab>', keyseq_tab, { expr = true })
       k.ino('<S-Tab>', keyseq_s_tab, { expr = true })
-      k.ino('<C-k>', snip.expand)
       k.sno('<Tab>', keyseq_tab, { expr = true })
       k.sno('<S-Tab>', keyseq_s_tab, { expr = true })
       k.ino('<C-y>', keyseq_confirm_expand_snippet, { expr = true })
@@ -261,7 +283,6 @@ return {
           ['nvim-lsp'] = {
             mark = 'L',
             forceCompletionPattern = [[\.]],
-            isVolatile = true,
           },
           omni = { mark = 'O' },
         },
@@ -318,7 +339,7 @@ return {
         })
       end -- }}}
 
-      ddc_patch_global('ui', 'native')
+      ddc_patch_global('ui', pum and 'pum' or 'native')
 
       vim.fn['ddc#enable']()
 
@@ -365,4 +386,12 @@ return {
   { 'Shougo/ddc-source-omni', lazy = true },
   { 'matsui54/ddc-ultisnips', lazy = true },
   { 'statiolake/ddc-ultisnips-expand', lazy = true },
+  { 'Shougo/ddc-ui-pum', dependencies = { 'pum.vim' }, lazy = true },
+  {
+    'Shougo/pum.vim',
+    lazy = true,
+    config = function()
+      vim.fn['pum#set_option']('padding', true)
+    end,
+  },
 }
