@@ -83,6 +83,7 @@ function M.add(mode, lhs, rhs, opts)
 end
 
 function M.delete(mode, lhs, opts)
+  opts = opts or {}
   local deleter = vim.api.nvim_del_keymap
   if opts.buffer then
     opts.buffer = nil

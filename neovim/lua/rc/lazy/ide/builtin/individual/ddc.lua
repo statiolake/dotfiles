@@ -18,6 +18,8 @@ return {
       'ddc-source-file',
       'ddc-source-omni',
       'ddc-ultisnips',
+      'ddc-source-cmdline',
+      'ddc-source-cmdline-history',
       'ultisnips',
       when(not pum, 'ddc-ui-native'),
       'ddc-ultisnips-expand',
@@ -216,6 +218,46 @@ return {
       k.ino('<Up>', prev_or_up, { expr = true })
       k.ino('<A-j>', next_or_down, { expr = true })
       k.ino('<A-k>', prev_or_up, { expr = true })
+
+      -- コマンドラインモード
+      -- k.nno(':', function()
+      --   k.cno('<C-Space>', vim.fn['ddc#map#manual_complete'], { expr = true })
+      --   k.cno('<Tab>', function()
+      --     vim.fn['pum#map#insert_relative'](1)
+      --   end)
+      --   k.cno('<S-Tab>', function()
+      --     vim.fn['pum#map#insert_relative'](-1)
+      --   end)
+      --   k.cno('<C-y>', function()
+      --     vim.fn['pum#map#confirm']()
+      --   end)
+      --   k.cno('<C-n>', function()
+      --     vim.fn['pum#map#insert_relative'](1)
+      --   end)
+      --   k.cno('<C-p>', function()
+      --     vim.fn['pum#map#insert_relative'](-1)
+      --   end)
+      --   k.cno('<C-e>', function()
+      --     vim.fn['pum#map#cancel']()
+      --   end)
+      --
+      --   ac.augroup('rc__ddc_cmdline_completion', function(au)
+      --     au('User', 'DDCCmdlineLeave', function()
+      --       k.cun '<C-Space>'
+      --       k.cun '<Tab>'
+      --       k.cun '<S-Tab>'
+      --       k.cun '<C-y>'
+      --       k.cun '<C-n>'
+      --       k.cun '<C-p>'
+      --       k.cun '<C-e>'
+      --     end, { once = true })
+      --   end)
+      --
+      --   require('lazy').load { plugins = { 'ddc.vim' } }
+      --   vim.fn['ddc#enable_cmdline_completion']()
+      --
+      --   return ':'
+      -- end, { expr = true, silent = false })
     end,
     config = function()
       local ddc_patch_global = vim.fn['ddc#custom#patch_global']
@@ -370,10 +412,30 @@ return {
           old_minAutoCompleteLength = nil
         end)
       end)
+
+      -- コマンドライン補完を有効にする
+      ddc_patch_global {
+        autoCompleteEvents = {
+          'InsertEnter',
+          'TextChangedI',
+          'TextChangedP',
+          'CmdlineChanged',
+        },
+        cmdlineSources = {
+          [':'] = { 'cmdline', 'cmdline-history', 'around' },
+        },
+      }
     end,
   },
   { 'Shougo/ddc-ui-native', lazy = true },
-  { 'Shougo/ddc-ui-pum', lazy = true },
+  { 'Shougo/ddc-ui-pum', dependencies = { 'pum.vim' }, lazy = true },
+  {
+    'Shougo/pum.vim',
+    lazy = true,
+    config = function()
+      vim.fn['pum#set_option']('padding', true)
+    end,
+  },
   { 'Shougo/ddc-matcher_head', lazy = true },
   { 'statiolake/ddc-matcher_subseq', lazy = true },
   { 'statiolake/ddc-sorter_subseq', lazy = true },
@@ -386,12 +448,6 @@ return {
   { 'Shougo/ddc-source-omni', lazy = true },
   { 'matsui54/ddc-ultisnips', lazy = true },
   { 'statiolake/ddc-ultisnips-expand', lazy = true },
-  { 'Shougo/ddc-ui-pum', dependencies = { 'pum.vim' }, lazy = true },
-  {
-    'Shougo/pum.vim',
-    lazy = true,
-    config = function()
-      vim.fn['pum#set_option']('padding', true)
-    end,
-  },
+  { 'Shougo/ddc-source-cmdline', lazy = true },
+  { 'Shougo/ddc-source-cmdline-history', lazy = true },
 }
