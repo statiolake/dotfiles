@@ -77,6 +77,10 @@ local source_configs = {
       return require('rc.lib.typescript_detector').opened_node_project()
     end,
   },
+  eslint = {
+    base = 'diagnostics.eslint',
+    prefer_local = 'node_modules/.bin', --プロジェクトローカルがある場合はそれを利用
+  },
   djlint_formatting = {
     base = 'formatting.djlint',
     extra_args = function(params)
@@ -159,16 +163,8 @@ return {
         for _, config in pairs(source_configs) do
           local kind, name = unpack(vim.split(config.base, '%.'))
           local base_source = null_ls.builtins[kind][name]
-          table.insert(
-            sources,
-            base_source.with {
-              filetypes = config.filetypes,
-              condition = config.confition,
-              command = config.command,
-              args = config.args,
-              extra_args = config.extra_args,
-            }
-          )
+          config.base = nil
+          table.insert(sources, base_source.with(config))
         end
 
         null_ls.setup {
