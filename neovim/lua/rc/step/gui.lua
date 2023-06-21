@@ -6,8 +6,8 @@ local font
 if env.is_win32 then
   font = {
     size = 12,
-    enjp = 'cosmei',
-    en = 'Consolas NF',
+    enjp = nil,
+    en = 'Consolas',
     jp = 'Meiryo',
   }
 else
