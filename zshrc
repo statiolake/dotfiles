@@ -120,3 +120,7 @@ fi
 if [[ -e /usr/share/nvm/init-nvm.sh ]]; then
     source /usr/share/nvm/init-nvm.sh
 fi
+
+if [[ -e ~/setup-proxy.sh ]]; then
+    source ~/setup-proxy.sh
+fi
