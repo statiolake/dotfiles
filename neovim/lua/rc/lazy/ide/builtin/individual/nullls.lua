@@ -77,10 +77,10 @@ local source_configs = {
       return require('rc.lib.typescript_detector').opened_node_project()
     end,
   },
-  eslint = {
-    base = 'diagnostics.eslint',
-    prefer_local = 'node_modules/.bin', --プロジェクトローカルがある場合はそれを利用
-  },
+  -- eslint = {
+  --   base = 'diagnostics.eslint',
+  --   prefer_local = 'node_modules/.bin', --プロジェクトローカルがある場合はそれを利用
+  -- },
   djlint_formatting = {
     base = 'formatting.djlint',
     extra_args = function(params)
