@@ -50,7 +50,7 @@ local source_configs = {
     },
   },
   prettier = {
-    base = 'formatting.prettier',
+    base = 'formatting.prettierd',
     filetypes = {
       'javascript',
       'javascriptreact',
@@ -69,7 +69,7 @@ local source_configs = {
     },
   },
   prettier_typescript = {
-    base = 'formatting.prettier',
+    base = 'formatting.prettierd',
     filetypes = { 'typescript' },
     condition = function(params)
       local _ = params
