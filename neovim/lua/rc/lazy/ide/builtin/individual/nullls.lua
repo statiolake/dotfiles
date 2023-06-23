@@ -77,10 +77,10 @@ local source_configs = {
       return require('rc.lib.typescript_detector').opened_node_project()
     end,
   },
-  -- eslint = {
-  --   base = 'diagnostics.eslint',
-  --   prefer_local = 'node_modules/.bin', --プロジェクトローカルがある場合はそれを利用
-  -- },
+  eslint = {
+    base = 'diagnostics.eslint',
+    prefer_local = 'node_modules/.bin', --プロジェクトローカルがある場合はそれを利用
+  },
   djlint_formatting = {
     base = 'formatting.djlint',
     extra_args = function(params)
@@ -157,23 +157,18 @@ return {
     lazy = true,
     config = function()
       local null_ls = require 'null-ls'
-
-      local function configure_sources()
-        local sources = {}
-        for _, config in pairs(source_configs) do
-          local kind, name = unpack(vim.split(config.base, '%.'))
-          local base_source = null_ls.builtins[kind][name]
-          config.base = nil
-          table.insert(sources, base_source.with(config))
-        end
-
-        null_ls.setup {
-          debug = true,
-          sources = sources,
-        }
+      local sources = {}
+      for _, config in pairs(source_configs) do
+        local kind, name = unpack(vim.split(config.base, '%.'))
+        local base_source = null_ls.builtins[kind][name]
+        config.base = nil
+        table.insert(sources, base_source.with(config))
       end
 
-      configure_sources()
+      null_ls.setup {
+        debug = true,
+        sources = sources,
+      }
     end,
   },
   {
