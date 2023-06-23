@@ -105,7 +105,7 @@ return {
         end
 
         if pum then
-          return k.t(k.cmd 'call pum#map#insert_relative(1)')
+          return k.t(k.cmd 'call pum#map#insert_relative(-1)')
         else
           return k.t '<C-p>'
         end
