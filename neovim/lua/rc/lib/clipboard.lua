@@ -56,8 +56,9 @@ local function setup_ccli()
 end
 
 local function setup_win32yank()
-  local copy = { 'win32yank', '-i' }
-  local paste = { 'win32yank', '-o', '--lf' }
+  -- WSL でも呼び出せるようにしたいので .exe までつけている
+  local copy = { 'win32yank.exe', '-i' }
+  local paste = { 'win32yank.exe', '-o', '--lf' }
   vim.g.clipboard = {
     name = 'win32yank',
     copy = { ['+'] = copy, ['*'] = copy },
