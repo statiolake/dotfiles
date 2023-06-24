@@ -417,54 +417,38 @@ def setup_neovim(d, *, force, silent):
             skk_target_path,
         )
 
-    is_plugins_installed = Path(
-        d.t.nvimdata / "site" / "pack" / "minpac" / "opt"
-    ).exists()
-
-    if not force and is_plugins_installed:
-        echo("plugins already installed, skipping installation.", SUBARROW)
-    else:
-        # minpac
-        echo("Cloning minpac...", SUBARROW)
-        git_clone(
-            "https://github.com/k-takata/minpac",
-            d.t.nvimdata / "site" / "pack" / "minpac" / "opt" / "minpac",
-            force=force,
+    echo("Installing packages by package manager...", SUBARROW)
+    try:
+        subprocess.check_output(
+            'nvim --headless +"Lazy! sync" +qa',
+            shell=True,
+            env={
+                "PATH": str(os.getenv("PATH")),
+                "NVIM_RC_DISABLE_MSG": "1",
+            },
+        )
+    except subprocess.CalledProcessError:
+        echo(
+            "Error: Installing Neovim plugins failed; please try later",
+            SUBARROW,
         )
 
-        echo("Installing packages by package manager...", SUBARROW)
-        try:
-            subprocess.check_output(
-                "nvim --headless"
-                + " -c \"lua require'rc.lib.plugin_manager'.update_and_quit()\"",
-                shell=True,
-                env={
-                    "PATH": str(os.getenv("PATH")),
-                    "NVIM_RC_DISABLE_MSG": "1",
-                },
-            )
-        except subprocess.CalledProcessError:
-            echo(
-                "Error: Installing Neovim plugins failed; please try later",
-                SUBARROW,
-            )
-
-        echo("Installing LSP additionals...", SUBARROW)
-        try:
-            subprocess.check_output(
-                "nvim --headless"
-                + " -c \"lua require'rc.lib.lsp_additionals'.setup()\"",
-                shell=True,
-                env={
-                    "PATH": str(os.getenv("PATH")),
-                    # "NVIM_RC_DISABLE_MSG": "1",
-                },
-            )
-        except subprocess.CalledProcessError:
-            echo(
-                "Error: Installing LSP extensions failed; please try later",
-                SUBARROW,
-            )
+    echo("Installing LSP additionals...", SUBARROW)
+    try:
+        subprocess.check_output(
+            "nvim --headless"
+            + " -c \"lua require'rc.lib.lsp_additionals'.setup()\"",
+            shell=True,
+            env={
+                "PATH": str(os.getenv("PATH")),
+                # "NVIM_RC_DISABLE_MSG": "1",
+            },
+        )
+    except subprocess.CalledProcessError:
+        echo(
+            "Error: Installing LSP extensions failed; please try later",
+            SUBARROW,
+        )
 
 
 def setup_emacs(d, *, silent):
