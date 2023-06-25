@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-LABEL maintainer "statiolake <satiolake@gmail.com>"
+LABEL maintainer "statiolake <statiolake@gmail.com>"
 
 # 最低限のツールをまずはインストール
 RUN apt-get update && \
