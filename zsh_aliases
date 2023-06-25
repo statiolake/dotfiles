@@ -140,46 +140,46 @@ if uname -a | grep WSL > /dev/null; then
     function open() { open.exe $(wslpath -w "$1") }
 
     # Windows の Neovim-qt を使うようにオーバーライドする
-    function vf() { launch_neovim_while_2cq "$@" }
-    function v() { launch_neovim_while_2cq "$@" & }
-    function launch_neovim() {(
-        set -e
-
-        # 未使用のポートを得る
-        port=$(find_unused_port)
-        nohup nvim-qt.exe --server "localhost:$port" >/dev/null 2>/dev/null &
-        #nohup neovide.exe --remote-tcp "localhost:$port" >/dev/null 2>/dev/null &
-        pid_nvim_qt=$!
-        nvim --headless --listen "0.0.0.0:$port" "$@" >/dev/null 2>/dev/null &
-        pid_nvim=$!
-        wait $pid_nvim_qt
-        # 少しの間 Neovim が終了するまで待機する
-        sleep 0.5
-
-        if kill -0 $pid_nvim 2>/dev/null; then
-            # GUI だけ閉じた場合 nvim 自体も閉じる
-            # 一応丁寧に閉じる
-            nvim --server "localhost:$port" \
-                --remote-send '<C-\><C-N>:cq<CR>' &
-            pid_terminator=$!
-
-            # nvim が応答しなかったとき用にタイムアウトも設定しておく
-            (
-                timeout=2
-                sleep $timeout
-                echo "Neovim does not finished within $timeout secs, terminating..."
-                kill -kill $pid_terminator $pid_nvim
-            ) &
-            pid_timeout=$!
-
-            # neovim を終了させるコマンドの実行を待機する
-            wait $pid_terminator
-
-            # タイムアウトより先に Neovim が終了している場合はタイムアウトを停
-            # 止する
-            kill -0 $pid_timeout 2>/dev/null && kill $pid_timeout
-        fi
-    )}
+    # function vf() { launch_neovim_while_2cq "$@" }
+    # function v() { launch_neovim_while_2cq "$@" & }
+    # function launch_neovim() {(
+    #     set -e
+    #
+    #     # 未使用のポートを得る
+    #     port=$(find_unused_port)
+    #     nohup nvim-qt.exe --server "localhost:$port" >/dev/null 2>/dev/null &
+    #     #nohup neovide.exe --remote-tcp "localhost:$port" >/dev/null 2>/dev/null &
+    #     pid_nvim_qt=$!
+    #     nvim --headless --listen "0.0.0.0:$port" "$@" >/dev/null 2>/dev/null &
+    #     pid_nvim=$!
+    #     wait $pid_nvim_qt
+    #     # 少しの間 Neovim が終了するまで待機する
+    #     sleep 0.5
+    #
+    #     if kill -0 $pid_nvim 2>/dev/null; then
+    #         # GUI だけ閉じた場合 nvim 自体も閉じる
+    #         # 一応丁寧に閉じる
+    #         nvim --server "localhost:$port" \
+    #             --remote-send '<C-\><C-N>:cq<CR>' &
+    #         pid_terminator=$!
+    #
+    #         # nvim が応答しなかったとき用にタイムアウトも設定しておく
+    #         (
+    #             timeout=2
+    #             sleep $timeout
+    #             echo "Neovim does not finished within $timeout secs, terminating..."
+    #             kill -kill $pid_terminator $pid_nvim
+    #         ) &
+    #         pid_timeout=$!
+    #
+    #         # neovim を終了させるコマンドの実行を待機する
+    #         wait $pid_terminator
+    #
+    #         # タイムアウトより先に Neovim が終了している場合はタイムアウトを停
+    #         # 止する
+    #         kill -0 $pid_timeout 2>/dev/null && kill $pid_timeout
+    #     fi
+    # )}
 fi
 
 if [[ "$XDG_CURRENT_DESKTOP" == "MATE" ]] \
