@@ -61,7 +61,7 @@ function launch_neovim() { nvim "$@" }
 
 function launch_neovim_while_2cq() {
     while true; do
-        launch_neovim
+        launch_neovim "$@"
         if [[ $? != 2 ]]; then
             break
         fi

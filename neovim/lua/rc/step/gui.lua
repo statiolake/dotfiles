@@ -3,7 +3,7 @@ local env = require 'rc.lib.env'
 local c = require 'rc.config'
 
 local font
-if env.is_win32 then
+if env.is_win32 or env.is_wsl then
   font = {
     size = 12,
     enjp = nil,
@@ -13,9 +13,9 @@ if env.is_win32 then
 else
   font = {
     size = 12,
-    enjp = nil,
-    en = 'Hack NF',
-    jp = 'M+ 1m',
+    enjp = 'UDEV Gothic NFLG',
+    en = nil,
+    jp = 'UDEV Gothic NFLG',
   }
 end
 
@@ -254,7 +254,7 @@ ac.on_uienter(function()
     vim.opt_global.guifontwide = withsize(font.jp)
   end
 
-  vim.opt.linespace = 4
+  vim.opt.linespace = 5
 
   if gui == 'neovim-qt' then
     vim.cmd [[

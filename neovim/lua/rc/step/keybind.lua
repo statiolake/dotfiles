@@ -43,12 +43,12 @@ k.add('t', '<Esc><Esc>', '<C-\\><C-n>', { noremap = true })
 k.ino('<S-CR>', '<Esc>O')
 k.ino('<C-CR>', '<Esc>o')
 k.ino('<C-z>', k.cmd 'undo')
-k.ino('<C-y>', k.cmd 'redo')
+--k.ino('<C-y>', k.cmd 'redo')
 k.ino('<C-l>', '<Space><Esc>C')
 k.ino('<C-Del>', '<Space><Esc>ce')
 
 k.sno('<C-z>', '<Esc>a' .. k.cmd 'undo')
-k.sno('<C-y>', '<Esc>a' .. k.cmd 'redo')
+--k.sno('<C-y>', '<Esc>a' .. k.cmd 'redo')
 
 -- カーソル移動ごとに undo ポイントを作る
 k.ino('<Left>', '<C-g>u<Left>')
