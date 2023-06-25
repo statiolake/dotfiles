@@ -191,6 +191,7 @@ return {
       k.ino('<C-Space>', vim.fn['ddc#map#manual_complete'], { expr = true })
       k.ino('<CR>', keyseq_cr, { expr = true })
       k.ino('<C-CR>', keyseq_c_cr, { expr = true })
+      k.ino('<C-@>', keyseq_c_cr, { expr = true })
       k.ino('<Tab>', keyseq_tab, { expr = true })
       k.ino('<S-Tab>', keyseq_s_tab, { expr = true })
       k.sno('<Tab>', keyseq_tab, { expr = true })

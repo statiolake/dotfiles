@@ -35,8 +35,10 @@ alias open='gio open'
 #alias clangllet++='clang++ -lGL -lGLU -lglut $(pkg-config --cflags bullet) $(pkg-config --libs bullet)'
 # alias v='nvim-qt > /dev/null 2>&1 --'
 # alias vf='nvim-qt > /dev/null 2>&1 --nofork --'
-alias v="nvim"
-alias vf="nvim"
+# alias v="nvim"
+# alias vf="nvim"
+# alias v="nvim"
+# alias vf="nvim"
 alias vs="sudo nvim"
 alias c="code"
 alias cf="code --wait"
@@ -54,6 +56,20 @@ print(s.getsockname()[1])
 s.close()
 EOF_
 }
+
+function launch_neovim() { nvim "$@" }
+
+function launch_neovim_while_2cq() {
+    while true; do
+        launch_neovim
+        if [[ $? != 2 ]]; then
+            break
+        fi
+    done
+}
+
+function vf() { launch_neovim_while_2cq "$@" }
+function v() { launch_neovim_while_2cq "$@" }
 
 # WSL
 if uname -a | grep WSL > /dev/null; then
@@ -123,7 +139,10 @@ if uname -a | grep WSL > /dev/null; then
     unalias open
     function open() { open.exe $(wslpath -w "$1") }
 
-    function launch_neovim_gui() {(
+    # Windows の Neovim-qt を使うようにオーバーライドする
+    function vf() { launch_neovim_while_2cq "$@" }
+    function v() { launch_neovim_while_2cq "$@" & }
+    function launch_neovim() {(
         set -e
 
         # 未使用のポートを得る
@@ -161,10 +180,6 @@ if uname -a | grep WSL > /dev/null; then
             kill -0 $pid_timeout 2>/dev/null && kill $pid_timeout
         fi
     )}
-
-    # unalias v vf
-    # function vf() { launch_neovim_gui "$@" }
-    # function v() { launch_neovim_gui "$@" & }
 fi
 
 if [[ "$XDG_CURRENT_DESKTOP" == "MATE" ]] \

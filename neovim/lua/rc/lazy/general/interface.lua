@@ -269,7 +269,7 @@ return {
         k.n('<2-RightMouse>', api.tree.change_root_to_node, opts 'CD')
 
         k.n('<CR>', api.node.open.edit, opts 'Open')
-        k.n('<C-Return>', api.tree.change_root_to_node, opts 'CD')
+        k.n('<C-CR>', api.tree.change_root_to_node, opts 'CD')
         k.n('<C-v>', api.node.open.vertical, opts 'Open: Vertical Split')
         k.n('<C-x>', api.node.open.horizontal, opts 'Open: Horizontal Split')
         k.n('<C-t>', api.node.open.tab, opts 'Open: New Tab')
