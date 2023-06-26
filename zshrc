@@ -87,6 +87,9 @@ if [[ $IS_WSL == 1 ]]; then
     #setxkbmap jp
     #which xrdb > /dev/null && xrdb ~/.Xresources
 
+    # XDG_RUNTIME_DIR 等の設定
+    loginctl enable-linger $USER
+
     # 毎プロンプトごとに時刻を同期
     autoload -Uz add-zsh-hook
     function periodic_fixtime() {
