@@ -1,5 +1,3 @@
-local env = require 'rc.lib.env'
-local ac = require 'rc.lib.autocmd'
 local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
 local c = require 'rc.config'
