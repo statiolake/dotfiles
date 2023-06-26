@@ -4,6 +4,7 @@
 [core]
 	editor = nvim
 	hooksPath = ~/.config/git/hooks
+	commentChar = ";"
 [alias]
 	s = status
 	d = diff
