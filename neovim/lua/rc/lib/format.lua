@@ -108,6 +108,28 @@ end
 
 local M = {}
 
+-- <CR> 時に後続の文字に合わせてフォーマットする文字列を返す
+function M.keyseq_on_cr()
+  local keyseq = k.t '<CR>'
+
+  -- この改行地点より後ろに文字がある場合は整形する
+  local back_str = string.sub(vimfn.getline '.', vim.fn.col '.')
+  local trimmed_back_str = string.gsub(back_str, '^%s*(.-)%s*$', '%1')
+  if trimmed_back_str ~= '' then
+    -- 基本は空白行を入れない
+    keyseq = k.t '<CR><Esc>==I'
+    for _, endpair in ipairs { ')', ']', '}', '>' } do
+      if string.starts_with(trimmed_back_str, endpair) then
+        -- 終わりなら空白行を入れる
+        keyseq = k.t '<CR><Esc>==O'
+        break
+      end
+    end
+  end
+
+  return keyseq
+end
+
 function M.save_without_format(save_cmd)
   disable_temporary = true
   vim.cmd(save_cmd)

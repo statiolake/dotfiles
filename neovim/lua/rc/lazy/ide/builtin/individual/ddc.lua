@@ -305,7 +305,7 @@ return {
             sorters = { 'sorter_subseq' },
             ignoreCase = true,
             maxKeywordLength = 60,
-            minAutoCompleteLength = 999,
+            minAutoCompleteLength = 1,
             dup = 'keep',
           },
           around = {

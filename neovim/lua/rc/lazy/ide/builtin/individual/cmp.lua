@@ -1,6 +1,7 @@
 local k = require 'rc.lib.keybind'
 local vimfn = require 'rc.lib.vimfn'
 local c = require 'rc.config'
+local fmt = require 'rc.lib.format'
 
 return {
   {
@@ -63,25 +64,7 @@ return {
           }
         else
           cmp.abort()
-
-          local keyseq = k.t '<CR>'
-
-          -- この改行地点より後ろに文字がある場合は整形する
-          local back_str = string.sub(vimfn.getline '.', vim.fn.col '.')
-          local trimmed_back_str = string.gsub(back_str, '^%s*(.-)%s*$', '%1')
-          if trimmed_back_str ~= '' then
-            -- 基本は空白行を入れない
-            keyseq = k.t '<CR><Esc>==I'
-            for _, endpair in ipairs { ')', ']', '}', '>' } do
-              if string.starts_with(trimmed_back_str, endpair) then
-                -- 終わりなら空白行を入れる
-                keyseq = k.t '<CR><Esc>==O'
-                break
-              end
-            end
-          end
-
-          vim.api.nvim_feedkeys(keyseq, 'nt', false)
+          vim.api.nvim_feedkeys(fmt.keyseq_on_cr(), 'nt', false)
         end
       end
 

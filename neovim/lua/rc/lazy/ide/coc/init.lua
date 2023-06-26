@@ -5,6 +5,7 @@ local msg = require 'rc.lib.msg'
 local colorset = require 'rc.lib.colorset'
 local vimfn = require 'rc.lib.vimfn'
 local c = require 'rc.config'
+local fmt = require 'rc.lib.format'
 
 if c.ide ~= 'coc' then
   return {}
@@ -221,11 +222,9 @@ return {
           -- 補完が開いているときはとりあえず補完を閉じる
           keys = keys .. (is_pum_visible() and keyseq_close() or '')
 
-          -- <CR> を送信
-          keys = keys .. k.t '<CR>'
-
           -- coc#on_enter() を動作させる
-          keys = keys .. k.t '<C-r>=coc#on_enter()<CR>'
+          --keys = keys .. k.t '<CR><C-r>=coc#on_enter()<CR>'
+          keys = keys .. fmt.keyseq_on_cr()
 
           return keys
         end
