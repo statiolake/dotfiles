@@ -1,6 +1,6 @@
 local c = {}
 
-c.ide = 'builtin'
+c.ide = 'coc'
 c.format_on_save = true
 c.use_treesitter = true
 c.use_icons = false
