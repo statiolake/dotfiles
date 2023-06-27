@@ -74,7 +74,7 @@ return {
       -- filenames like *.xml, *.xhtml, ...
       -- This will make the list of non-closing tags self-closing in the
       -- specified files.
-      vim.g.closetag_xhtml_filenames = '*.xhtml,*.xml,*.xaml,*.jsx'
+      vim.g.closetag_xhtml_filenames = '*.xhtml,*.xml,*.xaml,*.jsx,*.tsx'
       -- filetypes like xml, html, xhtml, ...
       -- These are the file types where this plugin is enabled.
       vim.g.closetag_filetypes =
@@ -91,10 +91,10 @@ return {
       -- dict
       -- Disables auto-close if not in a "valid" region (based on filetype)
       vim.g.closetag_regions = {
-        ['typescript.tsx'] = 'jsxRegion,tsxRegion',
-        ['javascript.jsx'] = 'jsxRegion',
-        ['typescriptreact'] = 'jsxRegion,tsxRegion',
-        ['javascriptreact'] = 'jsxRegion',
+        ['typescript.tsx'] = '',
+        ['javascript.jsx'] = '',
+        ['typescriptreact'] = '',
+        ['javascriptreact'] = '',
       }
       -- Shortcut for closing tags, default is '>'
       vim.g.closetag_shortcut = '>'

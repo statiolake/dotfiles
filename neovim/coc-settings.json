@@ -165,6 +165,7 @@
   "inlayHint.parameterSeparator": "- ",
   "inlayHint.subSeparator": " ",
   "inlayHint.typeSeparator": ": ",
+  "javascript.autoClosingTags": false,
   "json.format.enable": false,
   "languageserver": {
     "csharp-ls": {
@@ -252,6 +253,7 @@
   "texlab.trace.server": "verbose",
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
+  "typescript.autoClosingTags": false,
   "typescript.inlayHints.enumMemberValues.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
   "typescript.inlayHints.parameterNames.enabled": "literals",
