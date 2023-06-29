@@ -33,7 +33,7 @@ return {
     name = 'alduin',
     'AlessandroYorba/Alduin',
     init = function()
-      --vim.g.alduin_Shout_Become_Ethereal = 1
+      vim.g.alduin_Shout_Become_Ethereal = 1
     end,
     colorsets = {
       alduin = {
