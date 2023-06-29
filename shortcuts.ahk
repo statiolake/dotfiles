@@ -97,27 +97,27 @@ Return
 #d::Send, #{Right}
 
 ; 中クリックでウィンドウ半透明化切り替え
-~MButton::
-    CoordMode, Mouse, Screen
-    MouseGetPos, MouseX, MouseY, MouseWin, MouseCtrl
-    ; WM_NCHITTEST
-    ; 各座標は符号付き 16-bit でないとだめらしい
-    ; (マルチモニタだとメインより左にあるウィンドウで負数になったりするので注意)
-    ; https://www.autohotkey.com/boards/viewtopic.php?t=71094
-    SendMessage, 0x84, , ((MouseY & 0xFFFF) << 16) | (MouseX & 0xFFFF), , ahk_id %MouseWin%
-    If (ErrorLevel = "2") ; タイトルバー
-    {
-        WinGet, CurrentTransparent, Transparent, ahk_id %MouseWin%
-        If (CurrentTransparent = "")
-        {
-            WinSet, Transparent, 240, ahk_id %MouseWin%
-        }
-        Else
-        {
-            WinSet, Transparent, OFF, ahk_id %MouseWin%
-        }
-    }
-Return
+; ~MButton::
+;     CoordMode, Mouse, Screen
+;     MouseGetPos, MouseX, MouseY, MouseWin, MouseCtrl
+;     ; WM_NCHITTEST
+;     ; 各座標は符号付き 16-bit でないとだめらしい
+;     ; (マルチモニタだとメインより左にあるウィンドウで負数になったりするので注意)
+;     ; https://www.autohotkey.com/boards/viewtopic.php?t=71094
+;     SendMessage, 0x84, , ((MouseY & 0xFFFF) << 16) | (MouseX & 0xFFFF), , ahk_id %MouseWin%
+;     If (ErrorLevel = "2") ; タイトルバー
+;     {
+;         WinGet, CurrentTransparent, Transparent, ahk_id %MouseWin%
+;         If (CurrentTransparent = "")
+;         {
+;             WinSet, Transparent, 240, ahk_id %MouseWin%
+;         }
+;         Else
+;         {
+;             WinSet, Transparent, OFF, ahk_id %MouseWin%
+;         }
+;     }
+; Return
 
 #+c::WinClose, A
 <#j::AltTab
