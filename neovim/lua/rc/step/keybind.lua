@@ -50,6 +50,10 @@ k.ino('<C-Del>', '<Space><Esc>ce')
 k.sno('<C-z>', '<Esc>a' .. k.cmd 'undo')
 --k.sno('<C-y>', '<Esc>a' .. k.cmd 'redo')
 
+k.ino('<C-v>', '<C-r>+')
+k.xno('<C-c>', '"+y')
+k.xno('<C-v>', '"+p')
+
 -- カーソル移動ごとに undo ポイントを作る
 k.ino('<Left>', '<C-g>u<Left>')
 k.ino('<Down>', '<C-g>u<Down>')
