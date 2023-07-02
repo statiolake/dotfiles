@@ -68,10 +68,11 @@ end
 
 local cfg = {
   font = wezterm.font_with_fallback(fonts),
-  front_end = 'WebGpu',
-  freetype_load_flags = "NO_HINTING",
-  freetype_load_target = "HorizontalLcd",
-  freetype_render_target = "HorizontalLcd",
+  front_end = 'OpenGL',
+  prefer_egl = true,
+  --freetype_load_flags = 'NO_HINTING',
+  freetype_load_target = 'HorizontalLcd',
+  freetype_render_target = 'HorizontalLcd',
   webgpu_power_preference = 'HighPerformance',
   font_rules = {
     {
@@ -223,7 +224,9 @@ local cfg = {
 }
 
 local function update_cfg_for_pwsh(cfg)
-  cfg.default_prog = { [[C:\Program Files\WindowsApps\Microsoft.PowerShell_7.3.5.0_x64__8wekyb3d8bbwe\pwsh.exe]] }
+  cfg.default_prog = {
+    [[C:\Program Files\WindowsApps\Microsoft.PowerShell_7.3.5.0_x64__8wekyb3d8bbwe\pwsh.exe]],
+  }
   cfg.default_cwd = os.getenv 'HOME' or os.getenv 'USERPROFILE'
   cfg.leader = k('q'):ctrl():finalize()
   cfg.enable_tab_bar = true
