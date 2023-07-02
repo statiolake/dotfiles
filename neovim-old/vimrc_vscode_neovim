@@ -171,14 +171,9 @@ syntax off
     " vunmap <C-X>
   "}}}
 
-  " <Esc> で iminsert を 0 にする {{{
-    if exists('&iminsert')
-      inoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
-      nnoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
-      onoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
-      vnoremap <silent> <Esc> <Esc>:set iminsert=0<CR>
-    endif
-  "}}}
+  " Y を yy にする {{{
+  nnoremap Y yy
+  " }}}
 
   " VSCode の様々なキーバインド {{{
     nnoremap g. :call VSCodeNotify('keyboard-quickfix.openQuickFix')<CR>

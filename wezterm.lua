@@ -69,6 +69,9 @@ end
 local cfg = {
   font = wezterm.font_with_fallback(fonts),
   front_end = 'WebGpu',
+  freetype_load_flags = "NO_HINTING",
+  freetype_load_target = "HorizontalLcd",
+  freetype_render_target = "HorizontalLcd",
   webgpu_power_preference = 'HighPerformance',
   font_rules = {
     {
@@ -84,7 +87,7 @@ local cfg = {
   },
   exit_behavior = 'Close',
   font_size = font_size,
-  line_height = 1.2,
+  line_height = 1.0,
   animation_fps = 1,
   cursor_thickness = '1.5pt',
   underline_thickness = '1.5pt',
@@ -219,6 +222,13 @@ local cfg = {
   },
 }
 
+local function update_cfg_for_pwsh(cfg)
+  cfg.default_prog = { [[C:\Program Files\WindowsApps\Microsoft.PowerShell_7.3.5.0_x64__8wekyb3d8bbwe\pwsh.exe]] }
+  cfg.default_cwd = os.getenv 'HOME' or os.getenv 'USERPROFILE'
+  cfg.leader = k('q'):ctrl():finalize()
+  cfg.enable_tab_bar = true
+end
+
 local function update_cfg_for_rsh(cfg)
   cfg.default_prog = { 'rsh.exe' }
   cfg.default_cwd = os.getenv 'HOME' or os.getenv 'USERPROFILE'
@@ -253,7 +263,7 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
     -- fallback
     cfg.unix_domains = { { name = 'unix' } }
     cfg.default_gui_startup_args = { 'connect', 'unix' }
-    update_cfg_for_rsh(cfg)
+    update_cfg_for_pwsh(cfg)
   end
 end
 

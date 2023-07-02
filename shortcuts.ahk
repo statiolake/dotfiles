@@ -169,22 +169,23 @@ Launch(Cmd, Class) {
 Return
 
 ;; 矢印キーを撲滅したい
-!h::Send, {Left}
-!j::Send, {Down}
-!k::Send, {Up}
-!l::Send, {Right}
-!a::Send, {Home}
-!e::Send, {End}
-!^h::Send, ^{Left}
-!^j::Send, ^{Down}
-!^k::Send, ^{Up}
-!^l::Send, ^{Right}
-!+h::Send, +{Left}
-!+j::Send, +{Down}
-!+k::Send, +{Up}
-!+l::Send, +{Right}
-!+a::Send, +{Home}
-!+e::Send, +{End}
+;; が、不安定
+; !h::Send, {Left}
+; !j::Send, {Down}
+; !k::Send, {Up}
+; !l::Send, {Right}
+; !a::Send, {Home}
+; !e::Send, {End}
+; !^h::Send, ^{Left}
+; !^j::Send, ^{Down}
+; !^k::Send, ^{Up}
+; !^l::Send, ^{Right}
+; !+h::Send, +{Left}
+; !+j::Send, +{Down}
+; !+k::Send, +{Up}
+; !+l::Send, +{Right}
+; !+a::Send, +{Home}
+; !+e::Send, +{End}
 
 /*****************************************************************************
   IME制御用 関数群 (IME.ahk)
