@@ -1,4 +1,5 @@
 return {
+  { 'lepture/vim-velocity' },
   {
     'iamcco/markdown-preview.nvim',
     ft = { 'markdown' },
