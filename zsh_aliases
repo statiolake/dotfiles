@@ -263,5 +263,15 @@ alias vixmobarbottom='e ~/.xmonad/xmobar/xmobarrc_bottom'
 alias vipicom='e ~/.picom.conf'
 
 # dotfiles
-alias pulldotfiles='pushd ~/dev/github/dotfiles; git pull; popd'
-alias commitdotfiles='pushd ~/dev/github/dotfiles; git add . && git commit -v && git push; popd'
+function whichdotfiles() {
+    if [[ -e ~/dev/github/statiolake/dotfiles ]]; then
+        echo ~/dev/github/statiolake/dotfiles
+    else
+        echo ~/dev/github/dotfiles
+    fi
+}
+
+alias cddotfiles='pushd $(whichdotfiles)'
+alias pushdotfiles='cddotfiles; git pull; popd'
+alias pulldotfiles='cddotfiles; git pull; popd'
+alias commitdotfiles='cddotfiles; git add . && git commit -v && git push; popd'
