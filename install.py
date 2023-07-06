@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 import urllib.request
 import zipfile
+import platform
 from pathlib import Path
 from sys import argv, stderr
 
@@ -35,16 +36,22 @@ def is_linux_musl():
 
 class Platform(enum.Enum):
     WINDOWS = enum.auto()
+    MACOS = enum.auto()
     LINUX_GLIBC = enum.auto()
     LINUX_MUSL = enum.auto()
 
     @staticmethod
     def detect():
-        if os.name == "nt":
+        sys = platform.system()
+        if sys == "Windows":
             return Platform.WINDOWS
-        if is_linux_musl():
-            return Platform.LINUX_MUSL
-        return Platform.LINUX_GLIBC
+        if sys == "Darwin":
+            return Platform.MACOS
+        if sys == "Linux":
+            if is_linux_musl():
+                return Platform.LINUX_MUSL
+            return Platform.LINUX_GLIBC
+        raise RuntimeError("Unknown platform!")
 
 
 ENV = Platform.detect()
@@ -310,6 +317,9 @@ def install_node(d, *, force):
     if ENV == Platform.WINDOWS:
         url_base = f"https://nodejs.org/dist/v{NODE_VERSION}"
         stem, ext = f"node-v{NODE_VERSION}-win-x64", ".zip"
+    elif ENV == Platform.MACOS:
+        url_base = f"https://nodejs.org/dist/v{NODE_VERSION}"
+        stem, ext = f"node-v{NODE_VERSION}-darwin-x64", ".tar.gz"
     elif ENV == Platform.LINUX_GLIBC:
         url_base = f"https://nodejs.org/dist/v{NODE_VERSION}"
         stem, ext = f"node-v{NODE_VERSION}-linux-x64", ".tar.gz"
