@@ -4,6 +4,7 @@ import enum
 import gzip
 import io
 import os
+import platform
 import shutil
 import ssl
 import stat
@@ -11,7 +12,6 @@ import subprocess
 import tempfile
 import urllib.request
 import zipfile
-import platform
 from pathlib import Path
 from sys import argv, stderr
 
@@ -68,6 +68,7 @@ class Directories:
             self.git = self.base / "git"
             self.neovim_old = self.base / "neovim-old"
             self.neovim = self.base / "neovim"
+            self.karabiner = self.base / "karabiner"
 
     class Target:
         def __init__(self):
@@ -83,6 +84,7 @@ class Directories:
             self.nvimfiles, self.nvimdata = self._get_nvimfiles("nvim")
             if ENV == Platform.WINDOWS:
                 self.pwshprofiles = self._get_pwshprofiles()
+            self.karabiner = self.config / "karabiner"
 
         def _get_nvimfiles(self, appname="nvim"):
             if ENV == Platform.WINDOWS:
@@ -188,6 +190,8 @@ def echo(msg, arrow):
 
 def linkf(src, dst, *, silent):
     """Create symlink for file."""
+    if not Path(src).exists():
+        raise RuntimeError("source file does not exist")
     ensure_link_not_exist(dst, silent=silent)
     os.symlink(src, dst, target_is_directory=False)
 
@@ -196,6 +200,8 @@ def linkd(src, dst, *, silent, should_symlink=False):
     """
     Create symlink for directory unless on Windows and not should_symlink.
     """
+    if not Path(src).exists():
+        raise RuntimeError("source directory does not exist")
     ensure_link_not_exist(dst, silent=silent)
     if ENV != Platform.WINDOWS or should_symlink:
         os.symlink(src, dst, target_is_directory=True)
@@ -542,6 +548,16 @@ def setup_linuxgui(d, *, silent):
     linkd(d.s.base / "sway", d.t.config / "sway", silent=silent)
 
 
+def setup_karabiner(d, *, silent):
+    echo("Linking Karabiner Elements complex_modifications...", SUBARROW)
+    os.makedirs(d.t.karabiner / "assets", exist_ok=True)
+    linkd(
+        d.s.karabiner / "complex_modifications",
+        d.t.karabiner / "assets" / "complex_modifications",
+        silent=silent,
+    )
+
+
 def setup_scripts(d, *, silent):
     os.makedirs(d.t.bin, exist_ok=True)
 
@@ -600,22 +616,26 @@ def main(*, force, silent):
         silent=silent,
     )
 
-    if ENV != Platform.WINDOWS:
-        echo("Configuring Alacritty...", ARROW)
-        setup_alacritty(dirs, silent=silent)
+    # if ENV != Platform.WINDOWS:
+    #     echo("Configuring Alacritty...", ARROW)
+    #     setup_alacritty(dirs, silent=silent)
 
-    if ENV != Platform.WINDOWS:
-        echo("Configuring kitty...", ARROW)
-        setup_kitty(dirs, silent=silent)
+    # if ENV != Platform.WINDOWS:
+    #     echo("Configuring kitty...", ARROW)
+    #     setup_kitty(dirs, silent=silent)
 
     if ENV != Platform.WINDOWS:
         echo("Configuring Zsh...", ARROW)
         setup_zsh(dirs, silent=silent)
 
     # Standalone Window Managers
-    if ENV != Platform.WINDOWS:
+    if ENV == Platform.LINUX_GLIBC:
         echo("Configuring Linux GUI...", ARROW)
         setup_linuxgui(dirs, silent=silent)
+
+    # Karabiner Elements
+    if ENV == Platform.MACOS:
+        setup_karabiner(dirs, silent=silent)
 
     echo("Configuring scripts...", ARROW)
     setup_scripts(dirs, silent=silent)

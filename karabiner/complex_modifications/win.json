@@ -1,0 +1,314 @@
+{
+  "title": "Windows風の操作",
+  "rules": [
+    {
+      "description": "日本語入力時、全角・半角キーで日本語入力をオフにする",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "grave_accent_and_tilde" },
+          "to": [
+            {
+              "select_input_source": {
+                "input_source_id": "^com\\.apple\\.keylayout\\.ABC$"
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [{ "language": "ja" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "英語入力時、全角・半角キーでApple標準の日本語入力をオンにする",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "grave_accent_and_tilde" },
+          "to": [
+            {
+              "select_input_source": {
+                "input_source_id": "^com\\.apple\\.inputmethod\\.Kotoeri\\.RomajiTyping\\.Japanese$"
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [{ "language": "en" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "英語入力時、全角・半角キーでGoogle日本語入力をオンにする",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "grave_accent_and_tilde" },
+          "to": [
+            {
+              "select_input_source": {
+                "input_source_id": "^com\\.google\\.inputmethod\\.Japanese\\.base$"
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [{ "language": "en" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Command+jkをCommand+(Shift+)Tabにする",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "j",
+            "modifiers": { "mandatory": ["left_command"] }
+          },
+          "to": [
+            {
+              "key_code": "tab",
+              "modifiers": ["left_command"]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "k",
+            "modifiers": { "mandatory": ["left_command"] }
+          },
+          "to": [
+            {
+              "key_code": "tab",
+              "modifiers": ["left_command", "shift"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "<Home>, <End>を<C-a>, <C-e>に設定する (Terminal以外)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "home"
+          },
+          "to": [
+            {
+              "key_code": "a",
+              "modifiers": ["left_control"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": ["^com\\.apple\\.Terminal$"]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "end"
+          },
+          "to": [
+            {
+              "key_code": "e",
+              "modifiers": ["left_control"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": ["^com\\.apple\\.Terminal$"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "<Home>, <End>を<A-a>, <A-e>に設定する (Terminalのみ)",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "home"
+          },
+          "to": [
+            {
+              "key_code": "a",
+              "modifiers": ["left_option"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": ["^com\\.apple\\.Terminal$"]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "end"
+          },
+          "to": [
+            {
+              "key_code": "e",
+              "modifiers": ["left_option"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": ["^com\\.apple\\.Terminal$"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Command+TabでMission Controlを起動する",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "tab",
+            "modifiers": {
+              "mandatory": ["left_command"]
+            }
+          },
+          "to": {
+            "apple_vendor_keyboard_key_code": "mission_control"
+          }
+        }
+      ]
+    },
+    {
+      "description": "Command+Control+h, Command+Control+lで仮想デスクトップを左右に移動する",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "h",
+            "modifiers": {
+              "mandatory": ["left_command", "left_control"]
+            }
+          },
+          "to": {
+            "key_code": "left_arrow",
+            "modifiers": ["left_control"]
+          }
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "mandatory": ["left_command", "left_control"]
+            }
+          },
+          "to": {
+            "key_code": "right_arrow",
+            "modifiers": ["right_control"]
+          }
+        }
+      ]
+    },
+    {
+      "description": "Control+Backspaceで単語を削除する",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "delete_or_backspace",
+            "modifiers": {
+              "mandatory": ["left_control"]
+            }
+          },
+          "to": {
+            "key_code": "delete_or_backspace",
+            "modifiers": ["left_option"]
+          }
+        }
+      ]
+    },
+    {
+      "description": "Control+矢印キーで単語移動をする",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "left_arrow",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["left_shift"]
+            }
+          },
+          "to": {
+            "key_code": "left_arrow",
+            "modifiers": ["left_option"]
+          }
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "right_arrow",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["left_shift"]
+            }
+          },
+          "to": {
+            "key_code": "right_arrow",
+            "modifiers": ["left_option"]
+          }
+        }
+      ]
+    },
+    {
+      "description": "Command+FとCommand+Control+Fの機能を入れ替える",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f",
+            "modifiers": {
+              "mandatory": ["left_command", "left_control"]
+            }
+          },
+          "to": {
+            "key_code": "f",
+            "modifiers": ["left_command"]
+          }
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f",
+            "modifiers": {
+              "mandatory": ["left_command"]
+            }
+          },
+          "to": {
+            "key_code": "f",
+            "modifiers": ["left_command", "left_control"]
+          }
+        }
+      ]
+    }
+  ]
+}

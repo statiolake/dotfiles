@@ -1,0 +1,30 @@
+{
+  "title": "自分専用の拡張キーバインド",
+  "rules": [
+    {
+      "description": "<Esc>を押した時にIMEを切る",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "escape" },
+          "to": [
+            {
+              "select_input_source": {
+                "input_source_id": "^com\\.apple\\.keylayout\\.ABC$"
+              }
+            },
+            {
+              "key_code": "escape"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "input_source_if",
+              "input_sources": [{ "language": "ja" }]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
