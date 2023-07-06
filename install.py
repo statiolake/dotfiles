@@ -354,11 +354,17 @@ def install_deno(d, *, force):
         return
 
     exe = "deno.exe" if ENV == Platform.WINDOWS else "deno"
-    target = (
-        "x86_64-pc-windows-msvc"
-        if ENV == Platform.WINDOWS
-        else "x86_64-unknown-linux-gnu"
-    )
+
+    target = None
+    if ENV == Platform.WINDOWS:
+        target = "x86_64-pc-windows-msvc"
+    elif ENV in (Platform.LINUX_GLIBC, Platform.LINUX_MUSL):
+        target = "x86_64-unknown-linux-gnu"
+    elif ENV == Platform.MACOS:
+        target = "aarch64-apple-darwin"
+    else:
+        raise RuntimeError(f"Unknown platform {ENV}")
+
     url = f"https://github.com/denoland/deno/releases/latest/download/deno-{target}.zip"
     echo(f"Downloading Deno from {url} ...", SUBARROW)
     os.makedirs(target_path, exist_ok=True)
