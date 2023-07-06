@@ -253,8 +253,8 @@ alias paku='pak -U'
 alias tmux='tmux -2'
 
 # configuration files
-alias vivimrc="v -c 'cd ~/dev/github/dotfiles/vim' ~/dev/github/dotfiles/vim/vimrc"
-alias viinitlua="v -c 'cd ~/dev/github/dotfiles/neovim' ~/dev/github/dotfiles/neovim/init.lua"
+alias vivimrc="cddotfiles; v vim/vimrc; popd"
+alias viinitlua="cddotfiles; v neovim/init.lua; popd"
 alias viemacsd='edit-emacsd-file'
 alias vimyzmath='e ~/texmf/tex/latex/myzmath/myzmath.sty'
 alias vixmonad='e ~/.xmonad/xmonad.hs'
