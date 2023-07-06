@@ -55,6 +55,16 @@ local function setup_ccli()
   }
 end
 
+local function setup_pbcopy()
+  local copy = { 'pbcopy' }
+  local paste = { 'pbpaste' }
+  vim.g.clipboard = {
+    name = 'pbcopy',
+    copy = { ['+'] = copy, ['*'] = copy },
+    paste = { ['+'] = paste, ['*'] = paste },
+  }
+end
+
 local function setup_win32yank()
   -- WSL でも呼び出せるようにしたいので .exe までつけている
   local copy = { 'win32yank.exe', '-i' }
@@ -76,8 +86,10 @@ function M.setup()
   -- まず dockerman 経由のときは ccli をフォールバック的に有効化する
   if vim.fn.getenv 'DOCKERMAN_ATTACHED' == '1' then
     setup_ccli()
-  elseif vim.fn.executable 'win32yank' then
+  elseif b(vim.fn.executable 'win32yank') then
     setup_win32yank()
+  elseif b(vim.fn.executable 'pbcopy') then
+    setup_pbcopy()
   end
 
   -- ついでもし Neovim-qt が見つかるならそちらに上書きする
