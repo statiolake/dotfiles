@@ -27,14 +27,14 @@
       ]
     },
     {
-      "description": "Command+Enterでターミナルを起動する",
+      "description": "Command+Control+Enterでターミナルを起動する",
       "manipulators": [
         {
           "type": "basic",
           "from": {
             "key_code": "return_or_enter",
             "modifiers": {
-              "mandatory": ["left_command"]
+              "mandatory": ["left_command", "left_control"]
             }
           },
           "to": [
