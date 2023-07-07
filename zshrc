@@ -1,13 +1,13 @@
 ##########################################################################################
 # 環境判定
 ##########################################################################################
-if uname -a | grep WSL > /dev/null; then
+if uname -a | grep -q WSL; then
     IS_WSL=1
 else
     IS_WSL=0
 fi
 
-if uname -a | grep Darwin > /dev/null; then
+if uname -a | grep -q Darwin; then
     IS_MACOS=1
 else
     IS_MACOS=0

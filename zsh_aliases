@@ -75,7 +75,7 @@ function vf() { launch_neovim_while_2cq "$@" }
 function v() { launch_neovim_while_2cq "$@" }
 
 # WSL
-if uname -a | grep WSL > /dev/null; then
+if uname -a | grep WSL; then
     alias cmd=cmd.exe
     alias clip=clip.exe
     alias winget=winget.exe
