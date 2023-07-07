@@ -30,7 +30,9 @@ alias f='vifm'
 #alias shotmuch='systemctl --user start notmuch'
 alias gcc='gcc -std=c11 -Wall'
 alias g++='g++ -std=c++17 -Wall -Wno-c++98-compat -Wno-old-style-cast'
-alias open='gio open'
+if ! uname -a | grep -q Darwin; then
+    alias open='gio open'
+fi
 #alias clang++='clang++ -std=c++14 -Wall -Wno-c++98-compat'
 #alias clanglut++='clang++ -lGL -lGLU -lglut'
 #alias clangllet++='clang++ -lGL -lGLU -lglut $(pkg-config --cflags bullet) $(pkg-config --libs bullet)'
