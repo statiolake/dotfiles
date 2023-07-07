@@ -25,6 +25,25 @@
           ]
         }
       ]
+    },
+    {
+      "description": "Command+Enterでターミナルを起動する",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "return_or_enter",
+            "modifiers": {
+              "mandatory": ["left_command"]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'Terminal'"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
