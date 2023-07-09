@@ -195,7 +195,7 @@ return {
       k.ino('<S-Tab>', keyseq_s_tab, { expr = true })
       k.sno('<Tab>', keyseq_tab, { expr = true })
       k.sno('<S-Tab>', keyseq_s_tab, { expr = true })
-      k.ino('<C-y>', keyseq_confirm_expand_snippet, { expr = true })
+      k.ino('<C-y>', keyseq_c_cr, { expr = true })
       k.ino('<C-n>', keyseq_insert_next, { expr = true })
       k.ino('<C-p>', keyseq_insert_prev, { expr = true })
       k.ino('<C-e>', keyseq_cancel, { expr = true })

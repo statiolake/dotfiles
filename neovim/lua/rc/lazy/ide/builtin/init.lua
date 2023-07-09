@@ -6,7 +6,7 @@ local colorset = require 'rc.lib.colorset'
 local cmd = require 'rc.lib.command'
 local env = require 'rc.lib.env'
 
-local completion = 'cmp'
+local completion = 'ddc'
 
 if c.ide ~= 'builtin' then
   return {}
