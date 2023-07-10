@@ -2,6 +2,21 @@
   "title": "Windows風の操作",
   "rules": [
     {
+      "description": "全角・半角キーでCtrl+Spaceを送信する",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "grave_accent_and_tilde" },
+          "to": [
+            {
+              "key_code": "spacebar",
+              "modifiers": ["left_control"]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "日本語入力時、全角・半角キーで日本語入力をオフにする",
       "manipulators": [
         {
@@ -122,7 +137,10 @@
         {
           "type": "basic",
           "from": {
-            "key_code": "end"
+            "key_code": "end",
+            "modifiers": {
+              "optional": ["left_shift", "right_shift"]
+            }
           },
           "to": [
             {
@@ -193,6 +211,25 @@
           },
           "to": {
             "apple_vendor_keyboard_key_code": "mission_control"
+          }
+        }
+      ]
+    },
+    {
+      "description": "Option+TabでCommand+Tabを送信する",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "tab",
+            "modifiers": {
+              "mandatory": ["left_option"],
+              "optional": ["left_shift", "right_shift"]
+            }
+          },
+          "to": {
+            "key_code": "tab",
+            "modifiers": ["left_command"]
           }
         }
       ]
