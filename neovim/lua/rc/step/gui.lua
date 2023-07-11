@@ -2,7 +2,7 @@ local ac = require 'rc.lib.autocmd'
 local env = require 'rc.lib.env'
 local c = require 'rc.config'
 
-local font
+local font, linespace
 if env.is_win32 or env.is_wsl then
   font = {
     size = 12,
@@ -10,6 +10,15 @@ if env.is_win32 or env.is_wsl then
     en = 'Consolas',
     jp = 'Meiryo',
   }
+  linespace = 5
+elseif env.is_mac then
+  font = {
+    size = 16,
+    enjp = nil,
+    en = 'Consolas',
+    jp = 'Hiragino Sans',
+  }
+  linespace = 0
 else
   font = {
     size = 12,
@@ -17,6 +26,7 @@ else
     en = nil,
     jp = 'UDEV Gothic NFLG',
   }
+  linespace = 5
 end
 
 -- colorset 初期化
@@ -254,7 +264,7 @@ ac.on_uienter(function()
     vim.opt_global.guifontwide = withsize(font.jp)
   end
 
-  vim.opt.linespace = 5
+  vim.opt.linespace = linespace
 
   if gui == 'neovim-qt' then
     vim.cmd [[

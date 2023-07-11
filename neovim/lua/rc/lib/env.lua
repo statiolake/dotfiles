@@ -31,6 +31,10 @@ function getters.is_wsl()
   return M.is_unix and vim.fn.stridx(vim.fn.system 'uname -a', 'WSL2') >= 0
 end
 
+function getters.is_mac()
+  return M.is_unix and vim.fn.stridx(vim.fn.system 'uname -a', 'Darwin') >= 0
+end
+
 function getters.shell()
   if M.is_win32 and executable 'pwsh.exe' then
     return 'pwsh.exe'
