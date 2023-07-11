@@ -60,7 +60,7 @@ s.close()
 EOF_
 }
 
-function launch_neovim() { nvim "$@" }
+function launch_neovim() { nvim-qt --nofork "$@" }
 
 function launch_neovim_while_2cq() {
     while true; do
@@ -72,7 +72,7 @@ function launch_neovim_while_2cq() {
 }
 
 function vf() { launch_neovim_while_2cq "$@" }
-function v() { launch_neovim_while_2cq "$@" }
+function v() { launch_neovim_while_2cq "$@" & }
 
 # WSL
 if uname -a | grep WSL; then

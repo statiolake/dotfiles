@@ -14,11 +14,11 @@ if env.is_win32 or env.is_wsl then
 elseif env.is_mac then
   font = {
     size = 16,
-    enjp = nil,
-    en = 'Consolas',
-    jp = 'Hiragino Sans',
+    enjp = 'UDEV Gothic NF',
+    en = 'UDEV Gothic NF',
+    jp = 'UDEV Gothic NF',
   }
-  linespace = 0
+  linespace = 5
 else
   font = {
     size = 12,
